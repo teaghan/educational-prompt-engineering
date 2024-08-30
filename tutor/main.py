@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain import PromptTemplate
+'''from langchain import PromptTemplate
 from langchain.llms import OpenAI
 
 template = """
@@ -41,7 +41,7 @@ def load_LLM(openai_api_key):
     # Make sure your openai_api_key is set as an environment variable
     llm = OpenAI(temperature=.7, openai_api_key=openai_api_key)
     return llm
-
+'''
 st.set_page_config(page_title="Globalize Email", page_icon=":robot:")
 st.header("Globalize Text")
 
