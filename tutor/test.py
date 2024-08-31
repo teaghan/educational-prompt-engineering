@@ -1,5 +1,6 @@
 from openai import OpenAI
 import streamlit as st
+import os
 
 def load_api_key(key_file):
     with open(key_file) as f:
