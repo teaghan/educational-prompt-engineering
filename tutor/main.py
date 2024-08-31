@@ -29,8 +29,8 @@ os.environ['USER_AGENT'] = 'myagent'
 def load_text_file(file_path):
     return open(file_path, 'r').read()
 
-tutor_instructions = load_text_file('Tutor_Instructions.txt')
-course_content = load_text_file('course_content.txt')
+tutor_instructions = load_text_file('tutor/Tutor_Instructions.txt')
+course_content = load_text_file('tutor/course_content.txt')
 
 ### Structuring the Content
 
