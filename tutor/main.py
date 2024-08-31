@@ -254,8 +254,10 @@ with st.expander("Tips for Interacting with AI Tutors: "):
     - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
     ''')
 
-# Sidebar Links
+# Checkbox for recommending content
+recommend_content = st.checkbox("Recommend content")
 
+# Sidebar Links
 with st.sidebar:
     st.markdown("[Course Home](https://teaghan.github.io/astronomy-12/)")
     for i in range(1, 6):
@@ -282,8 +284,11 @@ if prompt := st.chat_input():
         response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         msg = response["answer"]
 
-        msg += '\n\nFor more information take a look at the following course content:\n'
-        msg += generate_links(response['context'])
+
+        # Conditional inclusion of content links
+        if recommend_content:
+            msg += '\n\nFor more information take a look at the following course content:\n'
+            msg += generate_links(response['context'])
 
         st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
     st.chat_message("assistant").markdown(rf"{msg}")
