@@ -172,17 +172,6 @@ conversational_rag_chain = RunnableWithMessageHistory(
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
 
 def set_custom_styles():
-st.markdown(
-    """
-<style>
-.sidebar .sidebar-content {
-    background-image: linear-gradient(#2e7bcf,#2e7bcf);
-    color: white;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
     
     st.markdown(
         """
