@@ -184,8 +184,8 @@ def set_custom_styles():
 
         /* CSS for the sidebar */
         .css-1d391kg {
-            background-color: #f8f9fa;
-            color: #333333;
+            background-color: #1abc9c;
+            color: #FFFFFF;
             padding: 10px;
             border-right: 2px solid #1abc9c;
         }
