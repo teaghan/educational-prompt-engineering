@@ -200,14 +200,6 @@ if prompt := st.chat_input():
         # Start streaming responses from the model
 
         with st.chat_message("assistant"):
-            stream = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=messages,
-                    stream=True,
-                )
-            response = st.write_stream(stream)
-
-        with st.chat_message("assistant"):
             for r in conversational_rag_chain.stream({"input": prompt}, config={"configurable": {"session_id": "abc123"}}):
                 if 'answer' in r:
                     msg = r['answer']
