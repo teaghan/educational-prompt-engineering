@@ -163,37 +163,42 @@ conversational_rag_chain = RunnableWithMessageHistory(
 )
 
 # Streamlit
+
+### Streamlit Page Configuration
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
-st.header("Astronomy 12 AI Tutor")
 
-# Session state to store chat history
-if 'chat_history' not in st.session_state:
-    st.session_state['chat_history'] = []
+### Title and Description
+st.title("Astronomy 12 AI Tutor")
+st.caption("Interact with the AI tutor to learn more about Astronomy.")
 
-# Text input for user to type their question
-user_input = st.text_input("Ask a question:", value="", key="user_input")
+### Initialize Session State for Chat History
+if "chat_history" not in st.session_state:
+    st.session_state["chat_history"] = []
 
-# Button to send the question
-if st.button("Send"):
-    if user_input:  # Check if the input is not empty
-        # Append the user question to the chat history
-        st.session_state['chat_history'].append({"role": "user", "content": user_input})
-
-        # Invoke the AI model to get a response
-        response = conversational_rag_chain.invoke({"input": user_input},
-                                                   config={"configurable": {"session_id": "abc123"}})
-
-        # Append the AI response to the chat history
-        if response and 'answer' in response:
-            st.session_state['chat_history'].append({"role": "AI", "content": response["answer"]})
-
-        # Reset the input box after sending by rerunning the script
-        st.rerun()
-
-# Display the chat history
-st.write("## Conversation:")
-for message in st.session_state['chat_history']:
+### Display Previous Messages
+for message in st.session_state["chat_history"]:
     if message["role"] == "user":
-        st.text_area("You:", value=message["content"], height=75, key=f"user_{len(st.session_state['chat_history'])}")
-    else:  # AI response
-        st.text_area("AI Tutor:", value=message["content"], height=75, key=f"ai_{len(st.session_state['chat_history'])}")
+        st.chat_message(message["content"], message_type="user")
+    elif message["role"] == "assistant":
+        st.chat_message(message["content"], message_type="assistant")
+
+### User Input
+user_input = st.chat_input("Ask your question...", key="user_input")
+
+### Process Input
+if user_input:
+    # Update Chat History with User's Question
+    st.session_state["chat_history"].append({"role": "user", "content": user_input})
+
+    # Invoke the AI Model
+    response = conversational_rag_chain.invoke({"input": user_input}, 
+                                               config={"configurable": {"session_id": "session_id"}})
+    
+    # Get AI's Response
+    ai_response = response.get("answer", "I'm not sure how to respond to that.")
+
+    # Update Chat History with AI's Response
+    st.session_state["chat_history"].append({"role": "assistant", "content": ai_response})
+    
+    # Display AI's Response
+    st.chat_message(ai_response, message_type="assistant")
