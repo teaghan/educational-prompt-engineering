@@ -107,7 +107,7 @@ context_window = model_context_windows[model]
 
 ### Embedding Documents
 
-course_content = split_by_files(course_content)
+course_content = split_by_files(course_content, context_window)
 tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
 course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
 
