@@ -210,7 +210,7 @@ if prompt := st.chat_input():
                     else:
                         # Append a new assistant message
                         st.session_state.messages.append({"role": "assistant", "content": entire_msg})
-                    st.write_stream(rf"{entire_msg}")
+                    st.markdown(rf"{entire_msg}")
         
         #response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         #msg = response["answer"]
