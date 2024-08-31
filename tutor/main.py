@@ -74,6 +74,39 @@ def split_by_files(content, context_window):
 
     return chunks
 
+def generate_links(context_list):
+    base_url = "https://teaghan.github.io/astronomy-12/"
+    links = []
+
+    for context in context_list:
+        title = context.metadata['title']
+        content = context.page_content
+
+        # Handle README files
+        if "_README.md" in title:
+            unit_number = re.search(r"# Unit(\d+)_README\.md", title).group(1)
+            links.append(f"- [Unit {unit_number}]({base_url}md_files/Unit{unit_number}_README.html)")
+
+        # Handle lesson files
+        elif ".md" in title and "_" in title:
+            # Extract lesson title from content
+            lesson_title_match = re.search(r'# (.*?)\n', content)
+            lesson_title = lesson_title_match.group(1) if lesson_title_match else "Lesson"
+
+            lesson_parts = re.search(r"# (\d+)_(\d+)_(\w+)\.md", title)
+            if lesson_parts:
+                unit, lesson, name = lesson_parts.groups()
+                name_formatted = name.replace('_', ' ')  # Assuming names are using underscores instead of spaces
+                link_text = f"Lesson {unit}.{lesson} {name_formatted}"
+                links.append(f"- [{link_text}]({base_url}md_files/{unit}_{lesson}_{name}.html)")
+
+        # Handle assignments
+        elif "Assignment" in title:
+            assignment_number = re.search(r"# Unit (\d+) Assignment", title).group(1)
+            links.append(f"- [Unit {assignment_number} Assignment]({base_url}Unit{assignment_number}/Unit{assignment_number}_Assignment.pdf)")
+
+    return f"\n".join(links)
+
 ## Building the Chatbot
 
 ### Initializing AI Models for Embedding and Interaction
@@ -198,5 +231,9 @@ if prompt := st.chat_input():
 
         response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         msg = response["answer"]
-        st.session_state.messages.append({"role": "assistant", "content": msg})    
+
+        msg += '\nFor more information take a look at the following course content:\n'
+        msg += generate_links(response['context'])
+
+        st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
     st.chat_message("assistant").markdown(rf"{msg}")
