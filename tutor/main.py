@@ -113,9 +113,13 @@ course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_
 
 ### Managing Conversation History
 
-store = {}
+
+# Managing Conversation History
+
 def get_session_history(session_id: str):
-    return store.setdefault(session_id, ChatMessageHistory())
+    if "store" not in st.session_state:
+        st.session_state.store = {}
+    return st.session_state.store.setdefault(session_id, ChatMessageHistory())
 
 ### Setting Up the Chatbot Interaction
 
@@ -174,7 +178,8 @@ st.title("Astronomy 12 AI Tutor")
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward."}]
-
+if "store" not in st.session_state:
+    st.session_state.store = {}
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
