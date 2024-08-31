@@ -185,7 +185,7 @@ if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    response = conversational_rag_chain.invoke({"input": "How do I calculate the surface gravity of a planet given its mass and radius?"}, 
+    response = conversational_rag_chain.invoke({"input": prompt}, 
                                            config={"configurable": {"session_id": "abc123"}})
     msg = response["answer"]
     
