@@ -3,6 +3,7 @@ An assortment of tutorials and investigations aimed at establishing optimal prac
 
 - [Key Components](./key_components.ipynb): A discussion on the key components of a good prompt along with examples that use these components.
 - [Developing Prompt Templates](./developing_prompt_templates.ipynb): A guide to developing a good prompt with examples. This inclodes some tips regarding how to go about crafting prompt templates to make every day tasks more efficient.
+- [LangChain](./LangChain.ipynb): Developing a custom AI Tutor chatbot using LangChain.
 - [Back-and-Forth Interactions](./back_and_forth.ipynb): A guide to how teachers can leverage the back-and-forth nature of LLM interactions to improve responses and get more in-depth explanations.
 - [Evaluating Prompts and Responses](./evaluating_prompts.ipynb): An explorations of strategies to improve user prompts and ChatGPT responses.
 - [Using ChatGPT as a Tutor](./AI_Tutor.ipynb): A use-case for having students interact with ChatGPT to improve their understanding.
