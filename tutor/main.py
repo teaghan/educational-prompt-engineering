@@ -171,53 +171,6 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
 
-def set_custom_styles():
-    
-    st.markdown(
-        """
-        <style>
-        /* CSS for the entire page */
-        body {
-            font-family: 'sans serif', Arial, sans-serif;
-            background-color: #ffffff;
-            color: #333333;
-        }
-
-        /* CSS for the sidebar */
-        .sidebar .sidebar-content {
-            background-image: linear-gradient(#1abc9c,#2e7bcf);
-            color: 1abc9c;
-            padding: 10px;
-        }
-
-        /* CSS for the title banner */
-        header .css-qrbaxs {
-            background-color: #1abc9c;
-            color: #ffffff;
-            padding: 10px 0;
-            font-size: 24px;
-            text-align: center;
-        }
-
-        /* CSS for sidebar links */
-        .css-1d391kg a {
-            color: #FFFFFF;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        /* Hover effects for sidebar links */
-        .css-1d391kg a:hover {
-            color: #FFFFFF;
-            background-color: #e0f2f1;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-set_custom_styles()
-
 # Title and Sidebar Links
 st.title("Astronomy 12 AI Tutor")
 with st.sidebar:
