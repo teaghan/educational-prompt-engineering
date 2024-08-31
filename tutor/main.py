@@ -237,7 +237,7 @@ col1, col2, col3 = st.columns(3)
 col2.image(tutor_image_url)
 
 # Interaction Tips
-with st.expander("Tips for Interacting with AI Tutors: "):
+with st.expander("Tips for Interacting with AI Tutors"):
     st.markdown('''
 - Aim to learn and understand the material, not just to get the answers.
 - Always ask ChatGPT to explain the process rather than just solve the problem for you.
