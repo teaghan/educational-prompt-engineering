@@ -170,11 +170,8 @@ st.header("Astronomy 12 AI Tutor")
 if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = []
 
-if 'user_input' not in st.session_state:
-    st.session_state['user_input'] = ""
-
 # Text input for user to type their question
-user_input = st.text_input("Ask a question:", value=st.session_state['user_input'], key="user_input")
+user_input = st.text_input("Ask a question:", value="", key="user_input")
 
 # Button to send the question
 if st.button("Send"):
@@ -190,8 +187,8 @@ if st.button("Send"):
         if response and 'answer' in response:
             st.session_state['chat_history'].append({"role": "AI", "content": response["answer"]})
 
-        # Clear the input box after sending by updating the session state
-        st.session_state['user_input'] = ""
+        # Reset the input box after sending by rerunning the script
+        st.rerun()
 
 # Display the chat history
 st.write("## Conversation:")
