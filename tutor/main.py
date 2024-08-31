@@ -229,7 +229,7 @@ st.markdown(
 )
 
 # Title
-st.title("Astronomy 12 AI Tutor")
+st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
 
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png"
