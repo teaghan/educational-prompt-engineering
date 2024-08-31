@@ -189,63 +189,6 @@ if "store" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
 
-@staticmethod
-def concatenate_partial_response(partial_response):
-    """
-    Concatenates the partial response into a single string.
-
-    Parameters:
-        partial_response (list): The chunks of the response from the OpenAI API.
-
-    Returns:
-        str: The concatenated response.
-    """
-    str_response = r""
-    for i in partial_response:
-        if isinstance(i, str):
-            str_response += i
-
-    st.markdown(str_response)
-
-    return str_response
-
-def get_response(prompt):
-    """
-    Sends a prompt to the OpenAI API and returns the API's response.
-
-    Parameters:
-        prompt (str): The user's message or question.
-    Returns:
-        str: The response from the chatbot.
-    """
-    try:
-        # Send the request to the OpenAI API
-        # Display assistant response in chat message container
-        response = r""
-        with st.chat_message("assistant"):
-                
-            partial_response = []
-            for chunk_content in conversational_rag_chain.stream({"input": prompt}, config={"configurable": {"session_id": "abc123"}}):
-                if 'answer' in chunk_content:
-                    chunk_content = chunk_content['answer']
-                    # If the chunk is not a code block, append it to the partial response
-                    partial_response.append(chunk_content)
-                    if chunk_content:
-                        if '\n' in chunk_content:
-                            str_response = concatenate_partial_response(partial_response)
-                            partial_response = []
-                            response += str_response
-        # If there is a partial response left, concatenate it and render it
-        if partial_response:
-            str_response = concatenate_partial_response(partial_response)
-            response += str_response
-
-        return response
-
-    except Exception as e:
-        print(f"An error occurred while fetching the OpenAI response: {e}")
-        return "Sorry, I couldn't process that request."
-
 # Chat input
 if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -253,6 +196,8 @@ if prompt := st.chat_input():
 
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
-        # Start streaming responses from the model
-        response = get_response(prompt)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+
+        response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
+        msg = response["answer"]
+        st.session_state.messages.append({"role": "assistant", "content": msg})    
+    st.chat_message("assistant").markdown(rf"{msg}")
