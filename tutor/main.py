@@ -162,6 +162,8 @@ conversational_rag_chain = RunnableWithMessageHistory(
     output_messages_key="answer",
 )
 
+'''
+
 ## Testing the AI Tutor
 
 session_id = 'abc123'
@@ -179,15 +181,49 @@ response2 = conversational_rag_chain.invoke({"input": question2},
 
 # Streamlit
 
-st.set_page_config(page_title="Globalize Email", page_icon=":robot:")
+st.set_page_config(page_title="AI Tutor", page_icon=":robot:")
 st.header("Astronomy 12 AI Tutor")
 
-col1, col2 = st.columns(2)
 
-with col1:
-    st.markdown(question1)
-    st.markdown(response1)
+st.markdown(question1)
+st.markdown(response1["answer"])
 
-with col2:
-    st.markdown(question2)
-    st.markdown(response2)
+st.markdown(question2)
+st.markdown(response2["answer"])
+'''
+
+# Streamlit
+st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
+st.header("Astronomy 12 AI Tutor")
+
+# Session state to store chat history
+if 'chat_history' not in st.session_state:
+    st.session_state['chat_history'] = []
+
+# Text input for user to type their question
+user_input = st.text_input("Ask a question:", key="user_input")
+
+# Button to send the question
+if st.button("Send"):
+    if user_input:  # Check if the input is not empty
+        # Append the user question to the chat history
+        st.session_state['chat_history'].append({"role": "user", "content": user_input})
+
+        # Invoke the AI model to get a response
+        response = conversational_rag_chain.invoke({"input": user_input},
+                                                   config={"configurable": {"session_id": "abc123"}})
+
+        # Append the AI response to the chat history
+        if response and 'answer' in response:
+            st.session_state['chat_history'].append({"role": "AI", "content": response["answer"]})
+
+        # Clear the input box after sending
+        st.session_state.user_input = ""
+
+# Display the chat history
+st.write("## Conversation:")
+for message in st.session_state['chat_history']:
+    if message["role"] == "user":
+        st.text_area("You:", value=message["content"], height=75, key=f"user_{len(st.session_state['chat_history'])}")
+    else:  # AI response
+        st.text_area("AI Tutor:", value=message["content"], height=75, key=f"ai_{len(st.session_state['chat_history'])}")
