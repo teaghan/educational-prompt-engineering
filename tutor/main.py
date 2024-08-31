@@ -1,4 +1,3 @@
-import time
 import streamlit as st
 
 import os
@@ -192,13 +191,22 @@ for msg in st.session_state.messages:
 
 # Chat input
 if prompt := st.chat_input():
-    # Immediately append and display the user's message
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
-        response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
-        msg = response["answer"]
-        st.session_state.messages.append({"role": "assistant", "content": msg})    
-    st.chat_message("assistant").markdown(rf"{msg}")
+        entire_msg = ''
+        # Start streaming responses from the model
+        for r in conversational_rag_chain.stream({"input": prompt}, config={"configurable": {"session_id": "abc123"}}):
+            if 'answer' in r:
+                msg = r['answer']
+                entire_msg += msg
+                st.session_state.messages.append({"role": "assistant", "content": msg})
+                st.chat_message("assistant").markdown(rf"{msg}")
+        
+        #response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
+        #msg = response["answer"]
+        #st.session_state.messages.append({"role": "assistant", "content": msg})    
+    #st.chat_message("assistant").markdown(rf"{msg}")
+
