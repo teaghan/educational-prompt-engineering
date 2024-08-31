@@ -108,25 +108,13 @@ context_window = model_context_windows[model]
 
 ### Embedding Documents
 
-t1 = time.time()
-
 course_content = split_by_files(course_content, context_window)
-
-t2 = time.time()
-a = t2-t1
-t1 = time.time()
-
 tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
 
-t2 = time.time()
-b = t2-t1
-t1 = time.time()
-
-course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
-
-t2 = time.time()
-c = t2-t1
-t1 = time.time()
+# Initialize Session State for Course Content Vectors
+if "course_content_vecs" not in st.session_state:
+    st.session_state.course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
+course_content_vecs = st.session_state.course_content_vecs
 
 # Managing Conversation History
 
