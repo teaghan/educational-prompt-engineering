@@ -173,7 +173,11 @@ st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
 
 # Title and Description
 st.title("Astronomy 12 AI Tutor")
-#st.caption("I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward.")
+
+with st.sidebar:
+    "[Course Hom](https://teaghan.github.io/astronomy-12/)"
+    for i in range(1,6):
+        f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)"
 
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
