@@ -164,39 +164,31 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 # Streamlit
 
-### Streamlit Page Configuration
+# Streamlit Page Configuration
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
 
-### Title and Description
+# Title and Description
 st.title("Astronomy 12 AI Tutor")
-st.caption("Interact with the AI tutor to learn more about Astronomy.")
+#st.caption("I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward.")
 
-### Initialize Session State for Chat History
-if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = []
+# Initialize Session State for Chat History
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward."}]
 
-### Display Previous Messages
-for message in st.session_state["chat_history"]:
-    # Streamlit's chat_message automatically distinguishes roles based on list ordering
-    st.chat_message(message["content"], is_user=message["role"] == "user")
 
-### User Input
-user_input = st.chat_input("Ask your question...")
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
 
-### Process Input
-if user_input:
-    # Update Chat History with User's Question
-    st.session_state["chat_history"].append({"role": "user", "content": user_input})
 
-    # Invoke the AI Model
-    response = conversational_rag_chain.invoke({"input": user_input}, 
-                                               config={"configurable": {"session_id": "session_id"}})
+if prompt := st.chat_input():
+
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
+
+    response = conversational_rag_chain.invoke({"input": "How do I calculate the surface gravity of a planet given its mass and radius?"}, 
+                                           config={"configurable": {"session_id": "abc123"}})
+    msg = response["answer"]
     
-    # Get AI's Response
-    ai_response = response.get("answer", "I'm not sure how to respond to that.")
 
-    # Update Chat History with AI's Response
-    st.session_state["chat_history"].append({"role": "assistant", "content": ai_response})
-    
-    # Display AI's Response
-    st.chat_message(ai_response)
+    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.chat_message("assistant").write(msg)
