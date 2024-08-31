@@ -234,7 +234,7 @@ st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor<
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png"
 col1, col2, col3 = st.columns(3)
-col2.image(tutor_image_url, width=250)
+col2.image(tutor_image_url)
 
 # Interaction Tips
 with st.expander("Tips for Interacting with AI Tutors: "):
