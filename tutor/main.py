@@ -177,7 +177,7 @@ st.title("Astronomy 12 AI Tutor")
 
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward."}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward.\n\nHow can I help you today?"}]
 if "store" not in st.session_state:
     st.session_state.store = {}
 
