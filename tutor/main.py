@@ -169,8 +169,54 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 # Streamlit
 
-# Streamlit Page Configuration
-st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
+st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
+
+def set_custom_styles():
+    st.markdown(
+        """
+        <style>
+        /* CSS for the entire page */
+        body {
+            font-family: 'sans serif', Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        /* CSS for the sidebar */
+        .css-1d391kg {
+            background-color: #f8f9fa;
+            color: #333333;
+            padding: 10px;
+            border-right: 2px solid #1abc9c;
+        }
+
+        /* CSS for the title banner */
+        header .css-qrbaxs {
+            background-color: #1abc9c;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        /* CSS for sidebar links */
+        .css-1d391kg a {
+            color: #1abc9c;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Hover effects for sidebar links */
+        .css-1d391kg a:hover {
+            color: #333333;
+            background-color: #e0f2f1;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_custom_styles()
 
 # Title and Sidebar Links
 st.title("Astronomy 12 AI Tutor")
