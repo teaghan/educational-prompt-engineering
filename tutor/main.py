@@ -180,10 +180,6 @@ with st.sidebar:
     for i in range(1, 6):
         st.markdown(f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)")
 
-st.markdown(f'{a:0.2f} s for imports')
-st.markdown(f'{b:0.2f} s for embedding')
-st.markdown(f'{c:0.2f} s for chain set-up')
-
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "I'm here to help you navigate your astronomy course, making tricky concepts clearer and guiding you through challenging problems. While I won’t do the work for you, I'll show you how to solve problems on your own, helping you gain confidence as you move forward.\n\nHow can I help you today?"}]
