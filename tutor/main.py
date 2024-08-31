@@ -186,7 +186,7 @@ if "store" not in st.session_state:
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(msg["content"])
+    st.chat_message(msg["role"]).markdown(rf"{msg["content"]")
 
 # Chat input
 if prompt := st.chat_input():
@@ -199,4 +199,4 @@ if prompt := st.chat_input():
         response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         msg = response["answer"]
         st.session_state.messages.append({"role": "assistant", "content": msg})    
-    st.chat_message("assistant").markdown(msg)
+    st.chat_message("assistant").markdown(rf"{msg}")
