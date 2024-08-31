@@ -177,13 +177,11 @@ if "chat_history" not in st.session_state:
 
 ### Display Previous Messages
 for message in st.session_state["chat_history"]:
-    if message["role"] == "user":
-        st.chat_message(message["content"], message_type="user")
-    elif message["role"] == "assistant":
-        st.chat_message(message["content"], message_type="assistant")
+    # Streamlit's chat_message automatically distinguishes roles based on list ordering
+    st.chat_message(message["content"], is_user=message["role"] == "user")
 
 ### User Input
-user_input = st.chat_input("Ask your question...", key="user_input")
+user_input = st.chat_input("Ask your question...")
 
 ### Process Input
 if user_input:
@@ -201,4 +199,4 @@ if user_input:
     st.session_state["chat_history"].append({"role": "assistant", "content": ai_response})
     
     # Display AI's Response
-    st.chat_message(ai_response, message_type="assistant")
+    st.chat_message(ai_response)
