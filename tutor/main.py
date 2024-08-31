@@ -186,7 +186,7 @@ if "store" not in st.session_state:
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(rf"{msg["content"]")
+    st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
 
 # Chat input
 if prompt := st.chat_input():
