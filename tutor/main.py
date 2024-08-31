@@ -189,6 +189,6 @@ if prompt := st.chat_input():
                                            config={"configurable": {"session_id": "abc123"}})
     msg = response["answer"]
     
-
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
+    st.chat_message("assistant").write(store)
