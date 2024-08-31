@@ -202,8 +202,13 @@ if prompt := st.chat_input():
             if 'answer' in r:
                 msg = r['answer']
                 entire_msg += msg
-                st.session_state.messages.append({"role": "assistant", "content": msg})
-                st.chat_message("assistant").markdown(rf"{msg}")
+                if st.session_state.messages[-1]['role'] == "assistant":
+                    # Update the last assistant message
+                    st.session_state.messages[-1]['content'] = entire_msg
+                else:
+                    # Append a new assistant message
+                    st.session_state.messages.append({"role": "assistant", "content": entire_msg})
+                st.chat_message("assistant").markdown(rf"{entire_msg}")
         
         #response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         #msg = response["answer"]
