@@ -204,7 +204,29 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
 
-
+st.markdown(
+    """
+<style>
+.css-nzvw1x {
+    background-color: #061E42 !important;
+    background-image: none !important;
+}
+.css-1aw8i8e {
+    background-image: none !important;
+    color: #FFFFFF !important
+}
+.css-ecnl2d {
+    background-color: #496C9F !important;
+    color: #496C9F !important
+}
+.css-15zws4i {
+    background-color: #496C9F !important;
+    color: #FFFFFF !important
+}
+</style>
+""",
+    unsafe_allow_html=True
+)
 
 # Title
 st.title("Astronomy 12 AI Tutor")
@@ -226,24 +248,6 @@ with st.expander("Tips for Interacting with AI Tutors: "):
     - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
     - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
     ''')
-
-st.markdown("""
-### Tips for Interacting with AI Tutors: 
-
-- Aim to learn and understand the material, not just to get the answers.
-- Always ask ChatGPT to explain the process rather than just solve the problem for you.
-- Ask follow-up questions if you are still unclear.
-- To help type math, use these keyboard shortcuts:
-    - Addition (+): Use the + key.
-    - Subtraction (-): Use the - key.
-    - Multiplication (×): Use the * key.
-    - Division (÷): Use the / key.
-    - Equals (=): Use the = key.
-    - Greater Than (>): Use the > key.
-    - Less Than (<): Use the < key.
-    - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
-    - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
-""")
 
 # Sidebar Links
 
