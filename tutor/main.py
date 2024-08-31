@@ -233,7 +233,7 @@ st.title("Astronomy 12 AI Tutor")
 
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png"
-st.image(tutor_image_url)
+st.image(tutor_image_url, width=100)
 
 # Interaction Tips
 with st.expander("Tips for Interacting with AI Tutors: "):
