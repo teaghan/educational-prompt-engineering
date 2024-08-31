@@ -1,7 +1,4 @@
 import time
-
-t1 = time.time()
-
 import streamlit as st
 
 import os
@@ -15,11 +12,6 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
-
-t2 = time.time()
-a = t2-t1
-t1 = time.time()
-
 
 ### Secure API Key Management
 
@@ -87,9 +79,15 @@ def split_by_files(content, context_window):
 
 ### Initializing AI Models for Embedding and Interaction
 
+t1 = time.time()
+
 model = "gpt-4o-mini"
 embedding_model = OpenAIEmbeddings()
 llm = ChatOpenAI(model=model)
+
+t2 = time.time()
+a = t2-t1
+t1 = time.time()
 
 # Determine max context window for model used
 model_context_windows = {
