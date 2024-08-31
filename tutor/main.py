@@ -162,36 +162,6 @@ conversational_rag_chain = RunnableWithMessageHistory(
     output_messages_key="answer",
 )
 
-'''
-
-## Testing the AI Tutor
-
-session_id = 'abc123'
-
-question1 = "How do I calculate the surface gravity of a planet given its mass and radius?"
-
-response1 = conversational_rag_chain.invoke({"input": question1}, 
-                                           config={"configurable": {"session_id": session_id}})
-
-question2 = "Well I know that F=G*m1*m2/r^2"
-
-response2 = conversational_rag_chain.invoke({"input": question2}, 
-                                           config={"configurable": {"session_id": session_id}})
-
-
-# Streamlit
-
-st.set_page_config(page_title="AI Tutor", page_icon=":robot:")
-st.header("Astronomy 12 AI Tutor")
-
-
-st.markdown(question1)
-st.markdown(response1["answer"])
-
-st.markdown(question2)
-st.markdown(response2["answer"])
-'''
-
 # Streamlit
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
 st.header("Astronomy 12 AI Tutor")
