@@ -171,13 +171,12 @@ conversational_rag_chain = RunnableWithMessageHistory(
 # Streamlit Page Configuration
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
 
-# Title and Description
+# Title and Sidebar Links
 st.title("Astronomy 12 AI Tutor")
-
 with st.sidebar:
-    "[Course Hom](https://teaghan.github.io/astronomy-12/)"
-    for i in range(1,6):
-        f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)"
+    st.markdown("[Course Home](https://teaghan.github.io/astronomy-12/)")
+    for i in range(1, 6):
+        st.markdown(f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)")
 
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
@@ -185,18 +184,19 @@ if "messages" not in st.session_state:
 if "store" not in st.session_state:
     st.session_state.store = {}
 
+# Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
+    st.chat_message(msg["role"], msg["content"])
 
-
+# Chat input
 if prompt := st.chat_input():
-
+    # Immediately append and display the user's message
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
+    st.chat_message("user", prompt)
 
-    response = conversational_rag_chain.invoke({"input": prompt}, 
-                                           config={"configurable": {"session_id": "abc123"}})
-    msg = response["answer"]
-    
-    st.session_state.messages.append({"role": "assistant", "content": msg})
+    # Use a spinner to indicate processing and display the assistant's response after processing
+    with st.spinner('Thinking...'):
+        response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
+        msg = response["answer"]
+        st.session_state.messages.append({"role": "assistant", "content": msg})    
     st.chat_message("assistant").markdown(msg)
