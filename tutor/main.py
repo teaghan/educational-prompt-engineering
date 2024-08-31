@@ -186,13 +186,13 @@ if "store" not in st.session_state:
 
 # Display chat messages
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"], msg["content"])
+    st.chat_message(msg["role"]).markdown(msg["content"])
 
 # Chat input
 if prompt := st.chat_input():
     # Immediately append and display the user's message
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user", prompt)
+    st.chat_message("user").write(prompt)
 
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
