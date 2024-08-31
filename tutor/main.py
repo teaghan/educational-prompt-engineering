@@ -198,17 +198,27 @@ if prompt := st.chat_input():
     with st.spinner('Thinking...'):
         entire_msg = ''
         # Start streaming responses from the model
-        for r in conversational_rag_chain.stream({"input": prompt}, config={"configurable": {"session_id": "abc123"}}):
-            if 'answer' in r:
-                msg = r['answer']
-                entire_msg += msg
-                if st.session_state.messages[-1]['role'] == "assistant":
-                    # Update the last assistant message
-                    st.session_state.messages[-1]['content'] = entire_msg
-                else:
-                    # Append a new assistant message
-                    st.session_state.messages.append({"role": "assistant", "content": entire_msg})
-                st.chat_message("assistant").markdown(rf"{entire_msg}")
+
+        with st.chat_message("assistant"):
+            stream = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    stream=True,
+                )
+            response = st.write_stream(stream)
+
+        with st.chat_message("assistant"):
+            for r in conversational_rag_chain.stream({"input": prompt}, config={"configurable": {"session_id": "abc123"}}):
+                if 'answer' in r:
+                    msg = r['answer']
+                    entire_msg += msg
+                    if st.session_state.messages[-1]['role'] == "assistant":
+                        # Update the last assistant message
+                        st.session_state.messages[-1]['content'] = entire_msg
+                    else:
+                        # Append a new assistant message
+                        st.session_state.messages.append({"role": "assistant", "content": entire_msg})
+                    st.write_stream(rf"{entire_msg}")
         
         #response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
         #msg = response["answer"]
