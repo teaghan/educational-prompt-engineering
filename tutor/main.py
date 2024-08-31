@@ -210,6 +210,23 @@ st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide
 st.title("Astronomy 12 AI Tutor")
 
 # Interaction Tips
+with st.expander("Tips for Interacting with AI Tutors: "):
+    st.markdown('''
+- Aim to learn and understand the material, not just to get the answers.
+- Always ask ChatGPT to explain the process rather than just solve the problem for you.
+- Ask follow-up questions if you are still unclear.
+- To help type math, use these keyboard shortcuts:
+    - Addition (+): Use the + key.
+    - Subtraction (-): Use the - key.
+    - Multiplication (×): Use the * key.
+    - Division (÷): Use the / key.
+    - Equals (=): Use the = key.
+    - Greater Than (>): Use the > key.
+    - Less Than (<): Use the < key.
+    - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
+    - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
+    ''')
+
 st.markdown("""
 ### Tips for Interacting with AI Tutors: 
 
