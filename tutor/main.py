@@ -79,15 +79,9 @@ def split_by_files(content, context_window):
 
 ### Initializing AI Models for Embedding and Interaction
 
-t1 = time.time()
-
 model = "gpt-4o-mini"
 embedding_model = OpenAIEmbeddings()
 llm = ChatOpenAI(model=model)
-
-t2 = time.time()
-a = t2-t1
-t1 = time.time()
 
 # Determine max context window for model used
 model_context_windows = {
@@ -114,12 +108,24 @@ context_window = model_context_windows[model]
 
 ### Embedding Documents
 
+t1 = time.time()
+
 course_content = split_by_files(course_content, context_window)
+
+t2 = time.time()
+a = t2-t1
+t1 = time.time()
+
 tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
-course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
 
 t2 = time.time()
 b = t2-t1
+t1 = time.time()
+
+course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
+
+t2 = time.time()
+c = t2-t1
 t1 = time.time()
 
 # Managing Conversation History
@@ -173,10 +179,6 @@ conversational_rag_chain = RunnableWithMessageHistory(
     history_messages_key="chat_history",
     output_messages_key="answer",
 )
-
-t2 = time.time()
-c = t2-t1
-t1 = time.time()
 
 # Streamlit
 
