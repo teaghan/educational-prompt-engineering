@@ -1,3 +1,7 @@
+import time
+
+t1 = time.time()
+
 import streamlit as st
 
 import os
@@ -11,6 +15,11 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
+
+t2 = time.time()
+a = t2-t1
+t1 = time.time()
+
 
 ### Secure API Key Management
 
@@ -111,8 +120,9 @@ course_content = split_by_files(course_content, context_window)
 tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
 course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
 
-### Managing Conversation History
-
+t2 = time.time()
+b = t2-t1
+t1 = time.time()
 
 # Managing Conversation History
 
@@ -166,6 +176,10 @@ conversational_rag_chain = RunnableWithMessageHistory(
     output_messages_key="answer",
 )
 
+t2 = time.time()
+c = t2-t1
+t1 = time.time()
+
 # Streamlit
 
 # Streamlit Page Configuration
@@ -177,6 +191,10 @@ with st.sidebar:
     st.markdown("[Course Home](https://teaghan.github.io/astronomy-12/)")
     for i in range(1, 6):
         st.markdown(f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)")
+
+st.markdown(f'{a:0.2f} s for imports')
+st.markdown(f'{b:0.2f} s for embedding')
+st.markdown(f'{c:0.2f} s for chain set-up')
 
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
