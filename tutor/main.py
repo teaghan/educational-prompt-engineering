@@ -163,6 +163,8 @@ conversational_rag_chain = RunnableWithMessageHistory(
 )
 
 # Streamlit
+
+# Streamlit
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:")
 st.header("Astronomy 12 AI Tutor")
 
@@ -187,8 +189,8 @@ if st.button("Send"):
         if response and 'answer' in response:
             st.session_state['chat_history'].append({"role": "AI", "content": response["answer"]})
 
-        # Clear the input box after sending
-        st.session_state.user_input = ""
+        # Clear the input box after sending by using a workaround to reset the state of the input box
+        st.experimental_rerun()
 
 # Display the chat history
 st.write("## Conversation:")
