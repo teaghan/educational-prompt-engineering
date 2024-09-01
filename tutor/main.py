@@ -257,7 +257,7 @@ if "store" not in st.session_state:
     st.session_state.store = {}
 
 # Display chat messages
-avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_2.png",
+avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
           "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
           
 for msg in st.session_state.messages:
