@@ -310,3 +310,4 @@ if prompt := st.chat_input():
 
         st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
     st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{msg}")
+    st.rerun()
