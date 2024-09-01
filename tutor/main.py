@@ -257,8 +257,11 @@ if "store" not in st.session_state:
     st.session_state.store = {}
 
 # Display chat messages
+avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_1.png",
+          "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
+          
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
+    st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
 # Chat input
 model_loaded = False
@@ -268,7 +271,7 @@ if prompt := st.chat_input():
         with st.spinner('Thinking...'):
             conversational_rag_chain = build_chatbot(pirate_mode=pirate_mode)
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
+    st.chat_message("user", avatar=avatar=avatar["user"]).write(prompt)
 
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
@@ -283,4 +286,4 @@ if prompt := st.chat_input():
             msg += generate_links(response['context'])
 
         st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
-    st.chat_message("assistant").markdown(rf"{msg}")
+    st.chat_message("assistant", avatar=avatar=avatar["assistant"]).markdown(rf"{msg}")
