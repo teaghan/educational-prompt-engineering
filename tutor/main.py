@@ -2,6 +2,7 @@ import streamlit as st
 
 import os
 import re
+import random
 from langchain_openai import ChatOpenAI
 from langchain.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
@@ -11,6 +12,11 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
+
+import sys
+cur_dir = os.path.dirname(__file__)
+sys.path.append(cur_dir)
+from save_to_html import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
 
 ### Secure API Key Management
 
@@ -262,6 +268,23 @@ avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/i
           
 for msg in st.session_state.messages:
     st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+
+
+# The following code is for saving the messages to a html file.
+session_md = convert_messages_to_markdown(st.session_state.messages)
+session_html = markdown_to_html(session_md)
+file_name = f"astro_ai_tutor_{''.join(str(random.randint(0, 9)) for _ in range(5))}.html"
+download_chat_session = st.sidebar.download_button(
+    label="Save it to a .html file",
+    data=session_html,
+    file_name=file_name,
+    mime="text/markdown",
+)
+if download_chat_session:
+    if is_valid_file_name(file_name):
+        st.success("Data saved.")
+    else:
+        st.error(f"The file name '{file_name}' is not a valid file name. File not saved!", icon="🚨")
 
 # Chat input
 model_loaded = False
