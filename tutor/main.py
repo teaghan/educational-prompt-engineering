@@ -262,12 +262,20 @@ if "messages" not in st.session_state:
 if "store" not in st.session_state:
     st.session_state.store = {}
 
+# Display chat messages
+avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
+          "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
+          
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+
 # The following code is for saving the messages to a html file.
+col1, col2, col3 = st.columns(3)
 session_md = convert_messages_to_markdown(st.session_state.messages)
 session_html = markdown_to_html(session_md)
 file_name = f"astro_ai_tutor_{''.join(str(random.randint(0, 9)) for _ in range(5))}.html"
-download_chat_session = st.download_button(
-    label="Save it to a .html file",
+download_chat_session = col3.download_button(
+    label="Save chat",
     data=session_html,
     file_name=file_name,
     mime="text/markdown",
@@ -277,13 +285,6 @@ if download_chat_session:
         st.success("Data saved.")
     else:
         st.error(f"The file name '{file_name}' is not a valid file name. File not saved!", icon="🚨")
-
-# Display chat messages
-avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
-          "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
-          
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
 # Chat input
 model_loaded = False
