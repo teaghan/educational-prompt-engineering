@@ -253,7 +253,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-pirate_mode = col2.checkbox.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
+col2.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
+pirate_mode = col2.checkbox("Pirate Mode")
 
 
 
