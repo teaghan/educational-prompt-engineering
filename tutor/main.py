@@ -203,17 +203,10 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
 
 # Streamlit
 
-st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
+st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png", layout="wide")
 
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
-
-st.markdown(r'Dollar sign inline math: $F=ma$')
-st.markdown(r'Dollar sign display math: $$F=ma$$')
-
-st.markdown(r'Brackets inline math: \(F=ma\)')
-st.markdown(r'Brackets display math: \[F=ma\]')
-
 
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png"
