@@ -264,7 +264,7 @@ if prompt := st.chat_input():
 
     if not model_loaded:
         with st.spinner('Thinking...'):
-            conversational_rag_chain = build_chatbot()
+            conversational_rag_chain = build_chatbot(pirate_mode=pirate_mode)
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
