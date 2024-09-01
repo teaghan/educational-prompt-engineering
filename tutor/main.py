@@ -244,31 +244,16 @@ col1, col2, col3 = st.columns(3)
 recommend_content = col1.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
-col2.markdown("""
+st.markdown("""
 <style>
-.inline-display {
-    display: flex;
-    align-items: center; /* Aligns items vertically centered */
-}
 .big-font {
-    font-size: 30px; /* Size of the emoji */
-    margin-right: 10px; /* Space between emoji and checkbox */
+    font-size: 30px !important;
+    text-align: center; /* Centers the content of the paragraph */
 }
 </style>
 """, unsafe_allow_html=True)
-col2.markdown("""
-<div class="inline-display">
-    <span class="big-font">🏴‍☠️</span>
-    <span>
-        """, unsafe_allow_html=True)
+col2.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
 pirate_mode = col2.checkbox("Pirate Mode")
-col2.markdown("""
-    </span>
-</div>
-""", unsafe_allow_html=True)
-
-
-
 
 # Sidebar Links as Buttons
 with st.sidebar:
