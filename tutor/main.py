@@ -205,30 +205,6 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
 
 st.set_page_config(page_title="AI Tutor", page_icon=":robot_face:", layout="wide")
 
-st.markdown(
-    """
-<style>
-.css-nzvw1x {
-    background-color: #061E42 !important;
-    background-image: none !important;
-}
-.css-1aw8i8e {
-    background-image: none !important;
-    color: #FFFFFF !important
-}
-.css-ecnl2d {
-    background-color: #496C9F !important;
-    color: #496C9F !important
-}
-.css-15zws4i {
-    background-color: #496C9F !important;
-    color: #FFFFFF !important
-}
-</style>
-""",
-    unsafe_allow_html=True
-)
-
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
 
@@ -258,11 +234,16 @@ with st.expander("Tips for Interacting with AI Tutors"):
 # Checkbox for recommending content
 recommend_content = st.checkbox("Recommend content")
 
-# Sidebar Links
+# Sidebar Links as Buttons
 with st.sidebar:
-    st.markdown("[Course Home](https://teaghan.github.io/astronomy-12/)")
+    # Button for Course Home
+    st.link_button("Course Home", "https://teaghan.github.io/astronomy-12/", help="Go to the course home page")
+
+    # Buttons for each Unit
     for i in range(1, 6):
-        st.markdown(f"[Unit {i}](https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html)")
+        url = f"https://teaghan.github.io/astronomy-12/md_files/Unit{i}_README.html"
+        st.link_button(f"Unit {i}", url, help=f"Go to Unit {i}")
+
 
 # Initialize Session State for Chat History
 if "messages" not in st.session_state:
