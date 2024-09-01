@@ -271,7 +271,7 @@ if prompt := st.chat_input():
         with st.spinner('Thinking...'):
             conversational_rag_chain = build_chatbot(pirate_mode=pirate_mode)
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user", avatar=avatar=avatar["user"]).write(prompt)
+    st.chat_message("user", avatar=avatar["user"]).write(prompt)
 
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
@@ -286,4 +286,4 @@ if prompt := st.chat_input():
             msg += generate_links(response['context'])
 
         st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
-    st.chat_message("assistant", avatar=avatar=avatar["assistant"]).markdown(rf"{msg}")
+    st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{msg}")
