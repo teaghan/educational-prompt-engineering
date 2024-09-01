@@ -149,7 +149,7 @@ def insert_mathjax(html_content: str) -> str:
           }
         },
         tex2jax: {
-          inlineMath: [ ['\\(','\\)'], ['$','$'] ],
+          inlineMath: [ ['\\\(','\\\)'], ['$','$'] ],
           displayMath: [ ['\\[','\\]'], ['$$','$$'] ],
           processEscapes: true,
           processEnvironments: true,
