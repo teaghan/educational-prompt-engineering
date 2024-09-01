@@ -179,8 +179,6 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     if pirate_mode:
         system_prompt += "### Pirate Mode ON\n\n ALWAYS RESPOND LIKE A PIRATE: Yarr! We be talkin' like pirates, matey! Adjust yer manner of speakin' to match the salty seas. When ye answer, do it with the swagger of a sea dog, aye!\n\n"
     system_prompt += "# Context\n\n{context}"
-
-    if pirate_mode:
         
     qa_prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
