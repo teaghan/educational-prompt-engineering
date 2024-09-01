@@ -113,7 +113,7 @@ def get_session_history(session_id: str):
         st.session_state.store = {}
     return st.session_state.store.setdefault(session_id, ChatMessageHistory())
 
-def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
+def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirate_mode=False):
     
     ## Building the Chatbot
     
@@ -173,13 +173,15 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
     
     ### Integrating Document-Based Responses
     
-    system_prompt = (
-        f"{tutor_instructions.page_content}\n\n"
-        "## Your Task\n\n"
-        "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
-        "# Context"
-        "{context}"
-    )
+    system_prompt = f"{tutor_instructions.page_content}\n\n"
+    system_prompt += "## Your Task\n\n"
+    system_prompt += "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
+    if pirate_mode:
+        system_prompt += "### Pirate Mode ON\n\n ALWAYS RESPOND LIKE A PIRATE: Yarr! We be talkin' like pirates, matey! Adjust yer manner of speakin' to match the salty seas. When ye answer, do it with the swagger of a sea dog, aye!\n\n"
+    system_prompt += "# Context\n\n{context}"
+
+    if pirate_mode:
+        
     qa_prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
             MessagesPlaceholder("chat_history"),
@@ -203,7 +205,7 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
 
 # Streamlit
 
-st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png", layout="wide")
+st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png", layout="wide")
 
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
@@ -233,6 +235,9 @@ with st.expander("Tips for Interacting with AI Tutors"):
 
 # Checkbox for recommending content
 recommend_content = st.checkbox("Recommend content")
+
+# Checkbox for Pirate Mode with Emoji
+pirate_mode = st.checkbox("🏴‍☠️ Pirate Mode")
 
 # Sidebar Links as Buttons
 with st.sidebar:
