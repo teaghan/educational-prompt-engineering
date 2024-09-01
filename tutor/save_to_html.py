@@ -97,9 +97,32 @@ def markdown_to_html(md_content: str) -> str:
     css = HtmlFormatter(style='tango').get_style_defs('.codehilite')
 
     # Insert MathJax
-    html_content = insert_mathjax(f"<style>{css}</style>{html_content}")
+    html_content = process_html_with_mathjax(f"<style>{css}</style>{html_content}")
 
     return html_content
+
+def preprocess_inline_math(html_content: str) -> str:
+    """
+    Preprocess the HTML content to ensure that inline math expressions are correctly formatted
+    for MathJax to process.
+
+    This function adds spaces around inline math expressions if they are missing, or wraps
+    them with a custom tag to make them easier to detect by MathJax.
+
+    Args:
+        html_content (str): The original HTML content.
+
+    Returns:
+        The HTML content with preprocessed inline math expressions.
+    """
+    # Regular expression to match inline math expressions like $L$ or $L = I \cdot \omega$
+    inline_math_pattern = re.compile(r'(?<!\\)\$(.+?)(?<!\\)\$')
+    
+    # Replace inline math with a version that ensures correct rendering
+    processed_content = re.sub(inline_math_pattern, r' \(\1\) ', html_content)
+
+    return processed_content
+
 
 def insert_mathjax(html_content: str) -> str:
     """
@@ -126,16 +149,12 @@ def insert_mathjax(html_content: str) -> str:
           }
         },
         tex2jax: {
-          inlineMath: [ ['\\(','\\)'], ['$', '$'] ],
+          inlineMath: [ ['\\(','\\)'], ['$','$'] ],
           displayMath: [ ['\\[','\\]'], ['$$','$$'] ],
           processEscapes: true,
           processEnvironments: true,
-          inlineMathDelimiter: {
-            left: "$",
-            right: "$",
-            pattern: "\\\\\\(.*?\\\\\\)|\\\\\\[.*?\\\\\\]|[^\\\\](?:\\\\[(?!\\[)|\\\\[(?!\\[)|[^\\\\]|\\$\\$).*?\\$\\$",
-            escapeChar: "\\\\"
-          },
+          ignoreClass: "no-mathjax",  <!-- Ignore specific classes -->
+          processClass: "mathjax-process",  <!-- Process specific classes -->
         },
         displayAlign: 'center',
         CommonHTML: {
@@ -156,6 +175,26 @@ def insert_mathjax(html_content: str) -> str:
         html_content = f"{mathjax_script}\n{html_content}"
     
     return html_content
+
+
+def process_html_with_mathjax(html_content: str) -> str:
+    """
+    Preprocess the HTML content for inline math expressions and insert the MathJax configuration.
+
+    Args:
+        html_content (str): The original HTML content.
+
+    Returns:
+        The final HTML content with preprocessed inline math and MathJax support.
+    """
+    # Step 1: Preprocess inline math
+    preprocessed_content = preprocess_inline_math(html_content)
+
+    # Step 2: Insert MathJax configuration
+    final_content = insert_mathjax(preprocessed_content)
+
+    return final_content
+
 
 def is_valid_file_name(file_name: str) -> bool:
     """
