@@ -259,9 +259,12 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
 
 # Chat input
+model_loaded = False
 if prompt := st.chat_input():
 
-    conversational_rag_chain = build_chatbot()
+    if not model_loaded:
+        with st.spinner('Thinking...'):
+            conversational_rag_chain = build_chatbot()
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
