@@ -223,7 +223,8 @@ col2.image(tutor_image_url)
 with st.expander("Tips for Interacting with AI Tutors"):
     st.markdown('''
 - Aim to learn and understand the material, not just to get the answers.
-- Always ask ChatGPT to explain the process rather than just solve the problem for you.
+- Always ask the tutor to explain the process rather than just solve the problem for you.
+- To get the best results, be as specific as you can.
 - Ask follow-up questions if you are still unclear.
 - To help type math, use these keyboard shortcuts:
     - Addition (+): Use the + key.
@@ -243,7 +244,17 @@ col1, col2, col3 = st.columns(3)
 recommend_content = col1.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
-pirate_mode = col2.checkbox("🏴‍☠️ Pirate Mode")
+#pirate_mode = col2.checkbox("🏴‍☠️ Pirate Mode")
+col2.markdown("""
+<style>
+.big-emoji {
+    font-size: 24px; /* Increase the font size of the emoji */
+}
+</style>
+""", unsafe_allow_html=True)
+pirate_mode = col2.checkbox(f"<span class='big-emoji'>🏴‍☠️</span> Pirate Mode", unsafe_allow_html=True)
+
+
 
 # Sidebar Links as Buttons
 with st.sidebar:
