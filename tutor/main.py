@@ -238,10 +238,10 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
     ''')
 
-col1, col2, col3 = st.columns(3)
+c1, c2, c3, c4, c5, c6, c7, c8, c9 = st.columns(9)
 
 # Checkbox for recommending content
-recommend_content = col1.checkbox("Recommend content")
+recommend_content = c2.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
 st.markdown("""
@@ -252,8 +252,8 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-col2.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
-pirate_mode = col2.checkbox("Pirate Mode")
+c5.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
+pirate_mode = c5.checkbox("Pirate Mode")
 
 # Sidebar Links as Buttons
 with st.sidebar:
