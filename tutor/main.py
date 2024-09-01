@@ -209,7 +209,7 @@ st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubuserconte
 st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
 
 # Display Tutor Profile Image
-tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_profile.png"
+tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"
 col1, col2, col3 = st.columns(3)
 col2.image(tutor_image_url)
 
