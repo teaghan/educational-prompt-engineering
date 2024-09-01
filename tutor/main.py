@@ -107,98 +107,99 @@ def generate_links(context_list):
 
     return f"\n".join(links)
 
-## Building the Chatbot
-
-### Initializing AI Models for Embedding and Interaction
-
-model = "gpt-4o-mini"
-embedding_model = OpenAIEmbeddings()
-llm = ChatOpenAI(model=model)
-
-# Determine max context window for model used
-model_context_windows = {
-    "gpt-4o": 128000,
-    "gpt-4o-2024-05-13": 128000,
-    "gpt-4o-2024-08-06": 128000,
-    "chatgpt-4o-latest": 128000,
-    "gpt-4o-mini": 128000,
-    "gpt-4o-mini-2024-07-18": 128000,
-    "gpt-4-turbo": 128000,
-    "gpt-4-turbo-2024-04-09": 128000,
-    "gpt-4-turbo-preview": 128000,
-    "gpt-4-0125-preview": 128000,
-    "gpt-4-1106-preview": 128000,
-    "gpt-4": 8192,
-    "gpt-4-0613": 8192,
-    "gpt-4-0314": 8192,
-    "gpt-3.5-turbo-0125": 16385,
-    "gpt-3.5-turbo": 16385,
-    "gpt-3.5-turbo-1106": 16385,
-    "gpt-3.5-turbo-instruct": 4096
-}
-context_window = model_context_windows[model]
-
-### Embedding Documents
-
-course_content = split_by_files(course_content, context_window)
-tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
-
-# Initialize Session State for Course Content Vectors
-if "course_content_vecs" not in st.session_state:
-    st.session_state.course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
-course_content_vecs = st.session_state.course_content_vecs
-
 # Managing Conversation History
-
 def get_session_history(session_id: str):
     if "store" not in st.session_state:
         st.session_state.store = {}
     return st.session_state.store.setdefault(session_id, ChatMessageHistory())
 
-### Setting Up the Chatbot Interaction
+def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small'):
+    
+    ## Building the Chatbot
+    
+    ### Initializing AI Models for Embedding and Interaction
+    embedding_model = OpenAIEmbeddings(model=embedding)
+    llm = ChatOpenAI(model=model)
+    
+    # Determine max context window for model used
+    model_context_windows = {
+        "gpt-4o": 128000,
+        "gpt-4o-2024-05-13": 128000,
+        "gpt-4o-2024-08-06": 128000,
+        "chatgpt-4o-latest": 128000,
+        "gpt-4o-mini": 128000,
+        "gpt-4o-mini-2024-07-18": 128000,
+        "gpt-4-turbo": 128000,
+        "gpt-4-turbo-2024-04-09": 128000,
+        "gpt-4-turbo-preview": 128000,
+        "gpt-4-0125-preview": 128000,
+        "gpt-4-1106-preview": 128000,
+        "gpt-4": 8192,
+        "gpt-4-0613": 8192,
+        "gpt-4-0314": 8192,
+        "gpt-3.5-turbo-0125": 16385,
+        "gpt-3.5-turbo": 16385,
+        "gpt-3.5-turbo-1106": 16385,
+        "gpt-3.5-turbo-instruct": 4096
+    }
+    context_window = model_context_windows[model]
+    
+    ### Embed Content Documents
 
-contextualize_q_system_prompt = (
-    "Given a chat history and the latest user question "
-    "which might reference context in the chat history, "
-    "formulate a standalone question which can be understood "
-    "without the chat history. Do NOT answer the question, "
-    "just reformulate it if needed and otherwise return it as is."
-)
-contextualize_q_prompt = ChatPromptTemplate.from_messages([
-        ("system", contextualize_q_system_prompt),
-        MessagesPlaceholder("chat_history"),
-        ("human", "{input}"),
-])
+    course_content = split_by_files(course_content, context_window)
+    tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
+    
+    # Initialize Session State for Course Content Vectors
+    if "course_content_vecs" not in st.session_state:
+        st.session_state.course_content_vecs = Chroma.from_documents(course_content, embedding=embedding_model)
+    course_content_vecs = st.session_state.course_content_vecs
+    
+    ### Setting Up the Chatbot Interaction
+    
+    contextualize_q_system_prompt = (
+        "Given a chat history and the latest user question "
+        "which might reference context in the chat history, "
+        "formulate a standalone question which can be understood "
+        "without the chat history. Do NOT answer the question, "
+        "just reformulate it if needed and otherwise return it as is."
+    )
+    contextualize_q_prompt = ChatPromptTemplate.from_messages([
+            ("system", contextualize_q_system_prompt),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+    ])
+    
+    history_aware_retriever = create_history_aware_retriever(llm, course_content_vecs.as_retriever(), contextualize_q_prompt)
+    
+    ### Integrating Document-Based Responses
+    
+    system_prompt = (
+        f"{tutor_instructions.page_content}\n\n"
+        "## Your Task\n\n"
+        "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
+        "# Context"
+        "{context}"
+    )
+    qa_prompt = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+    ])
+    
+    question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
+    
+    ### Implementing the Retrieval-Augmented Generation Chain
+    
+    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
+    conversational_rag_chain = RunnableWithMessageHistory(
+        rag_chain,
+        get_session_history,
+        input_messages_key="input",
+        history_messages_key="chat_history",
+        output_messages_key="answer",
+    )
 
-history_aware_retriever = create_history_aware_retriever(llm, course_content_vecs.as_retriever(), contextualize_q_prompt)
-
-### Integrating Document-Based Responses
-
-system_prompt = (
-    f"{tutor_instructions.page_content}\n\n"
-    "## Your Task\n\n"
-    "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
-    "# Context"
-    "{context}"
-)
-qa_prompt = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        MessagesPlaceholder("chat_history"),
-        ("human", "{input}"),
-])
-
-question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
-
-### Implementing the Retrieval-Augmented Generation Chain
-
-rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
-conversational_rag_chain = RunnableWithMessageHistory(
-    rag_chain,
-    get_session_history,
-    input_messages_key="input",
-    history_messages_key="chat_history",
-    output_messages_key="answer",
-)
+    return conversational_rag_chain
 
 # Streamlit
 
@@ -275,6 +276,8 @@ for msg in st.session_state.messages:
 
 # Chat input
 if prompt := st.chat_input():
+
+    conversational_rag_chain = build_chatbot()
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
