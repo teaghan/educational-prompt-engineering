@@ -206,7 +206,7 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
 st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png", layout="wide")
 
 # Title
-st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy 12 AI Tutor</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: grey;'>Astronomy AI Tutor</h1>", unsafe_allow_html=True)
 
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"
@@ -231,11 +231,13 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
     ''')
 
+col1, col2, col3 = st.columns(3)
+
 # Checkbox for recommending content
-recommend_content = st.checkbox("Recommend content")
+recommend_content = col1.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
-pirate_mode = st.checkbox("🏴‍☠️ Pirate Mode")
+pirate_mode = col2.checkbox("🏴‍☠️ Pirate Mode")
 
 # Sidebar Links as Buttons
 with st.sidebar:
