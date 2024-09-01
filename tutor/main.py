@@ -248,12 +248,12 @@ recommend_content = col1.checkbox("Recommend content")
 st.markdown("""
 <style>
 .big-font {
-    font-size:50px !important;
+    font-size:300px !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-col2.checkbox('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
+pirate_mode = col2.checkbox.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
 
 
 
