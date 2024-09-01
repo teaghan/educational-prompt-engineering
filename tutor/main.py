@@ -241,14 +241,13 @@ with st.expander("Tips for Interacting with AI Tutors"):
 c1, c2, c3, c4, c5 = st.columns(5)
 
 # Checkbox for recommending content
-recommend_content = c1.checkbox("Recommend content")
+recommend_content = c2.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
 st.markdown("""
 <style>
 .big-font {
-    font-size: 30px !important;
-    text-align: center; /* Centers the content of the paragraph */
+    font-size:30px !important;
 }
 </style>
 """, unsafe_allow_html=True)
