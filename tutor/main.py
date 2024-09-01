@@ -248,12 +248,12 @@ recommend_content = col1.checkbox("Recommend content")
 st.markdown("""
 <style>
 .big-font {
-    font-size:300px !important;
+    font-size:50px !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-col2.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
+col2.checkbox('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
 
 
 
