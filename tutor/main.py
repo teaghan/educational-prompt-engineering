@@ -245,14 +245,15 @@ recommend_content = col1.checkbox("Recommend content")
 
 # Checkbox for Pirate Mode with Emoji
 #pirate_mode = col2.checkbox("🏴‍☠️ Pirate Mode")
-st.html("""
+st.markdown("""
 <style>
-.big-emoji {
-    font-size: 24px; /* Increase the font size of the emoji */
+.big-font {
+    font-size:300px !important;
 }
 </style>
 """, unsafe_allow_html=True)
-pirate_mode = col2.html(f"<span class='big-emoji'>🏴‍☠️</span> Pirate Mode", unsafe_allow_html=True)
+
+col2.markdown('<p class="big-font">🏴‍☠️</p>', unsafe_allow_html=True)
 
 
 
