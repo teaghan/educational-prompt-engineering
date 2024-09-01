@@ -236,6 +236,11 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - Less Than (<): Use the < key.
     - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
     - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
+- Example Prompts to Get Started:
+    - "How do I calculate the orbital period of a planet using Kepler’s Third Law?"
+    - "How do I calculate the surface gravity of a planet given its mass and radius?"
+    - "Can you help me with this assignment on galaxy data? I’m not sure how to start."
+    - "How do I calculate the energy released from a single proton-proton fusion reaction in the Sun?"
     ''')
 
 c1, c2, c3, c4, c5 = st.columns(5)
