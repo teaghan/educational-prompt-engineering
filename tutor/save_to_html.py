@@ -126,12 +126,16 @@ def insert_mathjax(html_content: str) -> str:
           }
         },
         tex2jax: {
-          inlineMath: [ ['\\(','\\)'], ['$','$'] ],
+          inlineMath: [ ['\\(','\\)'], ['$', '$'] ],
           displayMath: [ ['\\[','\\]'], ['$$','$$'] ],
           processEscapes: true,
           processEnvironments: true,
-          ignoreClass: "no-mathjax",  <!-- Ignore specific classes -->
-          processClass: "mathjax-process",  <!-- Process specific classes -->
+          inlineMathDelimiter: {
+            left: "$",
+            right: "$",
+            pattern: "\\\\\\(.*?\\\\\\)|\\\\\\[.*?\\\\\\]|[^\\\\](?:\\\\[(?!\\[)|\\\\[(?!\\[)|[^\\\\]|\\$\\$).*?\\$\\$",
+            escapeChar: "\\\\"
+          },
         },
         displayAlign: 'center',
         CommonHTML: {
@@ -152,7 +156,6 @@ def insert_mathjax(html_content: str) -> str:
         html_content = f"{mathjax_script}\n{html_content}"
     
     return html_content
-
 
 def is_valid_file_name(file_name: str) -> bool:
     """
