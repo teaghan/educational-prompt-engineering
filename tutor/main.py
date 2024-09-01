@@ -252,7 +252,7 @@ st.html("""
 }
 </style>
 """, unsafe_allow_html=True)
-pirate_mode = col2.checkbox(f"<span class='big-emoji'>🏴‍☠️</span> Pirate Mode", unsafe_allow_html=True)
+pirate_mode = col2.html(f"<span class='big-emoji'>🏴‍☠️</span> Pirate Mode", unsafe_allow_html=True)
 
 
 
