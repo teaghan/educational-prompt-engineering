@@ -29,9 +29,6 @@ os.environ['USER_AGENT'] = 'myagent'
 def load_text_file(file_path):
     return open(file_path, 'r').read()
 
-tutor_instructions = load_text_file('tutor/Tutor_Instructions.txt')
-course_content = load_text_file('tutor/course_content.txt')
-
 ### Structuring the Content
 
 def split_by_files(content, context_window):
@@ -145,6 +142,9 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     context_window = model_context_windows[model]
     
     ### Embed Content Documents
+
+    tutor_instructions = load_text_file('tutor/Tutor_Instructions.txt')
+    course_content = load_text_file('tutor/course_content.txt')
 
     course_content = split_by_files(course_content, context_window)
     tutor_instructions = Document(page_content=tutor_instructions, metadata={"title": "Tutor Instructions"})
