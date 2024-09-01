@@ -24,6 +24,8 @@ def convert_messages_to_markdown(messages: List[Dict[str, str]], code_block_inde
     markdown_lines = []
     for message in messages:
         role = message['role']
+        if role=='assistant':
+            role='tutor'
         content = message['content']
         indented_content = _indent_content(content, code_block_indent)
         markdown_lines.append(f"###*{role.capitalize()}*:\n{indented_content}\n")
