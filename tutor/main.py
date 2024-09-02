@@ -306,6 +306,8 @@ if download_chat_session:
         st.error(f"The file name '{file_name}' is not a valid file name. File not saved!", icon="🚨")
 
 # The following code handles dropping a file from the local computer
+if "drop_file" not in st.session_state:
+    st.session_state.drop_file = False
 drop_file = st.sidebar.button(r"$\textsf{\normalsize Drop a file to LLM}$", 
                               type="primary", 
                               key="drop")
