@@ -240,7 +240,7 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - "How do I calculate the orbital period of a planet using Kepler’s Third Law?"
     - "How do I calculate the surface gravity of a planet given its mass and radius?"
     - "Can you help me with this assignment on galaxy data? I’m not sure how to start."
-    - "How do I calculate the energy released from a single proton-proton fusion reaction in the Sun?"
+    - "How do I calculate the energy released from a single proton-proton chain reaction in the Sun?"
     ''')
 
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -299,6 +299,8 @@ if download_chat_session:
         st.success("Data saved.")
     else:
         st.error(f"The file name '{file_name}' is not a valid file name. File not saved!", icon="🚨")
+
+# User dropping files
 
 # Chat input
 model_loaded = False
