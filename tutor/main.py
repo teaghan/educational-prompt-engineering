@@ -321,7 +321,10 @@ if prompt := st.chat_input():
 
         # Conditional inclusion of content links
         if recommend_content:
-            msg += '\n\n Recommended course content for review:\n'
+            if pirate_mode:
+                msg += "\n\n Ye best be lookin' at this here course content, arrr!\n"
+            else:
+                msg += '\n\n Recommended course content for review:\n'
             msg += generate_links(response['context'])
 
         st.session_state.messages.append({"role": "assistant", "content": rf"{msg}"})    
