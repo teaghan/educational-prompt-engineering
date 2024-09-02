@@ -17,6 +17,7 @@ import sys
 cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from save_to_html import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
+from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
 
 ### Secure API Key Management
 
@@ -277,9 +278,13 @@ if "store" not in st.session_state:
     st.session_state.store = {}
 
 # Display chat messages
-avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
-          "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
-          
+if pirate_mode:
+    avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
+              "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/pirate_avatar.png"}
+else:
+    avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
+              "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
+              
 for msg in st.session_state.messages:
     st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
@@ -300,11 +305,39 @@ if download_chat_session:
     else:
         st.error(f"The file name '{file_name}' is not a valid file name. File not saved!", icon="🚨")
 
-# User dropping files
+# The following code handles dropping a file from the local computer
+drop_file = st.sidebar.button(r"$\textsf{\normalsize Drop a file to LLM}$", 
+                              type="primary", 
+                              key="drop")
+
+if drop_file:
+    st.session_state.drop_file = True
+if "file_uploader_key" not in st.session_state:
+    st.session_state.file_uploader_key = 0
+
+if st.session_state.drop_file:
+    dropped_files = st.sidebar.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
+                                            accept_multiple_files=True,
+                                            #on_change=set_both_load_and_search_sessions_to_False,
+                                            key=st.session_state.file_uploader_key)
+    # Load file contents
+    prompt_f =""
+    if dropped_files != []:
+        for dropped_file in dropped_files:   
+            extract = extract_text_from_different_file_types(dropped_file)
+            if st.session_state.zip_file:  
+                prompt_f = extract  # if it is a .zip file, the return is a list
+            else:  # if it is not zip, the return is a string (here we concatenate the strings)
+                prompt_f = prompt_f + extract + "\n\n"
 
 # Chat input
 model_loaded = False
 if prompt := st.chat_input():
+
+    if st.session_state.drop_file is True:
+        prompt_full = change_to_prompt_text(prompt_f, prompt)
+    else:
+        prompt_full = prompt
 
     if not model_loaded:
         with st.spinner('Thinking...'):
@@ -315,7 +348,7 @@ if prompt := st.chat_input():
     # Use a spinner to indicate processing and display the assistant's response after processing
     with st.spinner('Thinking...'):
 
-        response = conversational_rag_chain.invoke({"input": prompt}, config={"configurable": {"session_id": "abc123"}})
+        response = conversational_rag_chain.invoke({"input": prompt_full}, config={"configurable": {"session_id": "abc123"}})
         msg = response["answer"]
 
 
