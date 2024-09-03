@@ -308,8 +308,8 @@ if download_chat_session:
 # The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
-drop_file = st.sidebar.button(r"$\textsf{\normalsize Drop a file to LLM}$", 
-                              type="primary", 
+drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
+                              #type="primary", 
                               key="drop")
 
 if drop_file:
