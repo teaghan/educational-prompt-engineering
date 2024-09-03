@@ -308,6 +308,8 @@ if download_chat_session:
 # The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
+if "zip_file" not in st.session_state:
+    st.session_state.zip_file = False
 drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
                               type="primary", 
                               key="drop")
@@ -322,6 +324,7 @@ if st.session_state.drop_file:
                                             accept_multiple_files=True,
                                             #on_change=set_both_load_and_search_sessions_to_False,
                                             key=st.session_state.file_uploader_key)
+    print(dropped_files)
     # Load file contents
     prompt_f =""
     if dropped_files != []:
