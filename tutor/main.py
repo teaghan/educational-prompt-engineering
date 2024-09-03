@@ -309,7 +309,7 @@ if download_chat_session:
 if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
 drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
-                              #type="primary", 
+                              type="primary", 
                               key="drop")
 
 if drop_file:
