@@ -30,6 +30,7 @@ os.environ["LANGCHAIN_TRACING_V2"] = "true"
 #os.environ["OPENAI_API_KEY"] = load_api_key('../key.txt')
 #os.environ["LANGCHAIN_API_KEY"] = load_api_key(key_file='../langchain_key.txt')
 os.environ['USER_AGENT'] = 'myagent'
+os.environ['STREAMLIT_SERVER_MAX_UPLOAD_SIZE'] = 20
 
 ## Integrating Course Content
 
