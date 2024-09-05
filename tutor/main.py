@@ -193,6 +193,8 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
             MessagesPlaceholder("chat_history"),
             ("human", "{input}"),
     ])
+
+    st.session_state.system_prompt = system_prompt
     
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     
@@ -289,7 +291,8 @@ else:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
-st.markdown(system_prompt)
+if "system_prompt" not in st.session_state:
+    st.markdown(st.session_state.system_prompt)
 
 # The following code is for saving the messages to a html file.
 col1, col2, col3 = st.columns(3)
