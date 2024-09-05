@@ -187,8 +187,6 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     if pirate_mode:
         system_prompt += "## Pirate Mode ON\n\n ALWAYS RESPOND LIKE A PIRATE: Yarr! We be talkin' like pirates, matey! Adjust yer manner of speakin' to match the salty seas. When ye answer, do it with the swagger of a sea dog, aye!\n\n"
     system_prompt += "# Context\n\n{context}"
-    st.markdown(system_prompt)
-
         
     qa_prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
@@ -290,6 +288,8 @@ else:
               
 for msg in st.session_state.messages:
     st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+
+st.markdown(system_prompt)
 
 # The following code is for saving the messages to a html file.
 col1, col2, col3 = st.columns(3)
