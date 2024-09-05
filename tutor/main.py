@@ -180,8 +180,7 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     ### Integrating Document-Based Responses
     
     system_prompt = f"{tutor_instructions.page_content}\n\n"
-    system_prompt += ("## Your Persona\n\nYou are an expert astronomer and teacher. You excel at "
-                      "explaining difficult concepts in a way that anyone can understand.\n\n")
+    system_prompt += ("## Your Persona\n\nYou are an expert astronomer and teacher with a rich a deep understanding of the cosmos.\n\n")
     system_prompt += "## Your Task\n\n"
     system_prompt += "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
     if pirate_mode:
