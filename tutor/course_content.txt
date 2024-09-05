@@ -306,10 +306,12 @@ Spectroscopy is a crucial tool in astronomy, enabling us to decode the light fro
 - **Color Indices and Stellar Classification**: Overview of how color indices help classify stars based on temperature and color.
 
 ### [4.3 Atomic Energies](../md_files/4_3_atomic_energies.html)
-- **Model of the Atom**: Introduction to the structure of the atom, including the nucleus and electron orbits.
-- **Interaction of Electromagnetic Radiation with Atoms**: Explanation of how light interacts with atoms, leading to the absorption and emission of photons.
-- **Formation of Spectral Lines**: Understanding how spectral lines are formed through electronic transitions in atoms.
-- **Molecular Spectroscopy**: Brief introduction to molecular spectra and their role in studying interstellar gas clouds.
+- **Quantum Nature of Light**: Recap of light’s wave-particle duality and photon energy.
+- **Electron Volts**: Introduction to eV as a unit of energy with conversion examples.
+- **Bohr Model**: Overview of quantized energy levels and electron transitions.
+- **Spectra**: How electron transitions produce emission and absorption spectra.
+- **Hydrogen Spectrum**: Discussion of Lyman, Balmer, and Paschen series in the hydrogen atom.
+- **Ionization Energy**: Importance of ionization energy in understanding stellar conditions.
 
 ### [4.4 Spectroscopy I: Principles of Spectroscopy](../md_files/4_4_spectroscopy_1.html)
 - **Absorption and Emission Spectra**: Exploring how and why absorption and emission spectra are produced in different astrophysical environments.
@@ -2073,9 +2075,7 @@ Mars, known as the Red Planet due to its iron oxide-rich soil, has fascinated sc
 
 As we venture further from the Sun, we encounter the majestic Jovian planets, also known as gas giants. These massive planets, composed primarily of hydrogen, helium, and other volatiles, present a stark contrast to the rocky terrestrial worlds. Their immense sizes and unique characteristics offer a fascinating glimpse into the outer reaches of our solar system.
 
-<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit2/figures/Giant_Planets.png" alt="Jovian Planets" width="1000" style="display: block; margin-left: auto;
-
- margin-right: auto;">
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit2/figures/Giant_Planets.png" alt="Jovian Planets" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
 
 #### Jupiter
 Jupiter, the largest planet in our solar system, is a colossal world with a diameter of about 11 times that of Earth. Its most famous feature is the Great Red Spot, a gigantic storm larger than Earth itself, which has been raging for centuries. Jupiter's atmosphere is a dynamic blend of hydrogen and helium, with swirling clouds of ammonia crystals and complex weather patterns. 
@@ -3963,9 +3963,7 @@ The resulting spectral lines from these transitions can be grouped into specific
 
 To calculate the energy of photons associated with atomic transitions, we use the formula:
 
-> $$ E = \frac{hc}{\lambda}
-
- $$
+> $$ E = \frac{hc}{\lambda} $$
 
 <div class="alert alert-block alert-warning">
   <h4>Example:</h4> A photon emitted during the transition from $n = 3$ to $n = 2$ in a hydrogen atom has an energy of 1.89 eV. Calculate the wavelength of light emitted from this transition.
@@ -3998,7 +3996,7 @@ Ionization energy plays a critical role in the life of stars. In the searing hea
 
 <div class="alert alert-block alert-info">
 <h4>Ionization Energy for Hydrogen</h4>
-In hydrogen, the simplest atom, it takes exactly **13.6 eV** to remove its single electron and ionize the atom completely. This might not seem like much energy, but in the context of a star, it tells us a lot about the environment in which this atom exists.
+In hydrogen, the simplest atom, it takes exactly 13.6 eV to remove its single electron and ionize the atom completely. This might not seem like much energy, but in the context of a star, it tells us a lot about the environment in which this atom exists.
 </div>
 
 ---
@@ -4016,9 +4014,6 @@ Atomic spectra are like a cosmic fingerprint, revealing hidden secrets about the
 Understanding atomic energies is at the heart of these astronomical analyses, helping us map out the composition, temperature, and motion of stars across the universe.
 
 ---
-
-## Check Your Understanding
-
 
 ## Check Your Understanding
 
@@ -4064,10 +4059,174 @@ layout: embed_default
 
 # 4.4 Spectroscopy I: Principles of Spectroscopy
 
-- **Absorption and Emission Spectra**: Exploring how and why absorption and emission spectra are produced in different astrophysical environments.
-- **Kirchhoff's Laws of Spectroscopy**: Explanation of Kirchhoff's laws and their applications to continuous spectra, emission lines, and absorption lines.
-- **Spectral Line Broadening**: Discussing different mechanisms of line broadening (e.g., Doppler broadening) and their significance in astronomy.
+In this lesson, we explore the different types of spectra—continuous, emission, and absorption—and how they reveal vital information about celestial objects. Spectroscopy is one of the most powerful tools in astronomy, allowing us to decode the physical conditions, chemical composition, and motions of stars, planets, and galaxies. By connecting this to previous lessons on blackbody radiation, atomic structure, and energy transitions, we'll see how light interacts with matter to produce unique patterns of spectral lines.
 
+<div class="alert alert-block alert-success">
+  <h4>Video</h4>
+  <p>Watch <a href="https://www.youtube.com/watch?v=_1mpHBAXh1c" target="_blank">this video</a> for a general discussion on the importance of spectroscopy in astronomy.</p>
+</div>
+
+---
+
+## Types of Spectra
+
+In previous lessons, you learned about the nature of light, blackbody radiation, and atomic energies. Each of these concepts plays a role in producing the three basic types of spectra: continuous, emission, and absorption. These spectra are key to understanding the conditions under which light interacts with matter.
+
+---
+
+### Continuous Spectrum
+
+A **continuous spectrum** appears as a smooth distribution of all wavelengths of light without any gaps. This type of spectrum is typically produced by a hot, dense object, such as the core of a star or a heated filament in a light bulb.
+
+In **Lesson 4.2** on blackbody radiation, we discussed that any object with a temperature above absolute zero emits thermal radiation. The spectrum of this radiation depends on the object’s temperature. Stars, for example, emit a continuous spectrum because they can be approximated as blackbodies—objects that emit radiation across a broad range of wavelengths, governed by their temperature.
+
+A continuous spectrum is produced by charged particles (electrons) moving in a dense medium. In stars, this medium is the high-density plasma in the stellar core. As the photons scatter through the dense material, they get redistributed across a range of wavelengths, producing a smooth, continuous spectrum.
+
+The **Stefan-Boltzmann Law** tells us that the total energy emitted by a blackbody is proportional to the fourth power of its temperature ($F = \sigma T^4$). This law explains why hotter stars are more luminous across all wavelengths, creating a brighter continuous spectrum. The 
+
+> $$ F = \sigma T^4 $$
+
+**Wien's Displacement Law** relates the peak wavelength of the spectrum to the object's temperature, showing that hotter objects emit more in the blue (shorter wavelength) part of the spectrum, while cooler objects emit more in the red (longer wavelength) part.
+
+> $$ \lambda_{\text{max}} = \frac{b}{T} $$
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/prism.png" alt="Prism" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/continuous_spectrum.png" alt="Continuous Spectrum" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+---
+
+### Emission Spectrum
+
+An **emission spectrum** consists of bright lines at specific wavelengths against a dark background. This type of spectrum is produced when a hot, low-density gas emits light at particular wavelengths as electrons in the atoms transition between different energy levels.
+
+As we learned in **Lesson 4.3** on atomic energies, electrons in atoms are confined to discrete energy levels. When an electron in a gas gains enough energy (through collisions or absorption of a photon), it can jump to a higher energy level. When it falls back to a lower energy level, it releases the excess energy as a photon, which corresponds to a specific wavelength of light. These discrete wavelengths appear as bright emission lines, with each element having a unique set of energy levels, creating a unique spectral "fingerprint."
+
+The energy of the emitted photon is determined by the difference in energy between the two energy levels of the electron before and after a transition. When an electron drops from a higher energy level (excited state) to a lower energy level, it emits a photon. The energy of this photon is equal to the difference in energy between these two levels:
+
+> $$ \Delta E = h \cdot f $$
+
+where:
+- $\Delta E$ is the energy difference between the two levels,
+- $h$ is Planck's constant ($6.626 \times 10^{-34} \, \text{J·s}$),
+- $f$ is the frequency of the emitted photon.
+
+The frequency $f$ of the emitted photon determines its wavelength $\lambda$, which can be found using the equation:
+
+> $$ c = \lambda \cdot f $$
+
+where:
+- $c$ is the speed of light ($3.00 \times 10^8 \, \text{m/s}$),
+- $\lambda$ is the wavelength of the photon.
+
+In **Lesson 4.3**, we explored the **hydrogen atom** and its emission spectrum, focusing on the Balmer series, which occurs when electrons transition from higher energy levels down to the second energy level ($n = 2$). The Balmer series produces visible light, with each spectral line corresponding to a specific transition. 
+
+For example, when an electron falls from the $n = 3$ level to the $n = 2$ level, it emits a photon with a wavelength of 656 nm, which corresponds to red light in the visible spectrum. This specific transition produces the well-known **H-alpha line**.
+
+The Balmer series is important because it allows astronomers to identify hydrogen in stars and galaxies, as the characteristic lines are always found at the same wavelengths. Other transitions in the hydrogen atom, such as from $n = 4$ to $n = 2$, produce different lines in the spectrum, each associated with a specific color of light.
+
+Thus, the energy of the photon emitted during these transitions is directly tied to the atomic structure of hydrogen, and this principle applies to all elements, with each element having its own unique set of energy levels and corresponding spectral lines.
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/element_spectra.png" alt="element_spectra" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+Emission spectra are observed in astronomical objects such as **emission nebulae** like the Orion Nebula. Here, the hot gas emits light at specific wavelengths, revealing the chemical composition of the gas. These bright lines help identify elements like hydrogen, helium, and oxygen in space.
+
+---
+
+### Absorption Spectrum
+
+An **absorption spectrum** shows dark lines superimposed on a continuous spectrum. This spectrum occurs when light from a hot, dense object (such as the interior of a star) passes through a cooler, less dense gas. The cooler gas absorbs light at specific wavelengths, causing dark lines to appear.
+
+In **Lesson 4.3**, we learned that electrons in atoms can absorb photons of specific energies, causing them to jump to higher energy levels. The absorbed light corresponds to specific wavelengths, removing those wavelengths from the continuous spectrum of the hot object behind the gas. The result is an absorption line spectrum, where the dark lines indicate which wavelengths have been absorbed.
+
+The absorbed photon must have an energy equal to the difference between two energy levels:
+
+> $$ \Delta E = h \cdot f = \frac{hc}{\lambda} $$
+
+Absorption spectra are most commonly seen in **stellar atmospheres**, where the light from the hot, dense core of the star passes through its cooler outer layers. These absorption lines provide critical information about the chemical composition of the star's atmosphere.
+
+One well-known example is the **Fraunhofer lines** in the Sun’s spectrum, where dark lines are visible because various elements in the Sun’s atmosphere, such as hydrogen and calcium, absorb light at specific wavelengths.
+
+Like emission spectra, absorption spectra are often represented as **graphs**. The dark lines in the spectrum correspond to sharp dips in intensity, showing where specific wavelengths have been absorbed.
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/sun_spetrum.png" alt="Sun Spectrum" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+Modern astronomy represents absorption spectra as **graphs of wavelength vs. intensity**. In an absorption spectrum, most wavelengths of light maintain high intensity, but sharp dips occur at specific wavelengths where atoms absorb light. These dips correspond to the dark lines seen in the absorption spectrum and indicate the wavelengths at which light has been absorbed by the cooler gas.
+
+At these wavelengths, the intensity of the light decreases, forming distinct absorption lines. The positions of these lines allow astronomers to identify the elements present in the intervening gas, as each element absorbs light at specific wavelengths, leaving its "fingerprint" in the form of these absorption features.
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/absorp_spectrum.png" alt="absorp_spectrum" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+---
+
+## Kirchhoff’s Laws of Spectroscopy
+
+In 1859, Gustav Kirchhoff summarized the observations of the different types of spectra into three laws that describe how spectra are produced under different physical conditions. These laws form the foundation of modern spectroscopy in astronomy.
+
+### Kirchhoff’s First Law:
+A **hot, dense object** (like a blackbody) emits a continuous spectrum. This law explains the emission from stars and other dense objects that radiate across a broad range of wavelengths without any gaps.
+
+### Kirchhoff’s Second Law:
+A **hot, low-density gas** emits an emission-line spectrum. This occurs because the gas's atoms emit light at specific wavelengths as electrons transition between discrete energy levels.
+
+### Kirchhoff’s Third Law:
+When light from a **hot, dense object** passes through a **cooler gas**, an absorption-line spectrum is produced. The cooler gas absorbs light at specific wavelengths, corresponding to the energy needed for electrons to jump to higher levels.
+
+These laws help astronomers determine the conditions under which light is produced and modified as it travels through space. By applying these laws, astronomers can infer the temperature, chemical composition, and density of stars and interstellar clouds.
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/cont_emis_abs_spectra.png" alt="Three Types of Spectra" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+---
+
+## Spectral Line Formation in Stellar Atmospheres
+
+In stars, the light we observe is affected by the outer layers of the star’s atmosphere. The core of the star emits a continuous spectrum, but this light passes through the cooler gases of the star’s outer atmosphere. As the light travels through these gases, atoms in the gas absorb specific wavelengths, causing absorption lines to appear in the spectrum.
+
+In **Lesson 4.3**, we saw that each element has a unique set of energy levels, meaning that each element will absorb light at distinct wavelengths. By analyzing the absorption lines in a star’s spectrum, astronomers can determine the star's chemical composition, surface temperature, and other physical characteristics.
+
+<img src="https://raw.githubusercontent.com/teaghan/astronomy-12/main/Unit4/figures/absorption-spectrum.png" alt="absorption-spectrum" width="1000" style="display: block; margin-left: auto; margin-right: auto;">
+
+---
+
+## Line Broadening and Astrophysical Implications
+
+Spectral lines are not infinitely narrow. Several physical processes cause spectral lines to broaden, providing further insights into the conditions within stars, galaxies, and other astronomical objects.
+
+### Doppler Broadening
+The **Doppler effect** broadens spectral lines when atoms are moving toward or away from the observer. If the gas is in motion, atoms moving toward the observer cause the wavelength to shorten (blueshift), while atoms moving away cause the wavelength to lengthen (redshift). The faster the gas is moving, the broader the spectral lines.
+
+### Pressure Broadening
+**Pressure broadening** occurs in high-pressure environments, where collisions between atoms affect the energy levels of the electrons. In stars, the higher the pressure (usually in dense regions like the star’s core), the broader the spectral lines.
+
+### Temperature and Velocity Information
+- **Doppler broadening** provides clues about the velocity of the gas. By measuring how much the lines
+
+ are broadened, astronomers can estimate the speed of gas clouds or stellar atmospheres.
+- **Pressure broadening** gives information about the density and pressure in the gas, helping astronomers infer conditions deep within stars.
+
+---
+
+## Check Your Understanding
+
+1. **Types of Spectra**: Describe the conditions that produce continuous, emission, and absorption spectra. How do these conditions connect to the atomic structure and energy levels discussed in previous lessons?
+<br><br>
+2. **Kirchhoff’s Laws**: Explain Kirchhoff’s three laws using examples of where you might observe continuous, emission, and absorption spectra in space.
+<br><br>
+3. **Stellar Atmospheres**: How do absorption lines form in the atmospheres of stars, and what can they tell us about the star's composition and temperature?
+<br><br>
+4. **Line Broadening**: Compare Doppler broadening and pressure broadening. What can each tell us about the physical conditions in astronomical objects?
+<br><br>
+
+---
+
+## Resources
+
+- **Astronomy (2016)**. Andrew Fraknoi, David Morrison, and Sidney C. Wolff.
+- **[The Atomic Spectrum](https://cosmosatyourdoorstep.com/2017/10/21/the-atomic-spectrum/)**
+
+---
+
+This detailed lesson covers how different types of spectra are produced, explains the physical processes involved, and highlights the role of spectra in modern astronomical research. The added depth connects the principles of atomic physics with the spectral observations of celestial objects.
 
 
 # 4_5_spectroscopy_2.md
@@ -4079,7 +4238,10 @@ layout: embed_default
 
 - **Identifying Elements in Stars**: How spectroscopy is used to identify the chemical composition of stars.
 - **Measuring Stellar Velocities**: Discussion of the Doppler effect and how radial velocity measurements are used to study stellar motion and detect exoplanets.
-- **The Science of Spectroscopy**: Overview of line lists, catalogs of spectral lines, and how they are used in practical spectroscopic analysis.
+- **The Science of Spectroscopy**:
+   - Overview of line lists, catalogs of spectral lines, and how they are used in practical spectroscopic analysis.
+   - Measure stellar temperatures, using the position of absorption/emission lines and line broadening.
+   - Study stellar motion and detect exoplanets using the Doppler shift of spectral lines.
 
 
 

@@ -30,7 +30,6 @@ os.environ["LANGCHAIN_TRACING_V2"] = "true"
 #os.environ["OPENAI_API_KEY"] = load_api_key('../key.txt')
 #os.environ["LANGCHAIN_API_KEY"] = load_api_key(key_file='../langchain_key.txt')
 os.environ['USER_AGENT'] = 'myagent'
-os.environ['STREAMLIT_SERVER_MAX_UPLOAD_SIZE'] = '20'
 
 ## Integrating Course Content
 
@@ -163,7 +162,6 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     course_content_vecs = st.session_state.course_content_vecs
     
     ### Setting Up the Chatbot Interaction
-    
     contextualize_q_system_prompt = (
         "Given a chat history and the latest user question "
         "which might reference context in the chat history, "
@@ -182,11 +180,14 @@ def build_chatbot(model="gpt-4o-mini", embedding='text-embedding-3-small', pirat
     ### Integrating Document-Based Responses
     
     system_prompt = f"{tutor_instructions.page_content}\n\n"
+    system_prompt += ("## Your Persona\n\nYou are an expert astronomer and teacher. You excel at "
+                      "explaining difficult concepts in a way that anyone can understand.\n\n")
     system_prompt += "## Your Task\n\n"
     system_prompt += "Following the instructions above, use the following pieces of retrieved context to answer the question. \n\n"
     if pirate_mode:
-        system_prompt += "### Pirate Mode ON\n\n ALWAYS RESPOND LIKE A PIRATE: Yarr! We be talkin' like pirates, matey! Adjust yer manner of speakin' to match the salty seas. When ye answer, do it with the swagger of a sea dog, aye!\n\n"
+        system_prompt += "## Pirate Mode ON\n\n ALWAYS RESPOND LIKE A PIRATE: Yarr! We be talkin' like pirates, matey! Adjust yer manner of speakin' to match the salty seas. When ye answer, do it with the swagger of a sea dog, aye!\n\n"
     system_prompt += "# Context\n\n{context}"
+    print(system_prompt)
         
     qa_prompt = ChatPromptTemplate.from_messages([
             ("system", system_prompt),
