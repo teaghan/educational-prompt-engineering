@@ -291,7 +291,7 @@ else:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
-if "system_prompt" not in st.session_state:
+if "system_prompt" in st.session_state:
     st.markdown(st.session_state.system_prompt)
 
 # The following code is for saving the messages to a html file.
