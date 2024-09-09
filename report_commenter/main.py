@@ -24,10 +24,16 @@ if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
 if "zip_file" not in st.session_state:
     st.session_state.zip_file = False
+if "file_uploader_key" not in st.session_state:
+    st.session_state.file_uploader_key = 0
+
 dropped_files = st.file_uploader("Drop a file or multiple files (.csv, .txt, .rtf)", 
                                             accept_multiple_files=True,
                                             key=st.session_state.file_uploader_key)
 if dropped_files is not None:
+
+    st.session_state.drop_file = True
+    
     # Load file contents
     student_data =""
     if dropped_files != []:
