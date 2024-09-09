@@ -10,7 +10,7 @@ from drop_file import increment_file_uploader_key, extract_text_from_different_f
 from llm_prompts import create_llm_prompt
 
 # Streamlit
-st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/images/rc_favicon.png", layout="wide")
+st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
 
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>Report Card Comment Generator</h1>", unsafe_allow_html=True)
