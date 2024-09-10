@@ -30,6 +30,7 @@ if "file_uploader_key" not in st.session_state:
 dropped_files = st.file_uploader("Drop a file or multiple files (.csv, .txt, .rtf)", 
                                             accept_multiple_files=True,
                                             key=st.session_state.file_uploader_key)
+
 if dropped_files is not None:
 
     st.session_state.drop_file = True
@@ -38,6 +39,7 @@ if dropped_files is not None:
     student_data =""
     if dropped_files != []:
         for dropped_file in dropped_files:   
+            st.markdown(dropped_file)
             extract = extract_text_from_different_file_types(dropped_file)
             st.markdown('extracted data\n\n')
 
