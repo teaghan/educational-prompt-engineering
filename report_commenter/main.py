@@ -20,14 +20,32 @@ st.write("Upload your class CSV file and generate personalized report card comme
 
 
 # Interaction Tips
-with st.expander("Example"):
+with st.expander("Example Instructions for CSV and Comments"):
     st.markdown('''
-How to download csv from excel
-    
-Describe the CSV file (e.g., columns, shorthand keys):
-"Columns, IEP, Proficiency Scale"
+**How to Export a CSV from Excel:**
+- **For Desktop Version**:
+    1. Open your Excel file.
+    2. Go to **File** > **Save As**.
+    3. Choose **CSV (Comma Delimited) (.csv)** from the file format options.
+    4. Save the file to your computer.
+- **For Web Version**:
+    1. Open your Excel file.
+    2. Go to **File** > **Export**.
+    3. Choose **Download this sheet as CSV (.csv)**.
+    4. The file will automatically download to your device.
 
-Specific instructions for writing the comments:
+**Example CSV Description:**
+- The "Grade" column uses the following proficiency scale: 
+  - Emerging ("Em"), Developing ("D"), Proficient ("P"), Extending ("E").
+- The "Student" column is formatted as "Last Name, First Name".
+- The "IEP Comment" column includes a note for students with an Individualized Education Plan (IEP). If a student does not have an IEP, the cell is left blank.
+- The "Positive Comments" and "Areas to Improve" columns contain brief notes on the student’s strengths and areas needing improvement.
+
+**Example Instructions for Writing the Comments:**
+- Each comment should be 4-6 sentences long.
+- Highlight both the student’s strengths and areas for improvement.
+- Encourage a growth mindset in the comments.
+- Use the student's first name only when writing the comments.
     ''')
 
 # FILE UPLOAD
@@ -51,6 +69,7 @@ if dropped_files is not None:
     if dropped_files != []:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
+            st.markdown(extract)
             if st.session_state.zip_file:  
                 student_data = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
