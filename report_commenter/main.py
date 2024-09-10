@@ -39,18 +39,14 @@ if dropped_files is not None:
     student_data =""
     if dropped_files != []:
         for dropped_file in dropped_files:   
-            st.markdown(dropped_file)
             extract = extract_text_from_different_file_types(dropped_file)
-            st.markdown('extracted data\n\n')
-
-            st.markdown(extract)
             if st.session_state.zip_file:  
                 student_data = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
                 student_data = student_data + extract + "\n\n"
 
 # Text input for CSV description
-csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys)")
+csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys)", value='Test')
 
 # Text input for custom instructions
 instructions = st.text_area("Specific instructions for writing the comments")
