@@ -70,7 +70,7 @@ if dropped_files is not None:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
             #st.markdown(extract)
-            os.write(1, extract) 
+            os.write(1, f"{extract}\n".encode()) 
             #st.write(extract)
             if st.session_state.zip_file:  
                 student_data = extract  # if it is a .zip file, the return is a list
