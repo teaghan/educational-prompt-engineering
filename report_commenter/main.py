@@ -7,7 +7,7 @@ cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from save_to_csv import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
-from llm_prompts import create_llm_prompt
+from chain_engine import create_llm_prompt
 
 # Streamlit
 st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
@@ -18,6 +18,17 @@ st.markdown("<h1 style='text-align: center; color: grey;'>Report Card Comment Ge
 # Title and introduction
 st.write("Upload your class CSV file and generate personalized report card comments for your students.")
 
+
+# Interaction Tips
+with st.expander("Example"):
+    st.markdown('''
+How to download csv from excel
+    
+Describe the CSV file (e.g., columns, shorthand keys):
+"Columns, IEP, Proficiency Scale"
+
+Specific instructions for writing the comments:
+    ''')
 
 # FILE UPLOAD
 if "drop_file" not in st.session_state:
@@ -46,10 +57,10 @@ if dropped_files is not None:
                 student_data = student_data + extract + "\n\n"
 
 # Text input for CSV description
-csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys)", value='Test')
+csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys):")
 
 # Text input for custom instructions
-instructions = st.text_area("Specific instructions for writing the comments")
+instructions = st.text_area("Specific instructions for writing the comments:")
 
 # Sliders and checkboxes for preset options
 col1, col2, col3 = st.columns(3)
@@ -83,7 +94,7 @@ if st.button("Generate Comments"):
         )
         st.markdown(llm_prompt)
     else:
-        st.error("Please upload a valid CSV file.")
+        st.error("Please upload a data file.")
 
     csv_content = student_data
     st.download_button(
