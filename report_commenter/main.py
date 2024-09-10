@@ -20,7 +20,7 @@ st.write("Upload your class CSV file and generate personalized report card comme
 
 
 # Interaction Tips
-with st.expander("Example Instructions for CSV and Comments"):
+with st.expander("Instructions and Example"):
     st.markdown('''
 **How to Export a CSV from Excel:**
 - **For Desktop Version**:

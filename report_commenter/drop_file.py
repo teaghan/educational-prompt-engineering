@@ -38,32 +38,27 @@ def extract_jason_from_csv(csv_file) -> str:
     Returns:
         str: The JSON string representation of the CSV data.
     """
-
-    raw_data = csv_file.getvalue()
     
-    #raw_data = csv_file.read()
+    # Decode the file content with the detected encoding, handling errors
+    raw_data = csv_file.getvalue()
     result = chardet.detect(raw_data)
     encoding = result['encoding']
-
-    # Decode the file content with the detected encoding, handling errors
     file_content = raw_data.decode(encoding, errors='replace')
-    
-    # Read the content of the uploaded file into a string (assuming UTF-8 encoding)
-    #file_content = csv_file.read().decode('utf-8')
     
     # Strip the BOM if present
     if file_content.startswith('\ufeff'):
         file_content = file_content[1:]
 
     # Use StringIO to simulate a text file object
-    string_io_obj = StringIO(file_content)
+    #string_io_obj = StringIO(file_content)
     
     # Now use csv.DictReader to read the simulated file object
-    reader = csv.DictReader(string_io_obj)
-    data = [row for row in reader]
+    #reader = csv.DictReader(string_io_obj)
+    #data = [row for row in reader]
 
-    json_data = json.dumps(data)
-    return json_data
+    #json_data = json.dumps(data)
+    #return json_data
+    return file_content
 
 
 def extract_text_from_different_file_types(file) -> str:
