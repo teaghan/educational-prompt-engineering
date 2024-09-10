@@ -41,6 +41,7 @@ def extract_jason_from_csv(csv_file) -> str:
     
     # Decode the file content with the detected encoding, handling errors
     raw_data = csv_file.getvalue()
+    st.write(raw_data)
     result = chardet.detect(raw_data)
     encoding = result['encoding']
     file_content = raw_data.decode(encoding, errors='replace')
