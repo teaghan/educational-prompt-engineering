@@ -4,6 +4,7 @@ from io import StringIO
 import json
 import os
 import tempfile
+import chardet
 
 from PyPDF2 import PdfReader
 import streamlit as st
