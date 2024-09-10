@@ -27,33 +27,6 @@ def extract_text_from_pdf(pdf) -> str:
     return ''.join(page.extract_text() or '' for page in pdf_reader.pages)
 
 
-def extract_jason_from_csv2(csv_file) -> str:
-    """
-    Converts an uploaded CSV file to a JSON string.
-
-    Args:
-        csv_file: An UploadedFile object representing the uploaded CSV file.
-
-    Returns:
-        str: The JSON string representation of the CSV data.
-    """
-    # Read the content of the uploaded file into a string (assuming UTF-8 encoding)
-    with open(csv_file, 'rb') as f:
-        file_content = f.read().decode('utf-8')
-    # Strip the BOM if present
-    if file_content.startswith('\ufeff'):
-        file_content = file_content[1:]
-
-    # Use StringIO to simulate a text file object
-    string_io_obj = StringIO(file_content)
-    
-    # Now use csv.DictReader to read the simulated file object
-    reader = csv.DictReader(string_io_obj)
-    data = [row for row in reader]
-
-    json_data = json.dumps(data)
-    return json_data
-
 def extract_jason_from_csv(csv_file) -> str:
     """
     Converts an uploaded CSV file to a JSON string.
@@ -92,6 +65,7 @@ def extract_text_from_different_file_types(file) -> str:
     Returns:
         str: The extracted text.
     """
+    st.markdown(file.name)
     type = file.name.split('.')[-1].lower()
     st.session_state.zip_file = False
     if type == 'zip':
