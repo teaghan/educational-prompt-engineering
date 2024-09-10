@@ -65,7 +65,7 @@ def extract_text_from_different_file_types(file) -> str:
     Returns:
         str: The extracted text.
     """
-    st.markdown(extract)
+    st.markdown(file.name)
     type = file.name.split('.')[-1].lower()
     st.session_state.zip_file = False
     if type == 'zip':
