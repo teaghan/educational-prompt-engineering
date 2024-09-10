@@ -69,8 +69,9 @@ if dropped_files is not None:
     if dropped_files != []:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
-            st.markdown(extract)
-            st.write(extract)
+            #st.markdown(extract)
+            os.write(1, extract) 
+            #st.write(extract)
             if st.session_state.zip_file:  
                 student_data = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
