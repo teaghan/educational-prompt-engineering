@@ -37,10 +37,10 @@ def extract_jason_from_csv(csv_file) -> str:
     Returns:
         str: The JSON string representation of the CSV data.
     """
-    # Read the first few bytes to detect the encoding
 
-    with open(csv_file, 'rb') as f:
-        raw_data = f.read()
+    raw_data = csv_file.getvalue()
+    
+    #raw_data = csv_file.read()
     result = chardet.detect(raw_data)
     encoding = result['encoding']
 
