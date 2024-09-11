@@ -81,9 +81,7 @@ def extract_text_from_different_file_types(file) -> str:
         raw_text = file.read().decode("utf-8")
         text = rtf_to_text(raw_text) if type == 'rtf' else raw_text
     elif type == 'csv':
-        st.text('Before extraction')
         text = extract_jason_from_csv(file) # in fact in json format
-        st.text('After extraction')
     else:  # Treat other file type as .txt file
         text = file.read().decode("utf-8")  # Treat all other types as text files
 
