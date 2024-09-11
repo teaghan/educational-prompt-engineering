@@ -130,7 +130,7 @@ if st.session_state.init_model:
                 response = st.session_state.comment_pipeline.get_initial_comments()
                 st.session_state["report_comments"] = response
                 st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
-                st.chat_message("assistant", avatar=avatar[msg["assistant"]]).markdown(rf"{response}")
+                st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
                 st.session_state.model_loaded = True
                 st.session_state.init_model = False
                 st.rerun()
@@ -156,12 +156,12 @@ st.text(st.session_state.model_loads)
 if st.session_state.model_loaded:
     if prompt := st.chat_input():
         st.session_state.messages.append({"role": "user", "content": rf"{prompt}"})
-        st.chat_message("user", avatar=avatar[msg["user"]]).write(prompt)
+        st.chat_message("user", avatar=avatar["user"]).write(prompt)
         with st.spinner('Applying edits...'):
             # Apply edits
             response = st.session_state.comment_pipeline.user_input(prompt)
         st.session_state.report_comments = response
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
-        st.chat_message("assistant", avatar=avatar[msg["assistant"]]).markdown(rf"{response}")
+        st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
         st.text(st.session_state.model_loads)
         st.rerun()
