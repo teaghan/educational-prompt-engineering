@@ -39,7 +39,7 @@ def create_comment_prompt(instructions, formality, specificity, pos_reinf, sente
     formatted_instructions_prompt = f"""
 ## Task: Generate a Clear and Comprehensive LLM Prompt for Writing Report Card Comments
 
-Your task is to generate a well-organized, easy-to-understand, and comprehensive instructions for an LLM to write personalized report card comments. The instructions should follow the guidelines and instructions provided below.
+Your task is to generate a well-organized, easy-to-understand, and comprehensive prompt that will instruct an LLM to write personalized report card comments for an ENTIRE class. The comments should follow the tone and guidelines provided below.
 
 RESPOND ONLY WITH THE PROMPT.
 
