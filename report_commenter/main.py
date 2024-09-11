@@ -45,10 +45,10 @@ with st.expander("Instructions and Example"):
 - The "Positive Comments" and "Areas to Improve" columns contain brief notes on the student’s strengths and areas needing improvement.
 
 **Example Instructions for Writing the Comments:**
-- Each comment should be 4-6 sentences long.
 - Highlight both the student’s strengths and areas for improvement.
 - Encourage a growth mindset in the comments.
 - Use the student's first name only when writing the comments.
+- Avoid the use of pronouns in the comments.
     ''')
 
 # FILE UPLOAD

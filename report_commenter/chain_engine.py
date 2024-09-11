@@ -86,27 +86,27 @@ class ReportCardCommentor:
         # - Produces comment for each student, returns makdown list, asks for feedback
     
         system_prompt = f"""
-    ## Task: Generate Report Card Comments for Each Student
-    
-    Your task is to write personalized report card comments for each student, based on the student data and instructions provided by the user. 
-    
-    ### Response Formatting
-    
-    You should produce a comment for each student, formatted in a markdown table. 
-    
-    After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
-    """
-    
-        init_prompt = f"""
-    Create comments for each student based on the instructions and data below.
-    
-    ## Instructions
-    
-    {formatted_instructions}
-    
-    ## Student Data
-    
-    {formatted_data}
+## Task: Generate Report Card Comments for Each Student
+
+Your task is to write personalized report card comments for each student, based on the student data and instructions provided by the user. 
+
+### Response Formatting
+
+You should produce a comment for each student, formatted in a markdown table. 
+
+After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
+"""
+
+    init_prompt = f"""
+Create comments for each student based on the instructions and data below.
+
+## Instructions
+
+{formatted_instructions}
+
+## Student Data
+
+{formatted_data}
     """
 
         self.message_history = [ChatMessage(role="system", content=system_prompt),
