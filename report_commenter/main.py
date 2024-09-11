@@ -150,7 +150,7 @@ if len(st.session_state.messages)>0:
         with st.spinner('Formatting comments...'):
             comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
         st.markdown('#### The comments below are ready to be copied into your table:')
-        st.code(f'''{comments}''', language="python")
+        st.code(comments)
         #st.text(comments)
 
     
