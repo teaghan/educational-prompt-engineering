@@ -75,10 +75,11 @@ if dropped_files is not None:
                 student_data = student_data + extract + "\n\n"
 
 # Text input for CSV description
-csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys):")
+col1, col2 = st.columns(2)
+csv_description = col1.text_area("Describe the CSV file (e.g., columns, shorthand keys):")
 
 # Text input for custom instructions
-instructions = st.text_area("Specific instructions for writing the comments:")
+instructions = col2.text_area("Specific instructions for writing the comments:")
 
 # Sliders and checkboxes for preset options
 col1, col2, col3 = st.columns(3)
