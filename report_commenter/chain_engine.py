@@ -55,8 +55,10 @@ RESPOND ONLY WITH THE PROMPT.
 
 ### Tone and Style Guidelines:
 
-- **Warmth Level (1-10):** {warmth}
-- **Constructiveness Level (1-10):** {constructiveness}
+Include ALL of the parameters in the prompt including the relevant ranges.
+
+- **Warmth Level:** {warmth}/10
+- **Constructiveness Level:** {constructiveness}/10
 - **Use Pronouns:** {'Yes' if use_pronouns else 'No'}
 
 ### User Instructions for Writing Comments:

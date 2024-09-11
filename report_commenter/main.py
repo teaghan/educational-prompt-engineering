@@ -86,25 +86,37 @@ warmth = col1.slider("Warmth (1-10)", min_value=1, max_value=10, value=5)
 constructiveness = col2.slider("Constructiveness (1-10)", min_value=1, max_value=10, value=5)
 use_pronouns = col3.checkbox("Use pronouns", value=True)
 
+#if "model_loaded" not in st.session_state:
+st.session_state.model_loaded = False
 # Button to submit and start generating comments
-# Chat input
-if "model_loaded" not in st.session_state:
-    st.session_state.model_loaded = False
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     if st.session_state.drop_file is True:
 
         if not st.session_state.model_loaded:
             # Initialize pipeline
-            comment_pipeline = ReportCardCommentor(student_data,
-                                                   csv_description,
-                                                   instructions,
-                                                   warmth,
-                                                   constructiveness,
-                                                   use_pronouns,
-                                                   model="gpt-4o-mini", 
-                                                   embedding='text-embedding-3-small')
+            with st.spinner('Thinking...'):
+                # Construct pipiline
+                comment_pipeline = ReportCardCommentor(student_data,
+                                                       csv_description,
+                                                       instructions,
+                                                       warmth,
+                                                       constructiveness,
+                                                       use_pronouns,
+                                                       model="gpt-4o-mini", 
+                                                       embedding='text-embedding-3-small')
+                st.text(comment_pipeline.init_prompt)
+                # Run initial prompt
+                response = comment_pipeline.get_initial_comments()
+                st.chat_message("assistant").markdown(rf"{response}")
             st.session_state.model_loaded = True
-        st.markdown(comment_pipeline.init_prompt)
     else:
         st.error("Please upload a data file.")
+
+if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.spinner('Thinking...'):
+        # Apply edits
+        response = comment_pipeline.user_input(prompt)
+    st.chat_message("assistant").markdown(rf"{response}")
+    st.rerun()
