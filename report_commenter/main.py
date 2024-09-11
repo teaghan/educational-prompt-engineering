@@ -139,6 +139,7 @@ if len(st.session_state.messages)>0:
     accept_comments = col3.button("Accept comments")
     if accept_comments:
         comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
+        st.markdown('## The comments below are ready to be copied into your table:')
         st.text(comments)
 
 st.text(st.session_state.model_loads)
