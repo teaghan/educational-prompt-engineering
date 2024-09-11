@@ -48,7 +48,8 @@ with st.expander("Instructions and Example"):
 - Highlight both the student’s strengths and areas for improvement.
 - Encourage a growth mindset in the comments.
 - Use the student's first name only when writing the comments.
-- Avoid the use of pronouns in the comments.
+- Avoid the use of pronouns (he, she, etc.) in the comments.
+- For students with an IEP, include a comment on the IEP progress.
     ''')
 
 # FILE UPLOAD
@@ -150,10 +151,6 @@ if len(st.session_state.messages)>0:
             comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
         st.markdown('#### The comments below are ready to be copied into your table:')
         st.text(comments)
-
-    st.markdown(st.session_state.comment_pipeline.prompt1)
-    st.text(st.session_state.model_loads)
-    st.markdown(st.session_state.comment_pipeline.prompt2)
 
     
 # Only show chat if model has been loaded
