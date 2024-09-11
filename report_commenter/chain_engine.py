@@ -63,67 +63,68 @@ RESPOND ONLY WITH THE PROMPT.
 """
     return formatted_instructions_prompt
 
-class ReportCardCommentor(student_data, csv_description, instructions,
+class ReportCardCommentor:
+    def __init__(self, student_data, csv_description, instructions,
                           warmth, constructiveness, use_pronouns,
                           model="gpt-4o-mini", embedding='text-embedding-3-small'):
     
-    # Initializing AI Models for Embedding and Interaction
-    self.embedding_model = OpenAIEmbeddings(model=embedding)
-    self.llm = ChatOpenAI(model=model)
-
-    # Format initial prompt for LLM to format student data
-    data_prompt = format_student_data(student_data, csv_description)
-    # Use LLM to format data
-    self.formatted_data = llm.invoke(data_prompt)["output"]
-
-    # Format initial prompt for LLM to generate instruction prompt
-    instructions_prompt = create_comment_prompt(instructions, warmth, constructiveness, use_pronouns)
-    # Use LLM to format instructions
-    self.formatted_instructions = llm.invoke(instructions_prompt)["output"]
-
-    # Instance of LLM with chat history
-    # - receives reformatted instructions and data
-    # - system prompt gives guidelaines for LLM about how to respond (provide formatted comments, ask for feedback),
-    #   includes the reformatted data and user instructions
-    # - Produces comment for each student, returns makdown list, asks for feedback
-
-    system_prompt = f"""
-## Task: Generate Report Card Comments for Each Student
-
-Your task is to write personalized report card comments for each student, based on the student data and instructions provided by the user. 
-
-### Response Formatting
-
-You should produce a comment for each student, formatted in a markdown table. 
-
-After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
-"""
+        # Initializing AI Models for Embedding and Interaction
+        self.embedding_model = OpenAIEmbeddings(model=embedding)
+        self.llm = ChatOpenAI(model=model)
     
-    init_chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", system_prompt),
-            MessagesPlaceholder("chat_history"),
-            ("human", "{input}"),
-    ])
-
-    edit_chain = create_stuff_documents_chain(llm, init_chat_prompt)
-    self.rag_chain = create_retrieval_chain(history_aware_retriever, edit_chain)
-    self.chat_history = []
-
-    self.init_prompt = f"""
-Create comments for each student based on the instructions and data below.
-
-## Instructions
-
-{formatted_instructions}
-
-## Student Data
-
-{formatted_data}
-"""
-
-    # Third LLM
-    # - once confirmation button pressed, this takes last output from second instance of LLM
-    # - formats this into a comment on each line in a separate text box with a copy button
+        # Format initial prompt for LLM to format student data
+        data_prompt = format_student_data(student_data, csv_description)
+        # Use LLM to format data
+        self.formatted_data = llm.invoke(data_prompt)["output"]
+    
+        # Format initial prompt for LLM to generate instruction prompt
+        instructions_prompt = create_comment_prompt(instructions, warmth, constructiveness, use_pronouns)
+        # Use LLM to format instructions
+        self.formatted_instructions = llm.invoke(instructions_prompt)["output"]
+    
+        # Instance of LLM with chat history
+        # - receives reformatted instructions and data
+        # - system prompt gives guidelaines for LLM about how to respond (provide formatted comments, ask for feedback),
+        #   includes the reformatted data and user instructions
+        # - Produces comment for each student, returns makdown list, asks for feedback
+    
+        system_prompt = f"""
+    ## Task: Generate Report Card Comments for Each Student
+    
+    Your task is to write personalized report card comments for each student, based on the student data and instructions provided by the user. 
+    
+    ### Response Formatting
+    
+    You should produce a comment for each student, formatted in a markdown table. 
+    
+    After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
+    """
+        
+        init_chat_prompt = ChatPromptTemplate.from_messages([
+                ("system", system_prompt),
+                MessagesPlaceholder("chat_history"),
+                ("human", "{input}"),
+        ])
+    
+        edit_chain = create_stuff_documents_chain(llm, init_chat_prompt)
+        self.rag_chain = create_retrieval_chain(history_aware_retriever, edit_chain)
+        self.chat_history = []
+    
+        self.init_prompt = f"""
+    Create comments for each student based on the instructions and data below.
+    
+    ## Instructions
+    
+    {formatted_instructions}
+    
+    ## Student Data
+    
+    {formatted_data}
+    """
+    
+        # Third LLM
+        # - once confirmation button pressed, this takes last output from second instance of LLM
+        # - formats this into a comment on each line in a separate text box with a copy button
 
     def user_input(self, message):
         response = self.rag_chain.invoke({"input": message, "chat_history": self.chat_history})
