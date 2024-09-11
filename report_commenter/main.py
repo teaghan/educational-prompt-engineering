@@ -100,9 +100,9 @@ if st.button("Generate Comments"):
 
         #if not st.session_state.model_loaded:
         # Initialize pipeline
-        with st.spinner('Generating intial comments...'):
+        with st.spinner('Generating initial comments...'):
             # Construct pipiline
-            comment_pipeline = ReportCardCommentor(student_data,
+            st.session_state['comment_pipeline'] = ReportCardCommentor(student_data,
                                                    csv_description,
                                                    instructions,
                                                    warmth,
@@ -110,9 +110,9 @@ if st.button("Generate Comments"):
                                                    use_pronouns,
                                                    model="gpt-4o-mini", 
                                                    embedding='text-embedding-3-small')
-            st.text(comment_pipeline.init_prompt)
+            st.text(st.session_state.comment_pipeline.init_prompt)
             # Run initial prompt
-            response = comment_pipeline.get_initial_comments()
+            response = st.session_state.comment_pipeline.get_initial_comments()
             st.chat_message("assistant").markdown(rf"{response}")
             st.session_state.model_loaded = True
     else:
@@ -128,6 +128,6 @@ if st.session_state.model_loaded:
         st.chat_message("user").write(prompt)
         with st.spinner('Applying edits...'):
             # Apply edits
-            response = comment_pipeline.user_input(prompt)
+            response = st.session_state.comment_pipeline.user_input(prompt)
         st.chat_message("assistant").markdown(rf"{response}")
         st.rerun()
