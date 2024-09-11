@@ -69,3 +69,42 @@ if dropped_files is not None:
     if dropped_files != []:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
+            if st.session_state.zip_file:  
+                student_data = extract  # if it is a .zip file, the return is a list
+            else:  # if it is not zip, the return is a string (here we concatenate the strings)
+                student_data = student_data + extract + "\n\n"
+
+# Text input for CSV description
+csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys):")
+
+# Text input for custom instructions
+instructions = st.text_area("Specific instructions for writing the comments:")
+
+# Sliders and checkboxes for preset options
+col1, col2, col3 = st.columns(3)
+warmth = col1.slider("Warmth (1-10)", min_value=1, max_value=10, value=5)
+constructiveness = col2.slider("Constructiveness (1-10)", min_value=1, max_value=10, value=5)
+use_pronouns = col3.checkbox("Use pronouns", value=True)
+
+# Button to submit and start generating comments
+# Chat input
+if "model_loaded" not in st.session_state:
+    st.session_state.model_loaded = False
+if st.button("Generate Comments"):
+    # Pass the input data to the first LLM instance
+    if st.session_state.drop_file is True:
+
+        if not st.session_state.model_loaded:
+            # Initialize pipeline
+            comment_pipeline = ReportCardCommentor(student_data,
+                                                   csv_description,
+                                                   instructions,
+                                                   warmth,
+                                                   constructiveness,
+                                                   use_pronouns,
+                                                   model="gpt-4o-mini", 
+                                                   embedding='text-embedding-3-small')
+            st.session_state.model_loaded = True
+        st.markdown(comment_pipeline.init_prompt)
+    else:
+        st.error("Please upload a data file.")
