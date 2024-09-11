@@ -130,4 +130,31 @@ class ReportCardCommentor:
 
     def get_initial_comments(self):
         return self.init_comments
+
+    def produce_list(self, comments):
+        system_prompt = f"""
+The user will provide you with the output from an LLM.
+
+Your task is to take the table of report card comments within this output and reformat this information such that the name column is removed and there is one comment on each line. 
+
+Comments should be written in the same order that they are received. 
+
+Ignore any text outside of the original table.
+
+Your response should just be the list of comments without anything else.
+"""
+    
+        user_prompt = f"""
+Reformat the comments below into a single list so that I can copy them into a column in Excel.
+    
+## Comments
+    
+{comments}
+"""
+
+        messages = [ChatMessage(role="system", content=system_prompt),
+                                ChatMessage(role="user", content=user_prompt),]
+        formatted_comments = self.llm.chat(messages).message.content
+        return formatted_comments
+        
         

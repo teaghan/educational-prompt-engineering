@@ -114,6 +114,7 @@ if st.button("Generate Comments"):
                                                        embedding='text-embedding-3-small')
                 # Run initial prompt
                 response = st.session_state.comment_pipeline.get_initial_comments()
+                st.session_state["report_comments"] = response
                 st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
                 st.chat_message("assistant").markdown(rf"{response}")
                 st.session_state.model_loaded = True
@@ -125,6 +126,13 @@ if st.button("Generate Comments"):
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
+    # The following code is for reformatting the final comments
+    col1, col2, col3 = st.columns(3)
+    accept_comments = col3.button("Accept comments")
+    if accept_comments:
+        comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
+        st.chat_message("assistant").write(comments)
+    
 
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
@@ -134,6 +142,7 @@ if st.session_state.model_loaded:
         with st.spinner('Applying edits...'):
             # Apply edits
             response = st.session_state.comment_pipeline.user_input(prompt)
+        st.session_state.report_comments = response
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
         st.chat_message("assistant").markdown(rf"{response}")
         st.text(st.session_state.model_loads)
