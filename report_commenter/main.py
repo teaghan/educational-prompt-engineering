@@ -86,38 +86,42 @@ warmth = col1.slider("Warmth (1-10)", min_value=1, max_value=10, value=5)
 constructiveness = col2.slider("Constructiveness (1-10)", min_value=1, max_value=10, value=5)
 use_pronouns = col3.checkbox("Use pronouns", value=True)
 
-#if "model_loaded" not in st.session_state:
-st.session_state.model_loaded = False
+if "model_loaded" not in st.session_state:
+    st.session_state.model_loaded = False
 # Button to submit and start generating comments
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     if st.session_state.drop_file is True:
+        st.session_state.messages = []
 
-        if not st.session_state.model_loaded:
-            # Initialize pipeline
-            with st.spinner('Thinking...'):
-                # Construct pipiline
-                comment_pipeline = ReportCardCommentor(student_data,
-                                                       csv_description,
-                                                       instructions,
-                                                       warmth,
-                                                       constructiveness,
-                                                       use_pronouns,
-                                                       model="gpt-4o-mini", 
-                                                       embedding='text-embedding-3-small')
-                st.text(comment_pipeline.init_prompt)
-                # Run initial prompt
-                response = comment_pipeline.get_initial_comments()
-                st.chat_message("assistant").markdown(rf"{response}")
+        #if not st.session_state.model_loaded:
+        # Initialize pipeline
+        with st.spinner('Generating intial comments...'):
+            # Construct pipiline
+            comment_pipeline = ReportCardCommentor(student_data,
+                                                   csv_description,
+                                                   instructions,
+                                                   warmth,
+                                                   constructiveness,
+                                                   use_pronouns,
+                                                   model="gpt-4o-mini", 
+                                                   embedding='text-embedding-3-small')
+            st.text(comment_pipeline.init_prompt)
+            # Run initial prompt
+            response = comment_pipeline.get_initial_comments()
+            st.chat_message("assistant").markdown(rf"{response}")
             st.session_state.model_loaded = True
     else:
         st.error("Please upload a data file.")
+
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
     if prompt := st.chat_input():
         st.chat_message("user").write(prompt)
-        with st.spinner('Thinking...'):
+        with st.spinner('Applying edits...'):
             # Apply edits
             response = comment_pipeline.user_input(prompt)
         st.chat_message("assistant").markdown(rf"{response}")
