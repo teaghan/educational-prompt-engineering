@@ -8,6 +8,8 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import HumanMessage
+from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain import LLMChain, PromptTemplate
 
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ['USER_AGENT'] = 'myagent'
