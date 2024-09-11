@@ -111,6 +111,7 @@ if st.button("Generate Comments"):
                                                        embedding='text-embedding-3-small')
                 # Run initial prompt
                 response = st.session_state.comment_pipeline.get_initial_comments()
+                st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
                 st.chat_message("assistant").markdown(rf"{response}")
                 st.session_state.model_loaded = True
     else:
@@ -123,9 +124,12 @@ if len(st.session_state.messages)>0:
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
     if prompt := st.chat_input():
+        st.session_state.messages.append({"role": "user", "content": rf"{prompt}"})
         st.chat_message("user").write(prompt)
         with st.spinner('Applying edits...'):
             # Apply edits
             response = st.session_state.comment_pipeline.user_input(prompt)
-            st.chat_message("assistant").markdown(rf"{response}")
+        st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
+        st.chat_message("assistant").markdown(rf"{response}")
+
         #st.rerun()
