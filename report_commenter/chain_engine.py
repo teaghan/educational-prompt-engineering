@@ -107,7 +107,7 @@ Create comments for each student based on the instructions and data below.
 ## Student Data
 
 {formatted_data}
-    """
+"""
 
         self.message_history = [ChatMessage(role="system", content=system_prompt),
                                 ChatMessage(role="user", content=init_prompt),]
