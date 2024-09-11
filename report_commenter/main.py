@@ -91,7 +91,6 @@ formality = col1.slider("Formality (1-5)", min_value=1, max_value=5, value=2)
 warmth = col2.slider("Warmth (1-5)", min_value=1, max_value=5, value=4)
 pos_reinf = col3.slider("Positive Reinforcement (1-5)", min_value=1, max_value=5, value=5)
 sentences = col4.slider("No. of Sentences", min_value=2, max_value=10, value=(4, 7))
-st.text(sentences)
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
@@ -120,13 +119,13 @@ if st.session_state.init_model:
             with st.spinner('Generating initial comments...'):
                 # Construct pipiline
                 st.session_state['comment_pipeline'] = ReportCardCommentor(student_data,
-                                                       csv_description,
-                                                       instructions,
-                                                       warmth,
-                                                       constructiveness,
-                                                       use_pronouns,
-                                                       model="gpt-4o-mini", 
-                                                       embedding='text-embedding-3-small')
+                                                                           csv_description,
+                                                                           instructions,
+                                                                           formality,
+                                                                           warmth,
+                                                                           pos_reinf,
+                                                                           sentences,
+                                                                           model="gpt-4o-mini")
                 st.session_state.model_loads +=1
                 # Run initial prompt
                 response = st.session_state.comment_pipeline.get_initial_comments()

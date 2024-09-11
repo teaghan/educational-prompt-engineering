@@ -31,7 +31,7 @@ Please format the student data according to the CSV description, ensuring clarit
     return formatted_data_prompt
 
 # Function to create a prompt for organizing instructions and parameters into a clear, structured prompt
-def create_comment_prompt(instructions, warmth, constructiveness, use_pronouns):
+def create_comment_prompt(instructions, formality, warmth, pos_reinf, sentences):
     """
     This function generates a clear and structured prompt based on the instructions
     and parameters for writing personalized report card comments.
@@ -47,9 +47,10 @@ RESPOND ONLY WITH THE PROMPT.
 
 Include ALL of the parameters in the prompt including the relevant ranges.
 
-- **Warmth Level:** {warmth}/10
-- **Constructiveness Level:** {constructiveness}/10
-- **Use Pronouns:** {'Yes' if use_pronouns else 'No'}
+- **Formality Level:** {warmth}/5
+- **Warmth Level:** {warmth}/5
+- **Positive Reinforcement Level:** {pos_reinf}/5
+- **Sentence length:** Between {sentences[0]} and {sentences[1]} for each comment 
 
 ### User Instructions for Writing Comments:
 
@@ -59,8 +60,7 @@ Include ALL of the parameters in the prompt including the relevant ranges.
 
 class ReportCardCommentor:
     def __init__(self, student_data, csv_description, instructions,
-                          warmth, constructiveness, use_pronouns,
-                          model="gpt-4o-mini", embedding='text-embedding-3-small'):
+                 formality, warmth, pos_reinf, sentences, model="gpt-4o-mini"):
     
         # Initializing AI Model Interaction
         self.llm = OpenAI(model=model, api_key=openai_api_key)
@@ -73,7 +73,7 @@ class ReportCardCommentor:
         formatted_data = self.llm.chat(messages).message.content
 
         # Format initial prompt for LLM to generate instruction prompt
-        instructions_prompt = create_comment_prompt(instructions, warmth, constructiveness, use_pronouns)
+        instructions_prompt = create_comment_prompt(instructions, formality, warmth, pos_reinf, sentences)
         # Use LLM to format instructions
         messages = [ChatMessage(role="system", content="You are designed to develop effective LLM prompts."),
                     ChatMessage(role="user", content=instructions_prompt),]
@@ -135,7 +135,9 @@ class ReportCardCommentor:
         system_prompt = f"""
 The user will provide you with the output from an LLM.
 
-Your task is to take the table of report card comments within this output and reformat this information such that the name column is removed and there is one comment on each line. 
+Your task is to take the report card comments within this output and reformat this information.
+
+The comments should be formatted so that there is ONE STUDENT's COMMENT ON EACH LINE.
 
 Comments should be written in the same order that they are received. 
 
@@ -145,7 +147,7 @@ Your response should just be the list of comments without anything else.
 """
     
         user_prompt = f"""
-Reformat the comments below into a single list so that I can copy them into a column in Excel.
+Reformat the comments below into a single list so that I can copy them into a column in Excel - one student per row.
     
 ## Comments
     
