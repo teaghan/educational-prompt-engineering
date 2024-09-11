@@ -121,6 +121,7 @@ if st.button("Generate Comments"):
                 st.chat_message("assistant").markdown(rf"{response}")
                 st.session_state.model_loaded = True
                 st.session_state.model_loads += 1
+                st.rerun()
     else:
         st.error("Please upload a data file.")
 
