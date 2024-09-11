@@ -9,3 +9,4 @@ markdown
 PyPDF2
 striprtf
 chardet
+clipboard
