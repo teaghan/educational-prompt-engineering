@@ -117,7 +117,7 @@ def generate_comments(dropped_files):
     else:
         st.error("Please upload a data file.")
 
-st.button("Generate Comments", on_click=generate_comments, args=[dropped_files]):
+st.button("Generate Comments", on_click=generate_comments, args=[dropped_files])
 
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
