@@ -41,9 +41,7 @@ def extract_jason_from_csv(csv_file) -> str:
     
     # Decode the file content with the detected encoding, handling errors
     raw_data = csv_file.getvalue()
-    st.write(raw_data)
-    result = chardet.detect(raw_data)
-    encoding = result['encoding']
+    encoding = chardet.detect(raw_data)['encoding']
     file_content = raw_data.decode(encoding, errors='replace')
     
     # Strip the BOM if present
@@ -83,7 +81,9 @@ def extract_text_from_different_file_types(file) -> str:
         raw_text = file.read().decode("utf-8")
         text = rtf_to_text(raw_text) if type == 'rtf' else raw_text
     elif type == 'csv':
+        st.text('Before extraction')
         text = extract_jason_from_csv(file) # in fact in json format
+        st.text('After extraction')
     else:  # Treat other file type as .txt file
         text = file.read().decode("utf-8")  # Treat all other types as text files
 
