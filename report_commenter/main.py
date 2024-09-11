@@ -91,6 +91,9 @@ if "model_loaded" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
+if "model_loads" not in st.session_state:
+    st.session_state["model_loads"] = 0
+
 # Button to submit and start generating comments
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
@@ -114,6 +117,7 @@ if st.button("Generate Comments"):
                 st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
                 st.chat_message("assistant").markdown(rf"{response}")
                 st.session_state.model_loaded = True
+                st.session_state.model_loads += 1
     else:
         st.error("Please upload a data file.")
 
@@ -131,5 +135,6 @@ if st.session_state.model_loaded:
             response = st.session_state.comment_pipeline.user_input(prompt)
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
         st.chat_message("assistant").markdown(rf"{response}")
+        st.text(st.session_state.model_loads)
 
         #st.rerun()
