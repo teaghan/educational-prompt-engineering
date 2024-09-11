@@ -97,9 +97,9 @@ if "model_loads" not in st.session_state:
 # Button to initialize process
 if "init_model" not in st.session_state:
     st.session_state["init_model"] = False
-st.button("Generate Comments", on_click=init_model)    
 def init_model(opt):
     st.session_state.init_model = True
+st.button("Generate Comments", on_click=init_model)    
     
 if st.session_state.init_model:
     #if st.button("Generate Comments"):
