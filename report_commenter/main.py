@@ -90,7 +90,8 @@ if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
-    
+
+st.text(st.session_state.drop_file)
 # Button to submit and start generating comments
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
@@ -129,5 +130,5 @@ if st.session_state.model_loaded:
         with st.spinner('Applying edits...'):
             # Apply edits
             response = st.session_state.comment_pipeline.user_input(prompt)
-        st.chat_message("assistant").markdown(rf"{response}")
-        st.rerun()
+            st.chat_message("assistant").markdown(rf"{response}")
+        #st.rerun()
