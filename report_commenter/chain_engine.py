@@ -1,5 +1,3 @@
-#import nltk
-#nltk.download('punkt')
 import streamlit as st
 import os
 from llama_index.core.llms import ChatMessage
@@ -114,7 +112,7 @@ class ReportCardCommentor:
         self.message_history = [ChatMessage(role="system", content=system_prompt),
                                 ChatMessage(role="user", content=init_prompt),]
         response = self.llm.chat(self.message_history)
-        self.message_history.append(resp.message)
+        self.message_history.append(response.message)
         self.init_comments = response.message.content
     
         # Third LLM
@@ -127,7 +125,7 @@ class ReportCardCommentor:
         # Prompt LLM with history
         response = self.llm.chat(self.message_history)
         # Add response to history
-        self.message_history.append(resp.message)
+        self.message_history.append(response.message)
         return response.message.content
 
     def get_initial_comments(self):
