@@ -92,7 +92,7 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
 # Button to submit and start generating comments
-if st.button("Generate Comments"):
+def generate_comments(dropped_files):
     # Pass the input data to the first LLM instance
     if dropped_files != []:
         # Reset conversation
@@ -110,13 +110,14 @@ if st.button("Generate Comments"):
                                                    use_pronouns,
                                                    model="gpt-4o-mini", 
                                                    embedding='text-embedding-3-small')
-            st.text(st.session_state.comment_pipeline.init_prompt)
             # Run initial prompt
             response = st.session_state.comment_pipeline.get_initial_comments()
             st.chat_message("assistant").markdown(rf"{response}")
             st.session_state.model_loaded = True
     else:
         st.error("Please upload a data file.")
+
+st.button("Generate Comments", on_click=generate_comments, args=[dropped_files]):
 
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
