@@ -77,12 +77,12 @@ class ReportCardCommentor:
         # Format initial prompt for LLM to format student data
         data_prompt = format_student_data(student_data, csv_description)
         # Use LLM to format data
-        self.formatted_data = llm.invoke(data_prompt).content
+        formatted_data = llm.invoke(data_prompt).content
     
         # Format initial prompt for LLM to generate instruction prompt
         instructions_prompt = create_comment_prompt(instructions, warmth, constructiveness, use_pronouns)
         # Use LLM to format instructions
-        self.formatted_instructions = llm.invoke(instructions_prompt).content
+        formatted_instructions = llm.invoke(instructions_prompt).content
     
         # Instance of LLM with chat history
         # - receives reformatted instructions and data
