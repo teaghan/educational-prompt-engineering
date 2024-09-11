@@ -137,10 +137,12 @@ if len(st.session_state.messages)>0:
         st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
     # The following code is for reformatting the final comments
     col1, col2, col3 = st.columns(3)
-    accept_comments = col3.button("Accept comments")
+    accept_comments = col3.button(r"$\textsf{\normalsize Accept comments}$", 
+                                  type="primary")
+
     if accept_comments:
         comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
-        st.markdown('## The comments below are ready to be copied into your table:')
+        st.markdown('#### The comments below are ready to be copied into your table:')
         st.text(comments)
 
 st.text(st.session_state.model_loads)
