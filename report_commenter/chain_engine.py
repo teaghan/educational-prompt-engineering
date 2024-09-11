@@ -92,7 +92,7 @@ You should produce a comment for each student, formatted in a markdown table.
 After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
 """
         
-            init_prompt = f"""
+        init_prompt = f"""
 Create comments for each student based on the instructions and data below.
 
 ## Instructions
