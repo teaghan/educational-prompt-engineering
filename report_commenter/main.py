@@ -86,13 +86,12 @@ csv_description = col1.text_area("Describe the CSV file (e.g., columns, shorthan
 instructions = col2.text_area("Specific instructions for writing the comments:")
 
 # Sliders and checkboxes for preset options
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+col1, col2, col3, col4 = st.columns(4)
 formality = col1.slider("Formality (1-5)", min_value=1, max_value=5, value=2)
 warmth = col2.slider("Warmth (1-5)", min_value=1, max_value=5, value=4)
 pos_reinf = col3.slider("Positive Reinforcement (1-5)", min_value=1, max_value=5, value=5)
 min_sentences = col4.slider("Minimum Sentences (2-5)", min_value=2, max_value=5, value=4)
-max_sentences = col5.slider("Maximum Sentences (4-10)", min_value=4, max_value=10, value=7)
-use_pronouns = col6.checkbox("Use pronouns", value=True)
+max_sentences = col4.slider("Maximum Sentences (4-10)", min_value=4, max_value=10, value=7)
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
