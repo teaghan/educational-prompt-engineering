@@ -50,7 +50,7 @@ Include ALL of the parameters in the prompt including the relevant ranges.
 - **Formality Level:** {formality}/5
 - **Specificity Level:** {specificity}/5
 - **Positive Reinforcement Level:** {pos_reinf}/5
-- **Sentence length:** Between {sentences[0]} and {sentences[1]} for each comment 
+- **Number of Sentences:** Between {sentences[0]} and {sentences[1]} for each comment 
 
 ### User Instructions for Writing Comments:
 
