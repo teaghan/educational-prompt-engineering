@@ -90,8 +90,8 @@ col1, col2, col3, col4 = st.columns(4)
 formality = col1.slider("Formality (1-5)", min_value=1, max_value=5, value=2)
 warmth = col2.slider("Warmth (1-5)", min_value=1, max_value=5, value=4)
 pos_reinf = col3.slider("Positive Reinforcement (1-5)", min_value=1, max_value=5, value=5)
-min_sentences = col4.slider("Minimum Sentences (2-5)", min_value=2, max_value=5, value=4)
-max_sentences = col4.slider("Maximum Sentences (4-10)", min_value=4, max_value=10, value=7)
+sentences = col4.slider("No. of Sentences", min_value=2, max_value=10, (4, 7))
+st.text(sentences)
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
