@@ -153,5 +153,5 @@ class ReportCardCommentor:
         return response
 
     def get_initial_comments(self):
-        return user_input(message=self.init_prompt)
+        return self.user_input(message=self.init_prompt)
         
