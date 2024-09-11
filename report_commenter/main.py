@@ -88,11 +88,15 @@ use_pronouns = col3.checkbox("Use pronouns", value=True)
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
+    
 # Button to submit and start generating comments
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     if st.session_state.drop_file is True:
-        st.session_state.messages = []
+        # Reset conversation
+        st.session_state["messages"] = []
 
         #if not st.session_state.model_loaded:
         # Initialize pipeline
@@ -114,8 +118,9 @@ if st.button("Generate Comments"):
     else:
         st.error("Please upload a data file.")
 
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+if len(st.session_state.messages)>0:
+    for msg in st.session_state.messages:
+        st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
