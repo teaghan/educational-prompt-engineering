@@ -140,5 +140,4 @@ if st.session_state.model_loaded:
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
         st.chat_message("assistant").markdown(rf"{response}")
         st.text(st.session_state.model_loads)
-
-        #st.rerun()
+        st.rerun()
