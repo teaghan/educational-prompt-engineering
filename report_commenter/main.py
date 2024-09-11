@@ -94,13 +94,20 @@ if "messages" not in st.session_state:
 if "model_loads" not in st.session_state:
     st.session_state["model_loads"] = 0
 
-# Button to submit and start generating comments
-if st.button("Generate Comments"):
+# Button to initialize process
+if "init_model" not in st.session_state:
+    st.session_state["init_model"] = False
+st.button("Generate Comments", on_click=init_model)    
+def init_model(opt):
+    st.session_state.init_model = True
+    
+if st.session_state.init_model:
+    #if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     if dropped_files != []:
         if not st.session_state.model_loaded:
             # Reset conversation
-            #st.session_state["messages"] = []
+            st.session_state["messages"] = []
             # Initialize pipeline
             with st.spinner('Generating initial comments...'):
                 # Construct pipiline
@@ -118,7 +125,7 @@ if st.button("Generate Comments"):
                 st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
                 st.chat_message("assistant").markdown(rf"{response}")
                 st.session_state.model_loaded = True
-                st.session_state.model_loads += 1
+                st.session_state.init_model = False
                 st.rerun()
     else:
         st.error("Please upload a data file.")
@@ -131,9 +138,8 @@ if len(st.session_state.messages)>0:
     accept_comments = col3.button("Accept comments")
     if accept_comments:
         comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
-        st.chat_message("assistant").write(comments)
+        st.text(comments)
     
-
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
     if prompt := st.chat_input():
