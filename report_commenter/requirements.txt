@@ -1,8 +1,7 @@
 streamlit
-langchain
 openai
-langchain-openai
-langchain-community
+llama-index
+llama-index-llms-openai
 chromadb==0.3.29
 protobuf==3.20.*
 markdown

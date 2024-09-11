@@ -1,19 +1,9 @@
 import streamlit as st
 import os
-from langchain_openai import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_community.chat_message_histories import ChatMessageHistory
-from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.messages import HumanMessage
-from langchain.chains.conversation.memory import ConversationBufferMemory
-from langchain import LLMChain, PromptTemplate
+from llama_index.core.llms import ChatMessage
+from llama_index.llms.openai import OpenAI
 
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ['USER_AGENT'] = 'myagent'
-
+openai_api_key = os.environ["OPENAI_API_KEY"]
 
 def format_student_data(student_data, csv_description):
     """
@@ -73,18 +63,21 @@ class ReportCardCommentor:
                           model="gpt-4o-mini", embedding='text-embedding-3-small'):
     
         # Initializing AI Model Interaction
-        #self.embedding_model = OpenAIEmbeddings(model=embedding)
-        llm = ChatOpenAI(model=model)
+        self.llm = OpenAI(model=model, api_key=openai_api_key)
     
         # Format initial prompt for LLM to format student data
         data_prompt = format_student_data(student_data, csv_description)
         # Use LLM to format data
-        formatted_data = llm.invoke(data_prompt).content
-    
+        messages = [ChatMessage(role="system", content="You are designed to format data nicely."),
+                    ChatMessage(role="user", content=data_prompt),]
+        formatted_data = self.llm.chat(messages).message.content
+
         # Format initial prompt for LLM to generate instruction prompt
         instructions_prompt = create_comment_prompt(instructions, warmth, constructiveness, use_pronouns)
         # Use LLM to format instructions
-        formatted_instructions = llm.invoke(instructions_prompt).content
+        messages = [ChatMessage(role="system", content="You are designed to develop effective LLM prompts."),
+                    ChatMessage(role="user", content=instructions_prompt),]
+        formatted_instructions = self.llm.chat(messages).message.content
     
         # Instance of LLM with chat history
         # - receives reformatted instructions and data
@@ -103,34 +96,8 @@ class ReportCardCommentor:
     
     After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
     """
-        '''
-        init_chat_prompt = ChatPromptTemplate.from_messages([
-                ("system", system_prompt),
-                MessagesPlaceholder("chat_history"),
-                ("human", "{input}"),
-        ])
     
-        edit_chain = create_stuff_documents_chain(llm, init_chat_prompt)
-        self.rag_chain = create_retrieval_chain(history_aware_retriever, edit_chain)
-        self.chat_history = []
-        '''
-
-        init_chat_prompt = ChatPromptTemplate.from_messages(
-                [
-                    ("system", system_prompt),
-                    MessagesPlaceholder(variable_name="chat_history"),
-                    ("human", "{query}"),
-                ]
-            )
-        self.memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-        self.llm_chain = LLMChain(
-            llm=ChatOpenAI(model=model, temperature=0),
-            prompt=init_chat_prompt,
-            verbose=False,
-            memory=self.memory,
-        )
-    
-        self.init_prompt = f"""
+        init_prompt = f"""
     Create comments for each student based on the instructions and data below.
     
     ## Instructions
@@ -141,16 +108,26 @@ class ReportCardCommentor:
     
     {formatted_data}
     """
+
+        self.message_history = [ChatMessage(role="system", content=system_prompt),
+                                ChatMessage(role="user", content=init_prompt),]
+        response = self.llm.chat(self.message_history)
+        self.message_history.append(resp.message)
+        self.init_comments = response.message.content
     
         # Third LLM
         # - once confirmation button pressed, this takes last output from second instance of LLM
         # - formats this into a comment on each line in a separate text box with a copy button
 
     def user_input(self, message):
-        response = self.llm_chain.run(message)
-        #st.text(self.memory.chat_memory)
-        return response
+        # Add user prompt to history
+        self.message_history.append(ChatMessage(role="user", content=message))
+        # Prompt LLM with history
+        response = self.llm.chat(self.message_history)
+        # Add response to history
+        self.message_history.append(resp.message)
+        return response.message.content
 
     def get_initial_comments(self):
-        return self.user_input(message=self.init_prompt)
+        return self.init_comments
         
