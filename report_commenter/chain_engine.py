@@ -123,7 +123,7 @@ class ReportCardCommentor:
         memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
         self.llm_chain = LLMChain(
             llm=ChatOpenAI(model="gpt-4o", temperature=0),
-            prompt=prompt_template,
+            prompt=init_chat_prompt,
             verbose=False,
             memory=memory,
         )
