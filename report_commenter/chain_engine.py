@@ -99,7 +99,7 @@ class ReportCardCommentor:
     
     After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
     """
-        
+        '''
         init_chat_prompt = ChatPromptTemplate.from_messages([
                 ("system", system_prompt),
                 MessagesPlaceholder("chat_history"),
@@ -109,6 +109,22 @@ class ReportCardCommentor:
         edit_chain = create_stuff_documents_chain(llm, init_chat_prompt)
         self.rag_chain = create_retrieval_chain(history_aware_retriever, edit_chain)
         self.chat_history = []
+        '''
+
+        init_chat_prompt = ChatPromptTemplate.from_messages(
+                [
+                    ("system", system_prompt),
+                    MessagesPlaceholder(variable_name="chat_history"),
+                    ("human", "{query}"),
+                ]
+            )
+        memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+        self.llm_chain = LLMChain(
+            llm=ChatOpenAI(model="gpt-4o", temperature=0),
+            prompt=prompt_template,
+            verbose=False,
+            memory=memory,
+        )
     
         self.init_prompt = f"""
     Create comments for each student based on the instructions and data below.
@@ -127,8 +143,9 @@ class ReportCardCommentor:
         # - formats this into a comment on each line in a separate text box with a copy button
 
     def user_input(self, message):
-        response = self.rag_chain.invoke({"input": message, "chat_history": self.chat_history})
-        self.chat_history.extend([HumanMessage(content=message), response["answer"]])
+        response = llm_chain.run(message)
+        #response = self.rag_chain.invoke({"input": message, "chat_history": self.chat_history})
+        #self.chat_history.extend([HumanMessage(content=message), response["answer"]])
         return response
 
     def get_initial_comments(self):

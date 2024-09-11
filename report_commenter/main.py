@@ -86,15 +86,6 @@ warmth = col1.slider("Warmth (1-10)", min_value=1, max_value=10, value=5)
 constructiveness = col2.slider("Constructiveness (1-10)", min_value=1, max_value=10, value=5)
 use_pronouns = col3.checkbox("Use pronouns", value=True)
 
-# Function to display comments in a markdown table
-def display_comments(comments):
-    if comments:
-        # Display the comments as a table
-        st.markdown("### Generated Comments")
-        st.table(comments)
-    else:
-        st.write("No comments to display.")
-
 # Button to submit and start generating comments
 # Chat input
 if "model_loaded" not in st.session_state:
