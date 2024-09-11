@@ -150,7 +150,7 @@ class ReportCardCommentor:
         response = self.llm_chain.run(message)
         #response = self.rag_chain.invoke({"input": message, "chat_history": self.chat_history})
         #self.chat_history.extend([HumanMessage(content=message), response["answer"]])
-        st.text(memory.chat_memory)
+        st.text(self.memory.chat_memory)
         return response
 
     def get_initial_comments(self):
