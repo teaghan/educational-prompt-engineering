@@ -13,7 +13,7 @@ from chain_engine import ReportCardCommentor
 st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
 
 # Avatar images
-avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_assistant.png",
+avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_teacher.png",
           "assistant": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_assistant.png"}
 
 # Title
