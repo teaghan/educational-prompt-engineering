@@ -3,6 +3,9 @@ import os
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
 
+import nltk
+nltk.download('punkt')
+
 openai_api_key = os.environ["OPENAI_API_KEY"]
 
 def format_student_data(student_data, csv_description):
