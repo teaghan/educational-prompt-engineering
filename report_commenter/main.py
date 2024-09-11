@@ -7,7 +7,7 @@ cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from save_to_csv import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
-from chain_engine import create_llm_prompt, ReportCardCommentor
+from chain_engine import ReportCardCommentor
 
 # Streamlit
 st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
