@@ -98,6 +98,7 @@ if "model_loads" not in st.session_state:
 if "init_model" not in st.session_state:
     st.session_state["init_model"] = False
 def init_model():
+    st.session_state.model_loaded = False
     st.session_state.init_model = True
 st.button("Generate Comments", on_click=init_model)    
     
