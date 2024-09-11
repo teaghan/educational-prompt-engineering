@@ -68,9 +68,9 @@ class ReportCardCommentor:
                           warmth, constructiveness, use_pronouns,
                           model="gpt-4o-mini", embedding='text-embedding-3-small'):
     
-        # Initializing AI Models for Embedding and Interaction
-        self.embedding_model = OpenAIEmbeddings(model=embedding)
-        self.llm = ChatOpenAI(model=model)
+        # Initializing AI Model Interaction
+        #self.embedding_model = OpenAIEmbeddings(model=embedding)
+        llm = ChatOpenAI(model=model)
     
         # Format initial prompt for LLM to format student data
         data_prompt = format_student_data(student_data, csv_description)
