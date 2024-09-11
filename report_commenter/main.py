@@ -66,6 +66,3 @@ if dropped_files is not None:
     
     # Load file contents
     student_data =""
-    if dropped_files != []:
-        for dropped_file in dropped_files:   
-            extract = extract_text_from_different_file_types(dropped_file)
