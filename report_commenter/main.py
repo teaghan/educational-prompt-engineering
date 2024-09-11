@@ -119,7 +119,7 @@ if st.button("Generate Comments"):
 
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
-        st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+        st.chat_message(msg["role"]).markdown(rf"{msg["content"]}")
 
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
