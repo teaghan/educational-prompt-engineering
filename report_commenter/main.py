@@ -7,7 +7,7 @@ cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from save_to_csv import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
-from chain_engine import create_llm_prompt
+from chain_engine import create_llm_prompt, ReportCardCommentor
 
 # Streamlit
 st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
@@ -69,9 +69,7 @@ if dropped_files is not None:
     if dropped_files != []:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
-            #st.markdown(extract)
-            os.write(1, f"{extract}\n".encode()) 
-            #st.write(extract)
+            #os.write(1, f"{extract}\n".encode()) 
             if st.session_state.zip_file:  
                 student_data = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
@@ -105,22 +103,18 @@ if "model_loaded" not in st.session_state:
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     if st.session_state.drop_file is True:
-        llm_prompt = create_llm_prompt(
-            student_data,
-            csv_description,
-            instructions,
-            warmth,
-            constructiveness,
-            use_pronouns
-        )
-        st.markdown(llm_prompt)
+
+        if not st.session_state.model_loaded:
+            # Initialize pipeline
+            comment_pipeline = ReportCardCommentor(student_data,
+                                                   csv_description,
+                                                   instructions,
+                                                   warmth,
+                                                   constructiveness,
+                                                   use_pronouns,
+                                                   model="gpt-4o-mini", 
+                                                   embedding='text-embedding-3-small')
+            st.session_state.model_loaded = True
+        st.markdown(comment_pipeline.init_prompt)
     else:
         st.error("Please upload a data file.")
-
-    csv_content = student_data
-    st.download_button(
-        label="Download Report Card Comments",
-        data=csv_content,
-        file_name="report_card_comments.csv",
-        mime="text/csv"
-    )
