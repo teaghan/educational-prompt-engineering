@@ -113,10 +113,12 @@ if st.button("Generate Comments"):
     else:
         st.error("Please upload a data file.")
 
-if prompt := st.chat_input():
-    st.chat_message("user").write(prompt)
-    with st.spinner('Thinking...'):
-        # Apply edits
-        response = comment_pipeline.user_input(prompt)
-    st.chat_message("assistant").markdown(rf"{response}")
-    st.rerun()
+# Only show chat if model has been loaded
+if st.session_state.model_loaded:
+    if prompt := st.chat_input():
+        st.chat_message("user").write(prompt)
+        with st.spinner('Thinking...'):
+            # Apply edits
+            response = comment_pipeline.user_input(prompt)
+        st.chat_message("assistant").markdown(rf"{response}")
+        st.rerun()

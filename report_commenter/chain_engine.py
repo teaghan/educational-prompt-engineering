@@ -147,7 +147,7 @@ class ReportCardCommentor:
         # - formats this into a comment on each line in a separate text box with a copy button
 
     def user_input(self, message):
-        response = llm_chain.run(message)
+        response = self.llm_chain.run(message)
         #response = self.rag_chain.invoke({"input": message, "chat_history": self.chat_history})
         #self.chat_history.extend([HumanMessage(content=message), response["answer"]])
         return response
