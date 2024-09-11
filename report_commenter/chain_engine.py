@@ -39,7 +39,7 @@ def create_comment_prompt(instructions, formality, specificity, pos_reinf, sente
     formatted_instructions_prompt = f"""
 ## Task: Generate a Clear and Comprehensive LLM Prompt for Writing Report Card Comments
 
-Your task is to generate a well-organized, easy-to-understand, and comprehensive prompt that will instruct an LLM to write personalized report card comments. The comments should follow the tone and guidelines provided below.
+Your task is to generate a well-organized, easy-to-understand, and comprehensive instructions for an LLM to write personalized report card comments. The instructions should follow the guidelines and instructions provided below.
 
 RESPOND ONLY WITH THE PROMPT.
 
@@ -83,7 +83,9 @@ class ReportCardCommentor:
         system_prompt = f"""
 ## Task: Generate Report Card Comments for Each Student
 
-Your task is to write personalized report card comments for each student, based on the student data and instructions provided by the user. 
+You are an experienced teacher who excels at writing report card comments.
+
+Your task is to write personalized and thoughtful report card comments for each student, based on the student data and instructions provided by the user. 
 
 ### Response Formatting
 
@@ -109,6 +111,9 @@ Create comments for each student based on the instructions and data below.
         response = self.llm.chat(self.message_history)
         self.message_history.append(response.message)
         self.init_comments = response.message.content
+
+        self.prompt1 = system_prompt
+        self.prompt2 = init_prompt
 
     def user_input(self, message):
         # Add user prompt to history
