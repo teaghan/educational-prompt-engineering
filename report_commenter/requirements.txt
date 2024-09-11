@@ -2,6 +2,7 @@ streamlit
 openai
 llama-index
 llama-index-llms-openai
+nltk
 chromadb==0.3.29
 protobuf==3.20.*
 markdown
