@@ -1,10 +1,10 @@
+import nltk
+nltk.download('punkt')
+
 import streamlit as st
 import os
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
-
-import nltk
-nltk.download('punkt')
 
 openai_api_key = os.environ["OPENAI_API_KEY"]
 
