@@ -119,6 +119,7 @@ if st.session_state.init_model:
                                                        use_pronouns,
                                                        model="gpt-4o-mini", 
                                                        embedding='text-embedding-3-small')
+                st.session_state.model_loads +=1
                 # Run initial prompt
                 response = st.session_state.comment_pipeline.get_initial_comments()
                 st.session_state["report_comments"] = response
@@ -139,6 +140,8 @@ if len(st.session_state.messages)>0:
     if accept_comments:
         comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
         st.text(comments)
+
+st.text(st.session_state.model_loads)
     
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
