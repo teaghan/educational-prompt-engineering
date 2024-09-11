@@ -17,11 +17,10 @@ avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-
           "assistant": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_assistant.png"}
 
 # Title
-st.markdown("<h1 style='text-align: center; color: grey;'>Report Card Comment Generator</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: grey;'>Report Card Assistant</h1>", unsafe_allow_html=True)
 
 # Title and introduction
-st.write("Upload your class CSV file and generate personalized report card comments for your students.")
-
+st.markdown("<p style='text-align: center;'>Upload your class CSV file, customize your preferences, and generate personalized report card comments with ease.</p>", unsafe_allow_html=True)
 
 # Interaction Tips
 with st.expander("Instructions and Example"):
@@ -88,7 +87,7 @@ instructions = col2.text_area("Specific instructions for writing the comments:")
 # Sliders and checkboxes for preset options
 col1, col2, col3, col4 = st.columns(4)
 formality = col1.slider("Formality (1-5)", min_value=1, max_value=5, value=2)
-warmth = col2.slider("Warmth (1-5)", min_value=1, max_value=5, value=4)
+specificity = col2.slider("Specificity (1-5)", min_value=1, max_value=5, value=4)
 pos_reinf = col3.slider("Positive Reinforcement (1-5)", min_value=1, max_value=5, value=5)
 sentences = col4.slider("No. of Sentences", min_value=2, max_value=10, value=(4, 7))
 
@@ -122,7 +121,7 @@ if st.session_state.init_model:
                                                                            csv_description,
                                                                            instructions,
                                                                            formality,
-                                                                           warmth,
+                                                                           specificity,
                                                                            pos_reinf,
                                                                            sentences,
                                                                            model="gpt-4o-mini")
