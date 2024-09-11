@@ -73,7 +73,7 @@ if dropped_files is not None:
                 student_data = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
                 student_data = student_data + extract + "\n\n"
-
+'''
 # Text input for CSV description
 csv_description = st.text_area("Describe the CSV file (e.g., columns, shorthand keys):")
 
@@ -108,3 +108,4 @@ if st.button("Generate Comments"):
         st.markdown(comment_pipeline.init_prompt)
     else:
         st.error("Please upload a data file.")
+'''
