@@ -150,11 +150,9 @@ if len(st.session_state.messages)>0:
         st.markdown('#### The comments below are ready to be copied into your table:')
         st.text(comments)
 
-st.markdown(st.session_state.comment_pipeline.prompt1)
-
-st.text(st.session_state.model_loads)
-
-st.markdown(st.session_state.comment_pipeline.prompt2)
+    st.markdown(st.session_state.comment_pipeline.prompt1)
+    st.text(st.session_state.model_loads)
+    st.markdown(st.session_state.comment_pipeline.prompt2)
 
     
 # Only show chat if model has been loaded
