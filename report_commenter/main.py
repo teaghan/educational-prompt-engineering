@@ -91,7 +91,7 @@ if "model_loaded" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
-st.text(st.session_state.drop_file)
+st.text(dropped_files)
 # Button to submit and start generating comments
 if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
