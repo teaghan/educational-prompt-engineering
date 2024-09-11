@@ -80,11 +80,6 @@ class ReportCardCommentor:
         formatted_instructions = self.llm.chat(messages).message.content
     
         # Instance of LLM with chat history
-        # - receives reformatted instructions and data
-        # - system prompt gives guidelaines for LLM about how to respond (provide formatted comments, ask for feedback),
-        #   includes the reformatted data and user instructions
-        # - Produces comment for each student, returns makdown list, asks for feedback
-    
         system_prompt = f"""
 ## Task: Generate Report Card Comments for Each Student
 
@@ -96,8 +91,8 @@ You should produce a comment for each student, formatted in a markdown table.
 
 After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
 """
-
-    init_prompt = f"""
+        
+            init_prompt = f"""
 Create comments for each student based on the instructions and data below.
 
 ## Instructions
@@ -114,10 +109,6 @@ Create comments for each student based on the instructions and data below.
         response = self.llm.chat(self.message_history)
         self.message_history.append(response.message)
         self.init_comments = response.message.content
-    
-        # Third LLM
-        # - once confirmation button pressed, this takes last output from second instance of LLM
-        # - formats this into a comment on each line in a separate text box with a copy button
 
     def user_input(self, message):
         # Add user prompt to history
