@@ -1,12 +1,8 @@
 import os
 import streamlit as st
-import pandas as pd
-import clipboard
-
 import sys
 cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
-from save_to_csv import convert_messages_to_markdown, markdown_to_html, is_valid_file_name
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
 from chain_engine import ReportCardCommentor
 
@@ -109,11 +105,6 @@ def init_model():
     st.session_state.init_model = True
 st.button("Generate Comments", on_click=init_model)    
 
-# Copy button
-def on_copy_click(text):
-    clipboard.copy(text)
-    st.toast(f"Copied to clipboard!", icon='✅' )
-
 if st.session_state.init_model:
     #if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
@@ -157,9 +148,6 @@ if len(st.session_state.messages)>0:
             comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
         st.markdown('#### The comments below are ready to be copied into your table:')
         st.code(comments)
-        #st.text(comments)
-        #st.button("Copy Text", on_click=on_copy_click, args=(comments,))
-
     
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
@@ -172,5 +160,4 @@ if st.session_state.model_loaded:
         st.session_state.report_comments = response
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
         st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
-        st.text(st.session_state.model_loads)
         st.rerun()

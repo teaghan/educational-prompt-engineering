@@ -1,7 +1,7 @@
 # from https://github.com/tonypeng1/Personal-ChatGPT/blob/main/personal-chatgpt/drop_file.py
-import csv
-from io import StringIO
-import json
+#import csv
+#from io import StringIO
+#import json
 import os
 import tempfile
 import chardet
