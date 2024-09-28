@@ -103,9 +103,11 @@ if not st.session_state.model_loaded:
         
         st.session_state.model_loaded = True
         st.session_state.init_model = False
+
+        init_request = st.session_state.messages[-1].content
         
-        st.session_state.messages.append({"role": "assistant", "content": st.session_state.messages[-1].content})
-        st.chat_message("user", avatar=avatar["user"]).write(prompt)
+        st.session_state.messages.append({"role": "assistant", "content": init_request})
+        st.chat_message("assistant", avatar=avatar["assistant"]).write(init_request)
         st.rerun()
 
 # Only show chat if model has been loaded
