@@ -24,7 +24,7 @@ col2.image(tutor_image_url)
 
 # Interaction Tips
 with st.expander("Tips for Interacting with AI Tutors"):
-    st.markdown('''
+    st.markdown("""
 - Aim to learn and understand the material, not just to get the answers.
 - Always ask the tutor to explain the process rather than just solve the problem for you.
 - To get the best results, be as specific as you can.
@@ -44,7 +44,7 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - "How do I calculate the surface gravity of a planet given its mass and radius?"
     - "Can you help me with this assignment on galaxy data? I’m not sure how to start."
     - "How do I calculate the energy released from a single proton-proton chain reaction in the Sun?"
-    ''')
+    """)
 
 # The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
