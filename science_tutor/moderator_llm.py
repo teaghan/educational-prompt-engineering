@@ -201,7 +201,7 @@ Your Task: Provide a corrected response to the student's prompt that is appropri
 
 def load_moderator():
     # Example usage:
-    guidelines_path = './moderation_guidelines.txt'
+    guidelines_path = 'science_tutor/moderation_guidelines.txt'
 
     openai_api_key = os.environ["OPENAI_API_KEY"]
     hf_token = os.environ["LANGCHAIN_API_KEY"]

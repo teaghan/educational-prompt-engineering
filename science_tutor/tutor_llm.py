@@ -76,6 +76,6 @@ def load_tutor():
     # Load OpenAI API key
     openai_api_key = os.environ["OPENAI_API_KEY"]
     # Initialize the tutor with the LLM and instructions
-    instructions_path = './tutor_instructions.txt'
+    instructions_path = 'science_tutor/tutor_instructions.txt'
     llm_model = OpenAI(model="gpt-4o-mini", api_key=openai_api_key)
     return AITutor(llm_model, instructions_path)
