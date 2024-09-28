@@ -207,7 +207,7 @@ def load_moderator():
     # Example usage:
     guidelines_path = './moderation_guidelines.txt'
         
-    hf_token = load_token(file_path='hf_token.txt')
+    hf_token = load_token(file_path='../hf_token.txt')
         
     # Initialize the OpenAI embedding model used in the correction pipeline
     embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)

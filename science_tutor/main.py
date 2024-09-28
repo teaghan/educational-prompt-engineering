@@ -90,7 +90,24 @@ def init_model():
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
         st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
-    
+
+if not st.session_state.model_loaded:
+    with st.spinner('Loading...'):
+        # Construct pipiline
+        st.session_state['tutor_llm'] = load_tutor()
+        st.session_state['moderator_llm'] = load_moderator()
+        st.session_state.model_loads +=1
+        
+        # Grab initial chat history
+        st.session_state.messages = st.session_state.tutor_llm.message_history
+        
+        st.session_state.model_loaded = True
+        st.session_state.init_model = False
+        
+        st.session_state.messages.append({"role": "assistant", "content": st.session_state.messages[-1].content})
+        st.chat_message("user", avatar=avatar["user"]).write(prompt)
+        st.rerun()
+
 # Only show chat if model has been loaded
 if prompt := st.chat_input():
     if st.session_state.drop_file is True:
@@ -99,18 +116,6 @@ if prompt := st.chat_input():
     else:
         prompt_full = prompt
 
-    if not st.session_state.model_loaded:
-        with st.spinner('Thinking...'):
-            # Construct pipiline
-            st.session_state['tutor_llm'] = load_tutor()
-            st.session_state['moderator_llm'] = load_moderator()
-            st.session_state.model_loads +=1
-        
-            # Grab initial chat history
-            st.session_state.messages = st.session_state.tutor_llm.message_history
-        
-            st.session_state.model_loaded = True
-            st.session_state.init_model = False
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user", avatar=avatar["user"]).write(prompt)
