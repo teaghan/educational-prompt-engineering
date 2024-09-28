@@ -46,83 +46,80 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - "How do I calculate the energy released from a single proton-proton chain reaction in the Sun?"
     ''')
 
-# FILE UPLOAD
+# The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
 if "zip_file" not in st.session_state:
     st.session_state.zip_file = False
+drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
+                              type="primary", 
+                              key="drop")
+if drop_file:
+    st.session_state.drop_file = True
 if "file_uploader_key" not in st.session_state:
     st.session_state.file_uploader_key = 0
 
-dropped_files = st.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
+if st.session_state.drop_file:
+    dropped_files = st.sidebar.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
                                             accept_multiple_files=True,
                                             key=st.session_state.file_uploader_key)
-
-if dropped_files is not None:
-
-    st.session_state.drop_file = True
-    
     # Load file contents
-    student_data =""
+    prompt_f =""
     if dropped_files != []:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
             if st.session_state.zip_file:  
-                student_data = extract  # if it is a .zip file, the return is a list
+                prompt_f = extract  # if it is a .zip file, the return is a list
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
-                student_data = student_data + extract + "\n\n"
+                prompt_f = prompt_f + extract + "\n\n"
 
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
-
 if "model_loads" not in st.session_state:
     st.session_state["model_loads"] = 0
-
-# Button to initialize process
 if "init_model" not in st.session_state:
     st.session_state["init_model"] = False
+        
 def init_model():
     st.session_state.model_loaded = False
     st.session_state.init_model = True
-
-if st.session_state.init_model:
-    #if st.button("Generate Comments"):
-    # Pass the input data to the first LLM instance
-    if dropped_files != []:
-        if not st.session_state.model_loaded:
-            # Reset conversation
-            st.session_state["messages"] = []
-            # Initialize pipeline
-            with st.spinner('Generating initial comments...'):
-                # Construct pipiline
-                st.session_state['tutor_llm'] = load_tutor()
-                st.session_state['moderator_llm'] = load_moderator()
-                st.session_state.model_loads +=1
-
-                # Grab initial chat history
-                st.session_state.messages = st.session_state.tutor_llm.message_history
-
-                st.session_state.model_loaded = True
-                st.session_state.init_model = False
-                st.rerun()
-    else:
-        st.error("Please upload a data file.")
 
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
         st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
     
 # Only show chat if model has been loaded
-if st.session_state.model_loaded:
-    if prompt := st.chat_input():
-        st.session_state.messages.append({"role": "user", "content": rf"{prompt}"})
-        st.chat_message("user", avatar=avatar["user"]).write(prompt)
-        with st.spinner('Responding...'):
-            # Apply edits
-            response = st.session_state.tutor_llm.get_response(prompt)
-        st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
-        st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
-        st.rerun()
+if prompt := st.chat_input():
+    if st.session_state.drop_file is True:
+        prompt_full = prompt + f'\n\n## Uploaded file contents:\n\n{prompt_f}'
+        #prompt = change_to_prompt_text(prompt_f, prompt)
+    else:
+        prompt_full = prompt
+
+    if not st.session_state.model_loaded:
+        with st.spinner('Thinking...'):
+            # Construct pipiline
+            st.session_state['tutor_llm'] = load_tutor()
+            st.session_state['moderator_llm'] = load_moderator()
+            st.session_state.model_loads +=1
+        
+            # Grab initial chat history
+            st.session_state.messages = st.session_state.tutor_llm.message_history
+        
+            st.session_state.model_loaded = True
+            st.session_state.init_model = False
+
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user", avatar=avatar["user"]).write(prompt)
+
+    # Use a spinner to indicate processing and display the assistant's response after processing
+    with st.spinner('Thinking...'):
+
+        response = st.session_state.tutor_llm.get_response(prompt_full)
+
+        st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})    
+    st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
+    st.rerun()
