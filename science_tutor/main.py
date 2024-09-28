@@ -97,18 +97,15 @@ if not st.session_state.model_loaded:
         st.session_state['tutor_llm'] = load_tutor()
         st.session_state['moderator_llm'] = load_moderator()
         st.session_state.model_loads +=1
-        
-        # Grab initial chat history
-        st.session_state.messages = st.session_state.tutor_llm.message_history
-        
-        st.session_state.model_loaded = True
-        st.session_state.init_model = False
 
         init_request = st.session_state.messages[-1].content
         st.markdown(rf"{init_request}")
         
         st.session_state.messages.append({"role": "assistant", "content": init_request})
-        st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{init_request}")
+        #st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{init_request}")
+
+        st.session_state.model_loaded = True
+        st.session_state.init_model = False
         st.rerun()
 
 # Only show chat if model has been loaded
