@@ -206,8 +206,9 @@ Your Task: Provide a corrected response to the student's prompt that is appropri
 def load_moderator():
     # Example usage:
     guidelines_path = './moderation_guidelines.txt'
-        
-    hf_token = load_token(file_path='../hf_token.txt')
+
+    openai_api_key = os.environ["OPENAI_API_KEY"]
+    hf_token = os.environ["LANGCHAIN_API_KEY"]
         
     # Initialize the OpenAI embedding model used in the correction pipeline
     embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)

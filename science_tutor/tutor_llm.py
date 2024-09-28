@@ -1,11 +1,6 @@
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
 
-# Function to load API tokens
-def load_token(file_path):
-    with open(file_path) as f:
-        return f.read().strip("\n")
-
 def load_text_file(file_path):
     return open(file_path, 'r').read()
 
@@ -78,7 +73,7 @@ To get started, could you let me know what grade you're in and the topic you're 
 
 def load_tutor():
     # Load OpenAI API key
-    openai_api_key = load_token(file_path='../key.txt')
+    openai_api_key = os.environ["OPENAI_API_KEY"]
     # Initialize the tutor with the LLM and instructions
     instructions_path = './tutor_instructions.txt'
     llm_model = OpenAI(model="gpt-4o-mini", api_key=openai_api_key)
