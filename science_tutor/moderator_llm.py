@@ -1,13 +1,9 @@
+import os
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from transformers import OpenAIGPTTokenizerFast
-
-# Function to load API tokens
-def load_token(file_path):
-    with open(file_path) as f:
-        return f.read().strip("\n")
 
 class ContentModerator:
     """

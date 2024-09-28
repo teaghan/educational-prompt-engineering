@@ -1,3 +1,4 @@
+import os
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
 
