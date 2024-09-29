@@ -36,17 +36,17 @@ class TutorChain:
                                              tokenizer, 
                                              chat_mode="openai")
 
-    def get_response(self, prompt, moderate=True):
+    def get_response(self, student_prompt, moderate=True):
         # Prompt AI tutor
-        response = self.tutor_llm.get_response(prompt)
+        ai_response = self.tutor_llm.get_response(student_prompt)
 
         if moderate:
             # Moderate response
-            result = self.moderator_llm.forward(student_prompt, ai_response)['final_response']
+            moderated_response = self.moderator_llm.forward(student_prompt, ai_response)['final_response']
             # Update chat history
-            self.message_history[-1].content = result
+            self.message_history[-1].content = moderated_response
 
-        return response
+        return moderated_response
 
 
 
