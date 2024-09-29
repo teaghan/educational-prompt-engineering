@@ -7,7 +7,7 @@ from drop_file import extract_text_from_different_file_types
 from tutor_llm import TutorChain
 
 # Streamlit
-st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon.png", layout="wide")
+st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon_small.png", layout="wide")
 
 # Avatar images
 avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_student_avatar.png",
