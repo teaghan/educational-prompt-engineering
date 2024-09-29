@@ -25,29 +25,6 @@ col2.image(tutor_image_url)
 with st.expander("Tips for Interacting with AI Tutors"):
     st.markdown("""
 - Try to learn and understand the material, not just to get the answers.
-- Always ask the tutor to explain the process rather than just solve the problem for you.
-- To get the best results, be as specific as you can.
-- Ask follow-up questions if you are still unclear.
-- To help type math, use these keyboard shortcuts:
-    - Addition (+): Use the + key.
-    - Subtraction (-): Use the - key.
-    - Multiplication (×): Use the * key.
-    - Division (÷): Use the / key.
-    - Equals (=): Use the = key.
-    - Greater Than (>): Use the > key.
-    - Less Than (<): Use the < key.
-    - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
-    - Square Root: Type \sqrt{} using the {} brackets to enclose the argument. For example: \sqrt{4}
-- Example Prompts to Get Started:
-    - "How do I calculate the orbital period of a planet using Kepler’s Third Law?"
-    - "How do I calculate the surface gravity of a planet given its mass and radius?"
-    - "Can you help me with this assignment on galaxy data? I’m not sure how to start."
-    - "How do I calculate the energy released from a single proton-proton chain reaction in the Sun?"
-    """)
-
-with st.expander("Tips for Interacting with AI Tutors"):
-    st.markdown("""
-- Try to learn and understand the material, not just to get the answers.
 - Ask the tutor to explain how things work instead of just giving the solution.
 - Be as clear as you can when asking questions to get the best help.
 - If you're still unsure, don’t be afraid to ask more questions.
