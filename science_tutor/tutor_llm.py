@@ -27,7 +27,7 @@ class TutorChain:
 
         # Initialize the tutor with the LLM and instructions
         self.tutor_llm = AITutor(llm_model, instructions_path)
-        self.init_request = tutor_llm.message_history[-1].content
+        self.init_request = self.tutor_llm.message_history[-1].content
 
         # Create an instance of the ContentModerator class
         self.moderator_llm = ContentModerator(guidelines_path, 
