@@ -76,14 +76,14 @@ if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
 if "zip_file" not in st.session_state:
     st.session_state.zip_file = False
-drop_file = st.button(r"$\textsf{\normalsize Attach a file}$", 
+drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
                       type="primary")
 if drop_file:
     st.session_state.drop_file = True
 if "file_uploader_key" not in st.session_state:
     st.session_state.file_uploader_key = 0
 if st.session_state.drop_file:
-    dropped_files = st.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
+    dropped_files = st.sidebar.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
                                             accept_multiple_files=True,
                                             key=st.session_state.file_uploader_key)
     # Load file contents
