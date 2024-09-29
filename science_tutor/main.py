@@ -7,17 +7,17 @@ from drop_file import extract_text_from_different_file_types
 from tutor_llm import TutorChain
 
 # Streamlit
-st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png", layout="wide")
+st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon.png", layout="wide")
 
 # Avatar images
-avatar = {"user": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/student_avatar_4.png",
-          "assistant": "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"}
+avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_student_avatar.png",
+          "assistant": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_avatar.png"}
 
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>AI Science Tutor</h1>", unsafe_allow_html=True)
 
 # Display Tutor Profile Image
-tutor_image_url = "https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png"
+tutor_image_url = "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon.png"
 col1, col2, col3 = st.columns(3)
 col2.image(tutor_image_url)
 
