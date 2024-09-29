@@ -36,7 +36,7 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - Equals (=): Use the = key.
     - Greater Than (>): Use the > key.
     - Less Than (<): Use the < key.
-    - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
+    - Powers (3²): Use the ^ symbol followed by the exponent. For example: 3^2
     - Square Root: Type \sqrt{} using the {} brackets to enclose the number. For example: \sqrt{4}
 - Example Prompts to Get Started:
     - "What role does the Sun play in the water cycle?"
