@@ -191,14 +191,14 @@ Your Task: Provide a corrected response based on the full conversation that is a
         latest_message = chat_history[-1]
         
         # Ensure the latest message is from the AI
-        if latest_message['role'] != 'assistant':
+        if latest_message.role.value != 'assistant':
             raise ValueError("The latest message in the chat history must be from the AI.")
         
         # Extract the AI response
-        ai_response = latest_message['content']
+        ai_response = latest_message.content
         
         # Combine all prior messages (before the last AI response) into the conversation context
-        previous_conversation = "\n\n".join([f"{message['role']}: {message['content']}" for message in chat_history[:-1]])
+        previous_conversation = "\n\n".join([f"{message.role.value}: {message.content}" for message in chat_history[:-1]])
     
         # Moderate the AI response using the full previous conversation context
         moderator_feedback, is_appropriate = self.moderate_response(previous_conversation, ai_response)
