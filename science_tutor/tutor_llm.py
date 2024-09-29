@@ -1,81 +1,48 @@
-import os
-from llama_index.core.llms import ChatMessage
-from llama_index.llms.openai import OpenAI
+from tutor_llm import AITutor
+from moderator_llm import ContentModerator
 
-def load_text_file(file_path):
-    return open(file_path, 'r').read()
+class TutorChain:
 
-class AITutor:
-    """
-    A class that facilitates a back-and-forth conversation between a student and an AI tutor.
-    It uses an LLM (Large Language Model) to guide students through questions, provide feedback, 
-    and help them understand science concepts without directly giving them the answers.
+    def __init__(self, 
+                 instructions_path='science_tutor/tutor_instructions.txt', 
+                 guidelines_path='science_tutor/moderation_guidelines.txt'):
 
-    This class is designed to work with any LLM that has a chat function.
+        # Load API keys
+        openai_api_key = os.environ["OPENAI_API_KEY"]
+        hf_token = os.environ["LANGCHAIN_API_KEY"]
 
-    Attributes:
-        llm (Any LLM with a chat function): The LLM model used to interact with the student.
-        message_history (list): A history of messages exchanged between the student and the tutor.
-    
-    Methods:
-        initiate_conversation(grade, topic): Initiates the tutoring session by asking the student for more details.
-        get_response(student_input): Handles student input and provides a response using the LLM.
-        get_message_history(): Returns the history of messages in the conversation.
-    """
-
-    def __init__(self, llm_model, instructions_path, display_system=False):
-        self.llm = llm_model
-        self.message_history = []
-
-        # Load pre-defined instructions for the AI tutor
-        instructions = load_text_file(instructions_path)
-
-        # Add these as a "system prompt"
-        system_prompt = f"{instructions}\n\n"
-        system_prompt += "## Your Task\n\n"
-        system_prompt += "You are a tutor for science students in grades 6-8. Following the instructions above, provide supportive assistance to the student user."
-        if display_system:
-            print(system_prompt)
+        # Initialize the OpenAI embedding model
+        embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)
         
-        # Initialize the conversation with the system prompt
-        self.message_history.append(ChatMessage(role="system", content=system_prompt))
+        # Initialize the OpenAI LLM
+        llm_model = OpenAI(model='gpt-4o-mini', api_key=openai_api_key)
         
-        # Append initial request from AI tutor
-        self.initiate_conversation()
+        # Tokenizer for OpenAI's GPT models
+        tokenizer = OpenAIGPTTokenizerFast.from_pretrained("openai-community/openai-gpt", token=hf_token)
 
-    def initiate_conversation(self):
-        """
-        Initiates the conversation with the student, asking for the grade level and topic they are working on.
-        """
-        init_message = f"""
-Hi there! I'm here to help you with your science course by breaking down tricky concepts and guiding you through challenging problems. 
-I won't do the work for you, but I'll help you learn how to solve problems step by step, so you can build your confidence along the way.
+        # Initialize the tutor with the LLM and instructions
+        self.tutor_llm = AITutor(llm_model, instructions_path)
+        self.init_request = tutor_llm.message_history[-1].content
 
-To get started, could you let me know what grade you're in and the topic you're currently working on?
-        """
-        self.message_history.append(ChatMessage(role="assistant", content=init_message))
-        return self.llm.chat(self.message_history).message.content
+        # Create an instance of the ContentModerator class
+        self.moderator_llm = ContentModerator(guidelines_path, 
+                                             llm_model, 
+                                             embedding_model, 
+                                             tokenizer, 
+                                             chat_mode="openai")
 
-    def get_response(self, student_input):
-        """
-        Handles student input and provides a response.
-        The LLM will respond based on the system instructions, conversation history, and the input provided by the student.
-        """
-        # Add the student's message to the history
-        self.message_history.append(ChatMessage(role="user", content=student_input))
-        
-        # Get the response from the LLM
-        response = self.llm.chat(self.message_history).message.content
-        
-        # Add the AI's response to the history
-        self.message_history.append(ChatMessage(role="assistant", content=response))
-        
+    def get_response(self, prompt, moderate=True):
+        # Prompt AI tutor
+        response = self.tutor_llm.get_response(prompt)
+
+        if moderate:
+            # Moderate response
+            result = self.moderator.forward(student_prompt, ai_response)['final_response']
+            # Update chat history
+            self.message_history[-1].content = result
+
         return response
 
-def load_tutor():
-    # Load OpenAI API key
-    openai_api_key = os.environ["OPENAI_API_KEY"]
-    # Initialize the tutor with the LLM and instructions
-    instructions_path = 'science_tutor/tutor_instructions.txt'
-    llm_model = OpenAI(model="gpt-4o-mini", api_key=openai_api_key)
-    return AITutor(llm_model, instructions_path)
+
+
+            

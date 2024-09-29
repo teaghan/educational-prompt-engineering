@@ -4,8 +4,7 @@ import sys
 cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from drop_file import extract_text_from_different_file_types
-from tutor_llm import load_tutor
-from moderator_llm import load_moderator
+from tutor_llm import TutorChain
 
 # Streamlit
 st.set_page_config(page_title="AI Tutor", page_icon="https://raw.githubusercontent.com/teaghan/astronomy-12/main/images/tutor_favicon.png", layout="wide")
@@ -51,14 +50,12 @@ if "drop_file" not in st.session_state:
     st.session_state.drop_file = False
 if "zip_file" not in st.session_state:
     st.session_state.zip_file = False
-drop_file = st.sidebar.button(r"$\textsf{\normalsize Attach a file}$", 
-                              type="primary", 
-                              key="drop")
+drop_file = st.button(r"$\textsf{\normalsize Attach a file}$", 
+                      type="primary")
 if drop_file:
     st.session_state.drop_file = True
 if "file_uploader_key" not in st.session_state:
     st.session_state.file_uploader_key = 0
-
 if st.session_state.drop_file:
     dropped_files = st.sidebar.file_uploader("Drop a file or multiple files (.txt, .rtf, .pdf, .csv, .zip)", 
                                             accept_multiple_files=True,
@@ -69,7 +66,11 @@ if st.session_state.drop_file:
         for dropped_file in dropped_files:   
             extract = extract_text_from_different_file_types(dropped_file)
             if st.session_state.zip_file:  
-                prompt_f = extract  # if it is a .zip file, the return is a list
+                for filename, content in extract:
+                    # Append the file name and content to the prompt text
+                    prompt_f += f"File: \n{filename}\n\nContent: \n{content}\n\n"
+                    prompt_f += "-----\n"
+                    st.session_state.zip_file = False
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
                 prompt_f = prompt_f + extract + "\n\n"
 
@@ -80,39 +81,28 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 if "model_loads" not in st.session_state:
     st.session_state["model_loads"] = 0
-if "init_model" not in st.session_state:
-    st.session_state["init_model"] = False
-        
-def init_model():
-    st.session_state.model_loaded = False
-    st.session_state.init_model = True
 
+# Display conversation
 if len(st.session_state.messages)>0:
     for msg in st.session_state.messages:
         st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
 
+# Load model
 if not st.session_state.model_loaded:
     with st.spinner('Loading...'):
         # Construct pipiline
-        st.session_state['tutor_llm'] = load_tutor()
-        st.session_state['moderator_llm'] = load_moderator()
+        st.session_state['tutor_llm'] = TutorChain()
         st.session_state.model_loads +=1
 
-        init_request = st.session_state.tutor_llm.message_history[-1].content
-        st.markdown(rf"{init_request}")
-        
+        init_request = st.session_state.tutor_llm.init_request        
         st.session_state.messages.append({"role": "assistant", "content": init_request})
-        #st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{init_request}")
 
         st.session_state.model_loaded = True
-        st.session_state.init_model = False
         st.rerun()
 
-# Only show chat if model has been loaded
 if prompt := st.chat_input():
     if st.session_state.drop_file is True:
         prompt_full = prompt + f'\n\n## Uploaded file contents:\n\n{prompt_f}'
-        #prompt = change_to_prompt_text(prompt_f, prompt)
     else:
         prompt_full = prompt
 
