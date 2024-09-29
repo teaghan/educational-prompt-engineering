@@ -1,4 +1,4 @@
-from tutor_llm import AITutor
+from chatbot_llm import AITutor
 from moderator_llm import ContentModerator
 
 class TutorChain:
