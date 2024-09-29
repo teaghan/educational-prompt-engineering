@@ -42,7 +42,7 @@ class TutorChain:
 
         if moderate:
             # Moderate response
-            result = self.moderator.forward(student_prompt, ai_response)['final_response']
+            result = self.moderator_llm.forward(student_prompt, ai_response)['final_response']
             # Update chat history
             self.message_history[-1].content = result
 
