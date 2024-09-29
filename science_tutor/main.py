@@ -24,7 +24,7 @@ col2.image(tutor_image_url)
 # Interaction Tips
 with st.expander("Tips for Interacting with AI Tutors"):
     st.markdown("""
-- Aim to learn and understand the material, not just to get the answers.
+- Try to learn and understand the material, not just to get the answers.
 - Always ask the tutor to explain the process rather than just solve the problem for you.
 - To get the best results, be as specific as you can.
 - Ask follow-up questions if you are still unclear.
@@ -44,6 +44,34 @@ with st.expander("Tips for Interacting with AI Tutors"):
     - "Can you help me with this assignment on galaxy data? I’m not sure how to start."
     - "How do I calculate the energy released from a single proton-proton chain reaction in the Sun?"
     """)
+
+with st.expander("Tips for Interacting with AI Tutors"):
+    st.markdown("""
+- Try to learn and understand the material, not just to get the answers.
+- Ask the tutor to explain how things work instead of just giving the solution.
+- Be as clear as you can when asking questions to get the best help.
+- If you're still unsure, don’t be afraid to ask more questions.
+- To help type math symbols, use these keyboard shortcuts:
+    - Addition (+): Use the + key.
+    - Subtraction (-): Use the - key.
+    - Multiplication (×): Use the * key.
+    - Division (÷): Use the / key.
+    - Equals (=): Use the = key.
+    - Greater Than (>): Use the > key.
+    - Less Than (<): Use the < key.
+    - Powers (x²): Use the ^ symbol followed by the exponent. For example: x^2
+    - Square Root: Type \sqrt{} using the {} brackets to enclose the number. For example: \sqrt{4}
+- Example Prompts to Get Started:
+    - "What role does the Sun play in the water cycle?"
+    - "Can you help me understand how photosynthesis works?"
+    - "Can you help me with problem 6 on the attached assignment?
+    - "Can you help me understand how the states of matter change from one form to another?"
+    - "How do living organisms adapt to their environment to survive?"
+    - "Can you help me understand how simple machines like levers and pulleys make work easier?"
+    - "Can you help me understand how the movement of tectonic plates causes earthquakes?"
+    - "Can you help me understand how the digestive system breaks down food in the human body?"
+    """)
+
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
