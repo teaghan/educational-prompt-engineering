@@ -44,7 +44,7 @@ class TutorChain:
             # Moderate response
             moderated_response = self.moderator_llm.forward(student_prompt, ai_response)['final_response']
             # Update chat history
-            self.message_history[-1].content = moderated_response
+            self.tutor_llm.message_history[-1].content = moderated_response
 
         return moderated_response
 
