@@ -1,3 +1,4 @@
+import os
 from chatbot_llm import AITutor
 from moderator_llm import ContentModerator
 
