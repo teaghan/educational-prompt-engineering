@@ -2,6 +2,10 @@ import os
 from chatbot_llm import AITutor
 from moderator_llm import ContentModerator
 
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.openai import OpenAIEmbedding
+from transformers import OpenAIGPTTokenizerFast
+
 class TutorChain:
 
     def __init__(self, 
