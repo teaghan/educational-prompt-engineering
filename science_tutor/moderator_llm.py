@@ -120,8 +120,8 @@ The AI tutor gave the following inappropriate response in this conversation:
 Your Task: Provide a corrected response based on the full conversation that is appropriate according to the moderation guidelines. Respond ONLY WITH THE CORRECTED RESPONSE.
         """
 
-        message_history = [ChatMessage(role="system", content=system_prompt)),
-                          ChatMessage(role="user", content=correction_prompt))]
+        message_history = [ChatMessage(role="system", content=system_prompt),
+                          ChatMessage(role="user", content=correction_prompt)]
 
     
         # Run the correction prompt through the corrector LLM
