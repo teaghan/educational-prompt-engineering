@@ -69,7 +69,7 @@ Begin with "Yes" or "No" followed by your reasoning.\n\n
         '''
 
         message_history = [ChatMessage(role="system", content=system_prompt)),
-                          ChatMessage(role="user", content=query))]
+                           ChatMessage(role="user", content=query)]
         
         # Query the moderator LLM with the response
         moderation_result = self.llm.chat(message_history).message.content
