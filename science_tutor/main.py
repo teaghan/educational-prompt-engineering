@@ -16,7 +16,8 @@ avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-
 # Title
 st.markdown("<h1 style='text-align: center; color: grey;'>AI Science Tutor</h1>", unsafe_allow_html=True)
 
-st.warning('Currently testing the Moderator. Come back later for interactions please.', icon="⚠️")
+# In development warning
+#st.warning('Currently testing the Moderator. Come back later for interactions please.', icon="⚠️")
 
 # Display Tutor Profile Image
 tutor_image_url = "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon.png"
