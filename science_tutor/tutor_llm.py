@@ -47,10 +47,10 @@ class TutorChain:
                 results = self.moderator_llm.forward(self.tutor_llm.message_history)
 
                 # Print the entire moderation and correction process for review
-                st.mardkown("\n\n### Full Moderation and Correction Process ###")
-                st.mardkown(f"\nAI Tutor's Latest Response: {result['ai_response']}")
-                st.mardkown(f"\nModerator's Feedback: {result['moderator_feedback']}")
-                st.mardkown(f"\nFinal Response (Corrected or Original): {result['final_response']}")
+                st.markdown("\n\n### Full Moderation and Correction Process ###")
+                st.markdown(f"\nAI Tutor's Latest Response: {result['ai_response']}")
+                st.markdown(f"\nModerator's Feedback: {result['moderator_feedback']}")
+                st.markdown(f"\nFinal Response (Corrected or Original): {result['final_response']}")
 
                 moderated_response = results['final_response']
                 # Update chat history
