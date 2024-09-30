@@ -17,13 +17,13 @@ class TutorChain:
         hf_token = os.environ["LANGCHAIN_API_KEY"]
 
         # Initialize the OpenAI embedding model
-        embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)
+        #embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)
         
         # Initialize the OpenAI LLM
         llm_model = OpenAI(model='gpt-4o-mini', temperature=0.2, api_key=openai_api_key)
         
         # Tokenizer for OpenAI's GPT models
-        tokenizer = OpenAIGPTTokenizerFast.from_pretrained("openai-community/openai-gpt", token=hf_token)
+        #tokenizer = OpenAIGPTTokenizerFast.from_pretrained("openai-community/openai-gpt", token=hf_token)
 
         # Initialize the tutor with the LLM and instructions
         self.tutor_llm = AITutor(llm_model, instructions_path)
@@ -31,10 +31,7 @@ class TutorChain:
 
         # Create an instance of the ContentModerator class
         self.moderator_llm = ContentModerator(guidelines_path, 
-                                             llm_model, 
-                                             embedding_model, 
-                                             tokenizer, 
-                                             chat_mode="openai")
+                                             llm_model)
 
     def get_response(self, student_prompt, moderate=True):
         # Prompt AI tutor
