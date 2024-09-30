@@ -40,11 +40,21 @@ class TutorChain:
         # Prompt AI tutor
         ai_response = self.tutor_llm.get_response(student_prompt)
 
+        corrections = 0
         if moderate:
-            # Moderate response
-            moderated_response = self.moderator_llm.forward(self.tutor_llm.message_history)['final_response']
-            # Update chat history
-            self.tutor_llm.message_history[-1].content = moderated_response
+            needs_checking = True
+            while needs_checking:
+                # Moderate response
+                results = self.moderator_llm.forward(self.tutor_llm.message_history)['final_response']
+                moderated_response = results['final_response']
+                # Update chat history
+                self.tutor_llm.message_history[-1].content = moderated_response
+                if not results['moderated']:
+                    # Response is good to go
+                    needs_checking = False
+                    self.tutor_llm.message_history[-1].content = self.tutor_llm.message_history[-1].content+str(corrections)
+                else:
+                    corrections +=1
 
         return moderated_response
 

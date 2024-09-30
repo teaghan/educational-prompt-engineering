@@ -214,6 +214,7 @@ Your Task: Provide a corrected response based on the full conversation that is a
         return {
             "previous_conversation": previous_conversation,
             "ai_response": ai_response,
+            "moderated": not is_appropriate,
             "moderator_feedback": moderator_feedback,
             "final_response": final_response
         }
