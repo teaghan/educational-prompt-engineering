@@ -51,7 +51,15 @@ Based on the moderation guidelines below, your task is to determine if the respo
 
 # Response Format 
 
-Begin with "Yes" or "No" followed by your reasoning.
+Go through each guideline, one-by-one, and determine whether or not the response violates or does no violate that guideline.
+
+Your response should finish with a clear indictor on a separate line including either
+
+"Yes. The response is appropriate."
+
+or 
+
+"No. The response is not appropriate."
 
 {self.guidelines}
         '''
@@ -59,7 +67,6 @@ Begin with "Yes" or "No" followed by your reasoning.
         # Formulate the query for moderation based on the full chat history
         query = f'''
 Based on the moderation guidelines, is the following AI response appropriate given the prior conversation?
-Begin with "Yes" or "No" followed by your reasoning.\n\n
 
 **Chat History**:\n
 {chat_history}
@@ -77,8 +84,10 @@ Begin with "Yes" or "No" followed by your reasoning.\n\n
         # Extract the moderator's feedback from the response (first non-empty line)
         moderator_response = next((r.strip() for r in moderation_result.split('\n') if r), "")
         
-        # Determine if the response is appropriate (check if first word is "yes" or "no")
-        is_appropriate = moderator_response.lower().startswith("yes")
+        # Check the final line of the response for the appropriateness indicator
+        last_line = moderator_response.splitlines()[-1].strip()
+        is_appropriate = "yes" in last_line.lower()
+
         return moderator_response, is_appropriate
 
     def correct_response(self, chat_history, ai_response, moderator_feedback):
