@@ -49,8 +49,8 @@ class TutorChain:
                 # Print the entire moderation and correction process for review
                 st.markdown("\n\n### Full Moderation and Correction Process ###")
                 st.markdown(f"\nAI Tutor's Latest Response: {results['ai_response']}")
-                st.markdown(f"\nModerator's Feedback: {results['moderator_feedback']}")
-                st.markdown(f"\nFinal Response (Corrected or Original): {results['final_response']}")
+                st.text(f"\n\nModerator's Feedback: {results['moderator_feedback']}")
+                st.markdown(f"\n\nFinal Response (Corrected or Original): {results['final_response']}")
 
                 moderated_response = results['final_response']
                 # Update chat history
