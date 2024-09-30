@@ -54,7 +54,7 @@ class ContentModerator:
         print(result['final_response'])
     """
     def __init__(self, guidelines_path, llm_model, embedding_model, tokenizer, chat_mode="openai", 
-                 display_guidelines=True):
+                 display_guidelines=False):
         """
         Initializes the ContentModerator class with the specified LLM models, embedding models, 
         and tokenizer. Loads the moderation guidelines and sets up moderation and correction engines.

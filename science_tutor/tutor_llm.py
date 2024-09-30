@@ -45,7 +45,7 @@ class TutorChain:
             needs_checking = True
             while needs_checking:
                 # Moderate response
-                results = self.moderator_llm.forward(self.tutor_llm.message_history)['final_response']
+                results = self.moderator_llm.forward(self.tutor_llm.message_history)
                 moderated_response = results['final_response']
                 # Update chat history
                 self.tutor_llm.message_history[-1].content = moderated_response
