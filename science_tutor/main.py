@@ -107,8 +107,6 @@ if not st.session_state.model_loaded:
         st.session_state["model_loads"] += 0
         st.rerun()
 
-st.text(f'Model loads: {st.session_state["model_loads"]}')
-
 if prompt := st.chat_input():
     if st.session_state.drop_file is True:
         prompt_full = prompt + f'\n\n## Uploaded file contents:\n\n{prompt_f}'

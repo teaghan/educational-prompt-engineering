@@ -75,7 +75,7 @@ Begin with "Yes" or "No" followed by your reasoning.\n\n
         moderation_result = self.llm.chat(message_history).message.content
         
         # Extract the moderator's feedback from the response (first non-empty line)
-        moderator_response = next((r.strip() for r in moderation_result.response.split('\n') if r), "")
+        moderator_response = next((r.strip() for r in moderation_result.split('\n') if r), "")
         
         # Determine if the response is appropriate (check if first word is "yes" or "no")
         is_appropriate = moderator_response.lower().startswith("yes")
