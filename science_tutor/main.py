@@ -120,10 +120,10 @@ if prompt := st.chat_input():
     st.chat_message("user", avatar=avatar["user"]).write(prompt)
 
     # Use a spinner to indicate processing and display the assistant's response after processing
-    with st.spinner('Thinking...'):
-
-        response = st.session_state.tutor_llm.get_response(prompt_full)
-
-        st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})    
+    #with st.spinner('Thinking...'):
+    response = st.session_state.tutor_llm.get_response(prompt_full)
+    st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})    
+    
+    
     st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
     st.rerun()

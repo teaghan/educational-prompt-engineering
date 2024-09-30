@@ -1,3 +1,5 @@
+import streamlit as st
+
 import os
 from llama_index.core.llms import ChatMessage
 from llama_index.llms.openai import OpenAI
@@ -176,11 +178,13 @@ Your Task: Provide a corrected response based on the full conversation that is a
         previous_conversation = "\n\n".join([f"{message.role.value}: {message.content}" for message in chat_history[:-1]])
     
         # Moderate the AI response using the full previous conversation context
-        moderator_feedback, is_appropriate = self.moderate_response(previous_conversation, ai_response)
+        with st.spinner('Moderating...'):
+            moderator_feedback, is_appropriate = self.moderate_response(previous_conversation, ai_response)
         
         # If the response is inappropriate, pass it to the corrector LLM
         if not is_appropriate:
-            corrected_response = self.correct_response(previous_conversation, ai_response, moderator_feedback)
+            with st.spinner('Correcting...'):
+                corrected_response = self.correct_response(previous_conversation, ai_response, moderator_feedback)
             final_response = corrected_response
         else:
             final_response = ai_response

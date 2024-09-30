@@ -37,7 +37,8 @@ class TutorChain:
 
     def get_response(self, student_prompt, moderate=True):
         # Prompt AI tutor
-        ai_response = self.tutor_llm.get_response(student_prompt)
+        with st.spinner('Responding...'):
+            ai_response = self.tutor_llm.get_response(student_prompt)
 
         corrections = 0
         if moderate:
