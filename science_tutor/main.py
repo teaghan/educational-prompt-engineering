@@ -57,24 +57,6 @@ if "messages" not in st.session_state:
 if "model_loads" not in st.session_state:
     st.session_state["model_loads"] = 0
 
-# Display conversation
-if len(st.session_state.messages)>0:
-    for msg in st.session_state.messages:
-        st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
-
-
-# Load model
-if not st.session_state.model_loaded:
-    with st.spinner('Loading...'):
-        # Construct pipiline
-        st.session_state['tutor_llm'] = TutorChain()
-        st.session_state.model_loads +=1
-
-        init_request = st.session_state.tutor_llm.init_request        
-        st.session_state.messages.append({"role": "assistant", "content": init_request})
-
-        st.session_state.model_loaded = True
-        st.rerun()
 
 # The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
@@ -104,6 +86,28 @@ if st.session_state.drop_file:
                     st.session_state.zip_file = False
             else:  # if it is not zip, the return is a string (here we concatenate the strings)
                 prompt_f = prompt_f + extract + "\n\n"
+
+# Display conversation
+if len(st.session_state.messages)>0:
+    for msg in st.session_state.messages:
+        st.chat_message(msg["role"], avatar=avatar[msg["role"]]).markdown(rf"{msg["content"]}")
+
+
+# Load model
+if not st.session_state.model_loaded:
+    with st.spinner('Loading...'):
+        # Construct pipiline
+        st.session_state['tutor_llm'] = TutorChain()
+        st.session_state.model_loads +=1
+
+        init_request = st.session_state.tutor_llm.init_request        
+        st.session_state.messages.append({"role": "assistant", "content": init_request})
+
+        st.session_state.model_loaded = True
+        st.session_state["model_loads"] += 0
+        st.rerun()
+
+st.text(f'Model loads: {st.session_state["model_loads"]}')
 
 if prompt := st.chat_input():
     if st.session_state.drop_file is True:
