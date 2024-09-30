@@ -68,7 +68,7 @@ Begin with "Yes" or "No" followed by your reasoning.\n\n
 "{ai_response}"
         '''
 
-        message_history = [ChatMessage(role="system", content=system_prompt)),
+        message_history = [ChatMessage(role="system", content=system_prompt),
                            ChatMessage(role="user", content=query)]
         
         # Query the moderator LLM with the response
