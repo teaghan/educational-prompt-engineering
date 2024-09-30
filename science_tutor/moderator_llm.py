@@ -81,8 +81,8 @@ Based on the moderation guidelines, is the following AI response appropriate giv
         # Query the moderator LLM with the response
         moderation_result = self.llm.chat(message_history).message.content
         
-        # Extract the moderator's feedback from the response (first non-empty line)
-        moderator_response = next((r.strip() for r in moderation_result.split('\n') if r), "")
+        # Extract the moderator's feedback from the response (full response)
+        moderator_response = moderation_result.strip()
         
         # Check the final line of the response for the appropriateness indicator
         last_line = moderator_response.splitlines()[-1].strip()
