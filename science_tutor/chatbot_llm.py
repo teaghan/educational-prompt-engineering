@@ -48,10 +48,11 @@ class AITutor:
         Initiates the conversation with the student, asking for the grade level and topic they are working on.
         """
         init_message = f"""
-Hi there! I'm here to help you with your science course by breaking down tricky concepts and guiding you through challenging problems. 
-I won't do the work for you, but I'll help you learn how to solve problems step by step, so you can build your confidence along the way.
+Hi! I'm here to help you with your science questions. 
 
-To get started, could you let me know what grade you're in and the topic you're currently working on?
+I won't do the work for you, but I'll guide you through each step so you can understand and feel more confident.
+
+To start, **what grade are you in and what do you need help with?**
         """
         self.message_history.append(ChatMessage(role="assistant", content=init_message))
         return self.llm.chat(self.message_history).message.content
