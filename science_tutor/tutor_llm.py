@@ -20,7 +20,7 @@ class TutorChain:
         embedding_model = OpenAIEmbedding(model='text-embedding-3-small', api_key=openai_api_key)
         
         # Initialize the OpenAI LLM
-        llm_model = OpenAI(model='gpt-4o-mini', api_key=openai_api_key)
+        llm_model = OpenAI(model='gpt-4o-mini', temperature=0.2, api_key=openai_api_key)
         
         # Tokenizer for OpenAI's GPT models
         tokenizer = OpenAIGPTTokenizerFast.from_pretrained("openai-community/openai-gpt", token=hf_token)
@@ -55,7 +55,7 @@ class TutorChain:
                 else:
                     corrections +=1
 
-        return moderated_response+str(corrections)
+        return moderated_response + f' (No. of corrections: {str(corrections)})'
 
 
 
