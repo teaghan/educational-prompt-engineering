@@ -52,11 +52,10 @@ class TutorChain:
                 if not results['moderated']:
                     # Response is good to go
                     needs_checking = False
-                    self.tutor_llm.message_history[-1].content = self.tutor_llm.message_history[-1].content+str(corrections)
                 else:
                     corrections +=1
 
-        return moderated_response
+        return moderated_response+str(corrections)
 
 
 
