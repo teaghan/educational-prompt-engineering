@@ -55,7 +55,6 @@ I won't do the work for you, but I'll guide you through each step so you can und
 To start, **what grade are you in and what do you need help with?**
         """
         self.message_history.append(ChatMessage(role="assistant", content=init_message))
-        return self.llm.chat(self.message_history).message.content
 
     def get_response(self, student_input):
         """
