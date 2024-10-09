@@ -10,13 +10,13 @@ st.markdown("<h1 style='text-align: center; color: grey;'>Build an AI Tutor</h1>
 
 def read_csv(fn):
     # Create connection object and retrieve file contents.
-    with st.connection('s3', type=FilesConnection, ttl=0) as conn:
-        # Return pandas dataframe
-        return conn.read(fn, input_format="csv", ttl=0) 
+    conn = st.connection('s3', type=FilesConnection, ttl=0)
+    # Return pandas dataframe
+    return conn.read(fn, input_format="csv", ttl=0) 
 
 def write_csv(fn, df):
     # Create connection object and write file contents.
-    with st.connection('s3', type=FilesConnection, ttl=0) as conn:
+    conn = st.connection('s3', type=FilesConnection, ttl=0)
         with conn.open(fn, "wt") as f:
             df.to_csv(f, index=False)
 
