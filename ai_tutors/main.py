@@ -4,6 +4,9 @@ from st_files_connection import FilesConnection
 
 ai_tutors_data_fn = 'ai-tutors/myfile.csv'
 
+st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon_small.png", layout="wide")
+
+'''
 # Create connection object and retrieve file contents.
 conn = st.connection('s3', type=FilesConnection, ttl=0)
 df = conn.read(ai_tutors_data_fn, input_format="csv", ttl=0)
@@ -30,3 +33,4 @@ if st.button("Add new row"):
     else:
         st.error("Please provide both Owner and Pet information.")
     st.rerun()
+'''
