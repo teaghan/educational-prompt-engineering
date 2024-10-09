@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from st_files_connection import FilesConnection
+#from st_files_connection import FilesConnection
 
 ai_tutors_data_fn = 'ai-tutors/myfile.csv'
 
