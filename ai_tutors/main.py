@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 from st_files_connection import FilesConnection
 
+ai_tutors_data_fn = 'ai-tutors/myfile.csv'
+
 # Create connection object and retrieve file contents.
 conn = st.connection('s3', type=FilesConnection, ttl=0)
-df = conn.read("ai-tutors/myfile.csv", input_format="csv", ttl=0)
+df = conn.read(ai_tutors_data_fn, input_format="csv", ttl=0)
 
 # Print existing records.
 st.write("Existing records:")
@@ -22,8 +24,9 @@ if st.button("Add new row"):
         new_row = pd.DataFrame({"Owner": [new_owner], "Pet": [new_pet]})
         # Concatenate the new row to the DataFrame
         df = pd.concat([df, new_row], ignore_index=True)
-        # Save the updated DataFrame back to the cloud
-        conn.write(df, "ai-tutors/myfile.csv", output_format="csv")
+        with conn.open(ai_tutors_data_fn, "wt") as f:
+            df.to_csv(f, index=False)
         st.success("New row added and saved to the cloud!")
     else:
         st.error("Please provide both Owner and Pet information.")
+    st.rerun()
