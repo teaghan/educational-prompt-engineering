@@ -3,7 +3,7 @@ import pandas as pd
 from st_files_connection import FilesConnection
 
 # Create connection object and retrieve file contents.
-conn = st.connection('s3', type=FilesConnection)
+conn = st.connection('s3', type=FilesConnection, ttl=0)
 df = conn.read("ai-tutors/myfile.csv", input_format="csv", ttl=0)
 
 # Print existing records.
