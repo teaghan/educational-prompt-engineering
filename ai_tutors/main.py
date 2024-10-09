@@ -8,9 +8,20 @@ st.set_page_config(page_title="AI Tutors", page_icon="https://raw.githubusercont
 
 st.markdown("<h1 style='text-align: center; color: grey;'>Build an AI Tutor</h1>", unsafe_allow_html=True)
 
-# Create connection object and retrieve file contents.
-conn = st.connection('s3', type=FilesConnection, ttl=0)
-df = conn.read(ai_tutors_data_fn, input_format="csv", ttl=0)
+def read_csv(fn):
+    # Create connection object and retrieve file contents.
+    with st.connection('s3', type=FilesConnection, ttl=0) as conn:
+        # Return pandas dataframe
+        return conn.read(fn, input_format="csv", ttl=0) 
+
+def write_csv(fn, df):
+    # Create connection object and write file contents.
+    with st.connection('s3', type=FilesConnection, ttl=0) as conn:
+        with conn.open(fn, "wt") as f:
+            df.to_csv(f, index=False)
+
+
+df = read_csv(fn)
 
 st.text(dir(conn))
 
@@ -33,8 +44,8 @@ if st.button("Add new tutor"):
         new_row = pd.DataFrame({"Name": [new_name], "Instructions": [new_instr], "Guidelines": [new_guide]})
         # Concatenate the new row to the DataFrame
         df = pd.concat([df, new_row], ignore_index=True)
-        with conn.open(ai_tutors_data_fn, "wt") as f:
-            df.to_csv(f, index=False)
+        write_csv(ai_tutors_data_fn, df)
+
         st.success("New row added and saved to the cloud!")
     else:
         st.error("Please provide all of the info.")
