@@ -1,3 +1,4 @@
+import streamlit as st
 from st_files_connection import FilesConnection
 
 # Create connection object and retrieve file contents.
