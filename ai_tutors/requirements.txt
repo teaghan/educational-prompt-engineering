@@ -1,0 +1,11 @@
+streamlit
+openai
+llama-index
+llama-index-llms-openai
+nltk
+PyPDF2
+striprtf
+chardet
+transformers
+s3fs
+st-files-connection
