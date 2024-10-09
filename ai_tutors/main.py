@@ -18,13 +18,12 @@ new_pet = st.text_input("Pet type")
 
 if st.button("Add new row"):
     if new_owner and new_pet:
-        # Create a new row as a dictionary
-        new_row = {"Owner": new_owner, "Pet": new_pet}
-        # Append the new row to the DataFrame
-        df = df.append(new_row, ignore_index=True)
+        # Create a new row as a DataFrame
+        new_row = pd.DataFrame({"Owner": [new_owner], "Pet": [new_pet]})
+        # Concatenate the new row to the DataFrame
+        df = pd.concat([df, new_row], ignore_index=True)
         # Save the updated DataFrame back to the cloud
         conn.write(df, "ai-tutors/myfile.csv", output_format="csv")
         st.success("New row added and saved to the cloud!")
     else:
         st.error("Please provide both Owner and Pet information.")
-    st.rerun()
