@@ -21,7 +21,7 @@ def write_csv(fn, df):
             df.to_csv(f, index=False)
 
 
-df = read_csv(fn)
+df = read_csv(ai_tutors_data_fn)
 
 st.text(dir(conn))
 
