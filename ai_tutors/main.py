@@ -6,7 +6,7 @@ ai_tutors_data_fn = 'ai-tutors/myfile.csv'
 
 st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon_small.png", layout="wide")
 
-st.markdown("<h1 style='text-align: center; color: grey;'>AI Science Tutor</h1>", unsafe_allow_html=True)
+#st.markdown("<h1 style='text-align: center; color: grey;'>AI Science Tutor</h1>", unsafe_allow_html=True)
 
 
 '''
