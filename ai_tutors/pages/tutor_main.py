@@ -2,19 +2,19 @@ import os
 import streamlit as st
 import sys
 cur_dir = os.path.dirname(__file__)
-sys.path.append(cur_dir)
-from drop_file import extract_text_from_different_file_types
+parent_dir = os.path.abspath(os.path.join(cur_dir, '../'))
+sys.path.append(parent_dir)
 from tutor_llm import TutorChain
 
 # Streamlit
-st.set_page_config(page_title="AI Science Tutor", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon_small.png", layout="wide")
+st.set_page_config(page_title=st.session_state["tool name"], page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_favicon_small.png", layout="wide")
 
 # Avatar images
 avatar = {"user": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_student_avatar.png",
           "assistant": "https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/science_tutor_avatar.png"}
 
 # Title
-st.markdown("<h1 style='text-align: center; color: grey;'>AI Science Tutor</h1>", unsafe_allow_html=True)
+st.markdown(f"<h1 style='text-align: center; color: grey;'>{st.session_state["tool name"]}</h1>", unsafe_allow_html=True)
 
 # In development warning
 #st.warning('Currently testing the Moderator. Come back later for interactions please.', icon="⚠️")
@@ -60,6 +60,10 @@ if "messages" not in st.session_state:
 if "model_loads" not in st.session_state:
     st.session_state["model_loads"] = 0
 
+# Return home button
+return_home = st.sidebar.button('Home')
+if return_home:
+    st.switch_page('./main.py')
 
 # The following code handles dropping a file from the local computer
 if "drop_file" not in st.session_state:
@@ -100,7 +104,8 @@ if len(st.session_state.messages)>0:
 if not st.session_state.model_loaded:
     with st.spinner('Loading...'):
         # Construct pipiline
-        st.session_state['tutor_llm'] = TutorChain()
+        st.session_state['tutor_llm'] = TutorChain(st.session_state["instructions"],
+                                                   st.session_state["guidelines"])
         st.session_state.model_loads +=1
 
         init_request = st.session_state.tutor_llm.init_request        

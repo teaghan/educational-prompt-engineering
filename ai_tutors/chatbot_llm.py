@@ -23,17 +23,15 @@ class AITutor:
         get_message_history(): Returns the history of messages in the conversation.
     """
 
-    def __init__(self, llm_model, instructions_path, display_system=False):
+    def __init__(self, llm_model, instructions, display_system=False):
         self.llm = llm_model
         self.message_history = []
-
-        # Load pre-defined instructions for the AI tutor
-        instructions = load_text_file(instructions_path)
 
         # Add these as a "system prompt"
         system_prompt = f"{instructions}\n\n"
         system_prompt += "## Your Task\n\n"
-        system_prompt += "You are a tutor for science students in grades 6-8. Following the instructions above, provide supportive assistance to the student user."
+        system_prompt += "You are a helpful tutor/assistant. "
+        system_prompt += "Following the instructions above, provide supportive assistance to the student user."
         if display_system:
             print(system_prompt)
         
@@ -71,11 +69,3 @@ To start, **what grade are you in and what do you need help with?**
         self.message_history.append(ChatMessage(role="assistant", content=response))
         
         return response
-
-def load_tutor():
-    # Load OpenAI API key
-    openai_api_key = os.environ["OPENAI_API_KEY"]
-    # Initialize the tutor with the LLM and instructions
-    instructions_path = 'science_tutor/tutor_instructions.txt'
-    llm_model = OpenAI(model="gpt-4o-mini", api_key=openai_api_key)
-    return AITutor(llm_model, instructions_path)
