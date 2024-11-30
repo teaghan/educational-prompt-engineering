@@ -99,8 +99,8 @@ if dropped_files is not None:
                 if extract.strip():
                     student_data = (student_data + "\n\n" + extract).strip() if student_data else extract
 
-st.header('Data Description')
-st.markdown('Provide a description of the formatting of the data (e.g., columns, shorthand keys).')
+st.header('Data Description (Optional)')
+st.markdown('Provide a description of how your data is formatted (e.g., columns, shorthand keys).')
 
 with st.expander("Description Example"):
     st.markdown('''
@@ -131,7 +131,7 @@ instructions = st.text_area("Instructions:", label_visibility='hidden')
 st.header('Length of Comments')
 
 # Sliders and checkboxes for preset options
-num_sentences = st.slider("No. of Sentences", min_value=2, max_value=10, value=(3, 6))
+num_sentences = st.slider("Number of Sentences", min_value=2, max_value=10, value=(3, 6))
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
