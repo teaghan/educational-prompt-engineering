@@ -74,6 +74,7 @@ col1, col2 = st.columns(2)
 with col1:
     dropped_files = st.file_uploader("Drop a file or multiple files (.csv, .txt, .rtf)", 
                                             accept_multiple_files=True,
+                                            type=["csv", "txt", "rtf"], 
                                             key=st.session_state.file_uploader_key)
 
 with col2:
