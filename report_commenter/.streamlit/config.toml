@@ -1,0 +1,9 @@
+[server]
+maxUploadSize = 25
+
+[theme]
+primaryColor="#A8D5BA"  # Pale green
+backgroundColor="#FFFFFF"  # White
+secondaryBackgroundColor="#E0F2E9"  # Lighter pale green
+textColor="#2F4F4F"  # Dark greenish-gray for contrast
+font="sans serif"

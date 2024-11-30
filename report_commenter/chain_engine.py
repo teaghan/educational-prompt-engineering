@@ -31,7 +31,7 @@ Please format the student data according to the CSV description, ensuring clarit
     return formatted_data_prompt
 
 # Function to create a prompt for organizing instructions and parameters into a clear, structured prompt
-def create_comment_prompt(instructions, formality, specificity, pos_reinf, sentences):
+def create_comment_prompt(instructions, sentence_range):
     """
     This function generates a clear and structured prompt based on the instructions
     and parameters for writing personalized report card comments.
@@ -39,22 +39,18 @@ def create_comment_prompt(instructions, formality, specificity, pos_reinf, sente
     formatted_instructions_prompt = f"""
 ## Task: Generate a Clear and Comprehensive LLM Prompt for Writing Report Card Comments
 
-Your task is to generate a well-organized, easy-to-understand, and comprehensive prompt that will instruct an LLM to write personalized report card comments for an ENTIRE class. The comments should follow the tone and guidelines provided below.
+Your task is to generate a well-organized, easy-to-understand, and comprehensive prompt that will instruct an LLM to write personalized report card comments for ALL OF THE STUDENTS. 
+The comments should follow the tone and guidelines provided below.
 
-RESPOND ONLY WITH THE PROMPT.
-
-### Tone and Style Guidelines:
-
-Include ALL of the parameters in the prompt including the relevant ranges.
-
-- **Formality Level:** {formality}/5
-- **Specificity Level:** {specificity}/5
-- **Positive Reinforcement Level:** {pos_reinf}/5
-- **Number of Sentences:** Between {sentences[0]} and {sentences[1]} sentences for each comment 
+The prompt should include instructions that each comment should be between {sentence_range[0]} and {sentence_range[1]} sentences.
 
 ### User Instructions for Writing Comments:
 
 {instructions}
+
+### Response Formatting
+
+RESPOND ONLY WITH THE PROMPT.
 """
     return formatted_instructions_prompt
 
@@ -89,8 +85,7 @@ class ReportCardCommentor:
             on a new line. This list format is suitable for copying into a spreadsheet or other 
             applications requiring one comment per row.
     """
-    def __init__(self, student_data, csv_description, instructions,
-                 formality, specificity, pos_reinf, sentences, model="gpt-4o-mini"):
+    def __init__(self, student_data, csv_description, instructions, sentence_range, model="gpt-4o-mini"):
     
         # Initializing AI Model Interaction
         self.llm = OpenAI(model=model, api_key=openai_api_key)
@@ -103,7 +98,7 @@ class ReportCardCommentor:
         formatted_data = self.llm.chat(messages).message.content
 
         # Format initial prompt for LLM to generate instruction prompt
-        instructions_prompt = create_comment_prompt(instructions, formality, specificity, pos_reinf, sentences)
+        instructions_prompt = create_comment_prompt(instructions, sentence_range)
         # Use LLM to format instructions
         messages = [ChatMessage(role="system", content="You are designed to develop effective LLM prompts."),
                     ChatMessage(role="user", content=instructions_prompt),]
