@@ -121,8 +121,8 @@ with st.expander("Instructions Example"):
     st.markdown(''' 
 - Highlight both the student’s strengths and areas for improvement.
 - Encourage a growth mindset in the comments.
-- Use the student's first name only when writing the comments.
 - Avoid the use of pronouns (he, she, etc.) in the comments.
+- Use the student's first name in the comments.
 - For students with an IEP, include a comment on the IEP progress.
     ''')
 
