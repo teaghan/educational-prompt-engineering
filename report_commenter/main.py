@@ -130,9 +130,11 @@ with st.expander("Instructions Example"):
 instructions = st.text_area("Instructions:", label_visibility='hidden')
 
 st.header('Length of Comments')
-
+st.markdown('Choose the minimum and maximum number of sentences for each comment.')
 # Sliders and checkboxes for preset options
-num_sentences = st.slider("Number of Sentences", min_value=2, max_value=10, value=(3, 6))
+num_sentences = st.slider("Number of Sentences", 
+                          label_visibility='hidden',
+                          min_value=2, max_value=10, value=(3, 6))
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
