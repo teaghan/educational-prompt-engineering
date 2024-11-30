@@ -201,6 +201,7 @@ if len(st.session_state.messages)>0:
             comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
         st.markdown('#### Comments Ready!')
         st.markdown('To copy all comments, click the copy button in the top-right corner of the comments section below.')
+        st.markdown('You can then paste the comments into your student data table.')
         st.code('Comment\n' + comments)
     
 # Only show chat if model has been loaded

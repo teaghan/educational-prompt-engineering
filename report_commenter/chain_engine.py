@@ -91,19 +91,19 @@ class ReportCardCommentor:
         self.llm = OpenAI(model=model, api_key=openai_api_key)
     
         # Format initial prompt for LLM to format student data
-        data_prompt = format_student_data(student_data, csv_description)
+        #data_prompt = format_student_data(student_data, csv_description)
         # Use LLM to format data
-        messages = [ChatMessage(role="system", content="You are designed to format data nicely."),
-                    ChatMessage(role="user", content=data_prompt),]
-        formatted_data = self.llm.chat(messages).message.content
+        #messages = [ChatMessage(role="system", content="You are designed to format data nicely."),
+                    #ChatMessage(role="user", content=data_prompt),]
+        #formatted_data = self.llm.chat(messages).message.content
 
         # Format initial prompt for LLM to generate instruction prompt
-        instructions_prompt = create_comment_prompt(instructions, sentence_range)
+        #instructions_prompt = create_comment_prompt(instructions, sentence_range)
         # Use LLM to format instructions
-        messages = [ChatMessage(role="system", content="You are designed to develop effective LLM prompts."),
-                    ChatMessage(role="user", content=instructions_prompt),]
-        formatted_instructions = self.llm.chat(messages).message.content
-    
+        #messages = [ChatMessage(role="system", content="You are designed to develop effective LLM prompts."),
+        #            ChatMessage(role="user", content=instructions_prompt),]
+        #formatted_instructions = self.llm.chat(messages).message.content
+        
         # Instance of LLM with chat history
         system_prompt = f"""
 ## Task: Generate Report Card Comments for Each Student
@@ -124,11 +124,17 @@ Create comments for each student based on the instructions and data below.
 
 ## Instructions
 
-{formatted_instructions}
+{instructions}
+
+Each comment should be between {sentence_range[0]} and {sentence_range[1]} sentences.
 
 ## Student Data
 
-{formatted_data}
+{student_data}
+
+## Data Description
+
+{csv_description}
 """
 
         self.message_history = [ChatMessage(role="system", content=system_prompt),
