@@ -116,7 +116,7 @@ Your task is to write personalized and thoughtful report card comments for each 
 
 You should produce a comment for each student, formatted in a markdown table. 
 
-After providing the comments, ask the user for feedback on whether the comments meet the requirements, asking if any adjustments are needed.
+After providing the comments, ask the user for feedback on whether the comments meet the requirements or if any adjustments are needed.
 """
         
         init_prompt = f"""
@@ -161,7 +161,7 @@ The user will provide you with the output from an LLM.
 
 Your task is to take the report card comments within this output and reformat this information.
 
-The comments should be formatted so that there is ONE STUDENT's COMMENT ON EACH LINE.
+The comments should be formatted so that there is ONE REPORT CARD COMMENT ON EACH LINE.
 
 Comments should be written in the same order that they are received. 
 
@@ -171,7 +171,7 @@ Your response should just be the list of comments without anything else.
 """
     
         user_prompt = f"""
-Reformat the comments below into a single list so that I can copy them into a column in Excel - one student per row.
+Reformat the comments below into a single list so that I can copy them into a column in Excel - one comment per row.
     
 ## Comments
     
