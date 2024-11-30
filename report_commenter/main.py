@@ -199,8 +199,9 @@ if len(st.session_state.messages)>0:
     if accept_comments:
         with st.spinner('Formatting comments...'):
             comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
-        st.markdown('#### The comments below are ready to be copied into your table:')
-        st.code(comments)
+        st.markdown('#### Comments Ready!')
+        st.markdown('To copy all comments, click the copy button in the top-right corner of the comments section below.')
+        st.code('Comment\n' + comments)
     
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
