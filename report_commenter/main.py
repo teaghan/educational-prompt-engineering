@@ -95,8 +95,6 @@ if dropped_files is not None:
             extract = extract_text_from_different_file_types(dropped_file)
             student_data = (student_data + f"\n\n**{dropped_file.name}**\n\n" + extract).strip()
 
-st.write(student_data)
-
 st.header('Data Description (Optional)')
 st.markdown('Provide a description of how your data is formatted (e.g., columns, shorthand keys).')
 
