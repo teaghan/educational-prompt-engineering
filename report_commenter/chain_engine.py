@@ -116,7 +116,9 @@ The comments should be based on the student data and instructions provided by th
 
 ### Response Formatting
 
-You should produce a comment for each student, formatted in a markdown table.
+You should produce a comment for each student found in the Student Data - starting with the first student, and going one-by-one through all of them. 
+
+The comments should be formatted in a markdown table.
 
 After providing the comments, ask the user for feedback on whether the comments meet the requirements or if any adjustments are needed.
 """
