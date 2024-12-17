@@ -2,6 +2,7 @@ import os
 import time
 import streamlit as st
 import sys
+import random
 cur_dir = os.path.dirname(__file__)
 sys.path.append(cur_dir)
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
@@ -51,14 +52,12 @@ if "zip_file" not in st.session_state:
 if "file_uploader_key" not in st.session_state:
     st.session_state.file_uploader_key = 0
 
-st.header('Student Data')
+###
 
-st.markdown('Upload your student data by either dropping a file or pasting the information in the text area.')
-
-# Interaction Tips
-with st.expander("How to Export a CSV from Excel"):
+st.markdown('### Student Data 📄')
+st.markdown('Drop a file 📎 or paste 📋 your student data below!')
+with st.expander("Wondering how to export a .csv file from Excel?"):
     st.markdown('''
-**How to Export a CSV from Excel:**
 - **For Desktop Version**:
     1. Open your Excel file.
     2. Go to **File** > **Save As**.
@@ -95,41 +94,98 @@ if dropped_files is not None:
             extract = extract_text_from_different_file_types(dropped_file)
             student_data = (student_data + f"\n\n**{dropped_file.name}**\n\n" + extract).strip()
 
-st.header('Data Description (Optional)')
-st.markdown('Provide a description of how your data is formatted (e.g., columns, shorthand keys).')
+###
 
-with st.expander("Description Example"):
-    st.markdown('''
-- The "Grade" column uses the following proficiency scale: 
-  - Emerging ("Em"), Developing ("D"), Proficient ("P"), Extending ("E").
-- The "Student" column is formatted as "Last Name, First Name".
-- The "IEP Comment" column includes a note for students with an Individualized Education Plan (IEP). If a student does not have an IEP, the cell is left blank.
-- The "Positive Comments" and "Areas to Improve" columns contain brief notes on the student’s strengths and areas needing improvement.
-    ''')
-
-description = st.text_area("Description:", label_visibility='hidden')
-
-st.header('Comment Instructions')
-st.markdown('Provide specific instructions for writing the comments.')
-
-with st.expander("Instructions Example"):
+st.markdown('----')
+st.markdown('### Comment Instructions 📝')
+st.markdown('Tailor the comments to your style!')
+with st.expander("Looking for some **examples**?"):
     st.markdown(''' 
-- Highlight both the student’s strengths and areas for improvement.
+- Highlight both the student's strengths and areas for improvement.
 - Encourage a growth mindset in the comments.
 - Avoid the use of pronouns (he, she, etc.) in the comments.
 - Use the student's first name in the comments.
 - For students with an IEP, include a comment on the IEP progress.
     ''')
-
 # Text input for custom instructions
-instructions = st.text_area("Instructions:", label_visibility='hidden')
+instructions = st.text_area("Instructions:", 
+                            label_visibility='hidden', height=200,
+                            placeholder='''e.g. 
+- Highlight both the student\'s strengths and areas for improvement. 
+- Encourage a growth mindset in the comments.
+- Use the student's first name in the comments.''')
 
-st.header('Length of Comments')
-st.markdown('Choose the minimum and maximum number of sentences for each comment.')
-# Sliders and checkboxes for preset options
-num_sentences = st.slider("Number of Sentences", 
-                          label_visibility='hidden',
-                          min_value=2, max_value=10, value=(3, 6))
+###
+
+st.markdown('----')
+st.markdown('### Comment Examples (optional but **recommended**!) 💡')
+st.markdown('To improve the results, provide some examples of report card comments that you think are awesome!')
+comment_examples = st.text_area("Comment Examples:", 
+                            label_visibility='hidden', height=200,
+                            placeholder='''e.g.
+"Sarah demonstrates strong analytical thinking in mathematics, particularly when solving multi-step word problems. During class discussions, Sarah actively contributes creative problem-solving strategies that help peers see alternative approaches. Moving forward, focusing on showing detailed work and checking solutions will help transform good answers into excellent ones."
+
+"Alex has shown steady improvement in reading comprehension this term, especially when working with narrative texts. While Alex can identify main characters and basic plot elements, more practice is needed with making text-to-self connections and drawing deeper inferences. Using the reading strategies we've practiced in class, such as asking questions while reading and making predictions, will help build these higher-level comprehension skills."
+''')
+
+_, col2, _ = st.columns(3)
+
+if "more_settings" not in st.session_state:
+    st.session_state.more_settings = False
+
+def show_more_settings():
+    st.session_state.more_settings = True
+
+if not st.session_state.more_settings:
+    more_settings = col2.button("## Optional Settings 🔧", 
+                                on_click=show_more_settings,
+                                use_container_width=True)  
+    input_description = ""
+    sentence_range = (3, 6)
+    output_description = ""
+else:
+    ###
+
+    st.markdown('----')
+    st.markdown('### Data Description 🔎')
+    st.markdown('Need to clarify any formatting or abbreviations in your data? Don\'t worry about it if your data is self-explanatory!')
+    with st.expander("Not sure? Check out the **examples** below!"):
+        st.markdown('''
+    - The "Grade" column uses the following proficiency scale: 
+    - Emerging ("Em"), Developing ("D"), Proficient ("P"), Extending ("E").
+    - The "Student" column is formatted as "Last Name, First Name".
+    - The "IEP Comment" column includes a note for students with an Individualized Education Plan (IEP). If a student does not have an IEP, the cell is left blank.
+    - The "Positive Comments" and "Areas to Improve" columns contain brief notes on the student's strengths and areas needing improvement.
+        ''')
+    input_description = st.text_area("Description:", 
+                                    label_visibility='hidden',
+                                    placeholder='e.g. The "Grade" column uses the following proficiency scale: Emerging ("Em"), Developing ("D"), Proficient ("P"), Extending ("E").')
+
+    ###
+
+    st.markdown('----')
+    st.markdown('### Length of Comments 📏')
+    st.markdown('Choose the minimum and maximum number of sentences for each comment.')
+    # Sliders and checkboxes for preset options
+    sentence_range = st.slider("Number of Sentences", 
+                            label_visibility='hidden',
+                            min_value=2, max_value=10, value=(3, 6))
+
+    ###
+
+    st.markdown('----')
+    st.markdown('### Comment Format 🔠')
+    st.markdown('How do you want the comments to be formatted (e.g., column and row names)?')
+    with st.expander("Take a look at the **examples** for ideas!"):
+        st.markdown('''
+    - The output should have the following columns: "Student Name", "Subject", "Comment".
+    - The "Student Name" column should contain the student's full name.
+    - There should be one row for each subject a student is in. Therefore, each student will three rows in the output (Reading, Writing, and Numeracy).
+        ''')
+    # Text input for defining the output format
+    output_description = st.text_area("Output Format:", 
+                                    label_visibility='hidden', 
+                                    placeholder='e.g. The output should have the following columns: "Student Name", "Comment".')
 
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
@@ -154,7 +210,6 @@ col2.button("Generate Comments",
             use_container_width=True)    
 
 if st.session_state.init_model:
-    #if st.button("Generate Comments"):
     # Pass the input data to the first LLM instance
     # Add a validation check before processing
     if student_data.strip():
@@ -164,15 +219,16 @@ if st.session_state.init_model:
             # Initialize pipeline
             with st.spinner('Generating initial comments...'):
                 # Construct pipiline
-                st.session_state['comment_pipeline'] = ReportCardCommentor(student_data,
-                                                                           description,
-                                                                           instructions,
-                                                                           num_sentences,
-                                                                           model="gpt-4o-mini")
+                st.session_state['comment_pipeline'] = ReportCardCommentor(model="gpt-4o-mini")
                 st.session_state.model_loads +=1
                 # Run initial prompt
-                response = st.session_state.comment_pipeline.get_initial_comments()
-                st.session_state["report_comments"] = response
+                entire_response, comments, response = st.session_state.comment_pipeline.get_initial_comments(instructions, 
+                                                                                                             comment_examples,
+                                                                                                             sentence_range, 
+                                                                                                             output_description, 
+                                                                                                             student_data, 
+                                                                                                             input_description)
+                st.session_state["report_comments"] = comments
                 st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
                 st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
                 st.session_state.model_loaded = True
@@ -192,12 +248,22 @@ if len(st.session_state.messages)>0:
             use_container_width=True)
 
     if accept_comments:
-        with st.spinner('Formatting comments...'):
-            comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
-        st.markdown('#### Comments Ready!')
-        st.markdown('To copy all comments, click the copy button in the top-right corner of the comments section below.')
-        st.markdown('You can then paste the comments into your student data table.')
-        st.code('Comment\n' + comments)
+        comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
+        st.markdown('#### Your comments are ready!')
+        st.markdown('Use the download button below or click the copy button in the top-right corner of the comments section below.')
+        st.markdown('You can then paste the comments into your student data table (you will need to split the columns by commas).')
+        st.code(comments)
+
+        _, col2, _ = st.columns(3)
+        random_str = ''.join(random.choices('0123456789', k=6))
+        col2.download_button(
+            label="Download Comments",
+            data=comments,
+            file_name=f'report_card_comments_{random_str}.csv',
+            mime='text/csv',
+            type="primary", 
+            use_container_width=True
+        )
     
 # Only show chat if model has been loaded
 if st.session_state.model_loaded:
@@ -206,8 +272,8 @@ if st.session_state.model_loaded:
         st.chat_message("user", avatar=avatar["user"]).write(prompt)
         with st.spinner('Applying edits...'):
             # Apply edits
-            response = st.session_state.comment_pipeline.user_input(prompt)
-        st.session_state.report_comments = response
+            entire_response, comments, response = st.session_state.comment_pipeline.user_input(prompt)
+        st.session_state.report_comments = comments
         st.session_state.messages.append({"role": "assistant", "content": rf"{response}"})
         st.chat_message("assistant", avatar=avatar["assistant"]).markdown(rf"{response}")
         st.rerun()
