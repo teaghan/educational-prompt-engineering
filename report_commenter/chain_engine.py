@@ -70,7 +70,9 @@ The comments should be formatted as a markdown table with headers. For example:
 |--------------|---------|
 | John Doe     | Comment text... |
 | Jane Smith    | Comment text... |
-
+                              
+When writing the comments, make sure they are PERSONALIZED, THOUGHTFUL, AND ALIGNED WITH THE COMMENT EXAMPLES PROVIDED.
+                              
 After providing the comments, write "---\n\n" and then ask the user for feedback on whether the comments meet the requirements or if any adjustments are needed.
 """)
     def chat_system_prompt(self, instructions, comment_examples, sentence_range, 
