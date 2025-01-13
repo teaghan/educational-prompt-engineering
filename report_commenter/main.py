@@ -101,6 +101,7 @@ st.markdown('### Comment Instructions 📝')
 st.markdown('Tailor the comments to your style!')
 with st.expander("Looking for some **examples**?"):
     st.markdown(''' 
+- Make the comments unique and personal.
 - Highlight both the student's strengths and areas for improvement.
 - Encourage a growth mindset in the comments.
 - Avoid the use of pronouns (he, she, etc.) in the comments.
