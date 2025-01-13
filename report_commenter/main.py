@@ -254,14 +254,25 @@ if len(st.session_state.messages)>0:
         st.markdown('You can then paste the comments into your student data table (you will need to split the columns by commas).')
         st.code(comments)
 
-        _, col2, _ = st.columns(3)
+        _, col2, col3 = st.columns(3)
         random_str = ''.join(random.choices('0123456789', k=6))
         col2.download_button(
-            label="Download Comments",
+            label="Download as .csv",
             data=comments,
             file_name=f'report_card_comments_{random_str}.csv',
             mime='text/csv',
             type="primary", 
+            use_container_width=True
+        )
+
+        # Excel download button
+        excel_bytes = st.session_state.comment_pipeline.get_excel_bytes(comments)
+        col3.download_button(
+            label="Download as .xlsx",
+            data=excel_bytes,
+            file_name=f'report_card_comments_{random_str}.xlsx',
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            type="primary",
             use_container_width=True
         )
     

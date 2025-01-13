@@ -1,5 +1,6 @@
-import streamlit as st
 import os
+import pandas as pd
+from io import BytesIO
 from llama_index.core.llms import ChatMessage
 from llama_index.core.prompts import PromptTemplate
 from llama_index.llms.openai import OpenAI
@@ -228,5 +229,24 @@ This formatting should be followed for every response you provide, INCLUDING THE
         # Join all lines with newlines
         return '\n'.join(csv_lines)
 
+    def get_excel_bytes(self, csv_string):
+        # Convert CSV string to DataFrame
+        df = pd.read_csv(BytesIO(csv_string.encode()), quotechar='"')
+        
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Report Comments')
+            # Auto-adjust columns' width
+            worksheet = writer.sheets['Report Comments']
+            for idx, col in enumerate(df.columns):
+                max_length = max(
+                    df[col].astype(str).apply(len).max(),
+                    len(col)
+                )
+                worksheet.column_dimensions[chr(65 + idx)].width = max_length + 2
+        
+        output.seek(0)
+        return output.getvalue()
         
         
