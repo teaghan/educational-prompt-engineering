@@ -112,6 +112,7 @@ with st.expander("Looking for some **examples**?"):
 instructions = st.text_area("Instructions:", 
                             label_visibility='hidden', height=200,
                             placeholder='''e.g. 
+- Make the comments unique and personal.
 - Highlight both the student\'s strengths and areas for improvement. 
 - Encourage a growth mindset in the comments.
 - Use the student's first name in the comments.''')
@@ -249,14 +250,22 @@ if len(st.session_state.messages)>0:
             use_container_width=True)
 
     if accept_comments:
+        # Process comments
         comments = st.session_state.comment_pipeline.produce_list(st.session_state.report_comments)
-        st.markdown('#### Your comments are ready!')
-        st.markdown('Use the download button below or click the copy button in the top-right corner of the comments section below.')
-        st.markdown('You can then paste the comments into your student data table (you will need to split the columns by commas).')
-        st.code(comments)
+        excel_bytes = st.session_state.comment_pipeline.get_excel_bytes(comments)
 
-        _, col2, col3 = st.columns(3)
+        st.markdown('#### Your comments are ready!')
+        st.markdown('Use the download button below or click the copy button in the top-right corner of the text area.')
+        
+        col1, col2 = st.columns(2)
+
+        # Display comments for copying
+        col1.code(comments)
+
+        # Generate random string for file name
         random_str = ''.join(random.choices('0123456789', k=6))
+
+        # CSV download button
         col2.download_button(
             label="Download as .csv",
             data=comments,
@@ -267,9 +276,8 @@ if len(st.session_state.messages)>0:
         )
 
         # Excel download button
-        excel_bytes = st.session_state.comment_pipeline.get_excel_bytes(comments)
-        col3.download_button(
-            label="Download as .xlsx",
+        col2.download_button(
+            label="Download as .xlsx (Excel)",
             data=excel_bytes,
             file_name=f'report_card_comments_{random_str}.xlsx',
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
