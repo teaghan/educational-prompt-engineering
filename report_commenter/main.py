@@ -57,17 +57,19 @@ if "file_uploader_key" not in st.session_state:
 st.markdown('### Student Data 📄')
 st.markdown('Drop a file 📎 or paste 📋 your student data below!')
 with st.expander("What information should I include?"):
-    st.markdown('''The student data doesn't have to follow any specific format, but it should include enough information to generate the quality of comments you are looking for.
-                
-Typically, this will include a column with the sutdents' names and various columns that could include things like
-  - Overall grade
-  - Positive comments
-  - Areas for improvement
-  - Topic specific evaluations
-  - IEP progress
-  - General comments
-                
-💡 Tip: Check out the "Optional Settings" section below if you feel your data needs some clarification.''')
+    st.markdown('''You can format your data in any way you want, just be sure to include enough information to generate meaningful, personalized comments.
+  
+**Some Column Suggestions (but not required):**
+- Student Name
+- Overall Grade/Proficiency
+- Topic specific evaluations
+- Strengths
+- Areas for Growth
+- IEP Notes (if applicable)
+- Additional Comments
+
+💡 **Tip:** Need to explain your data format or abbreviations? Check the "Optional Settings" section below.''')
+
 with st.expander("Wondering how to export a .csv file from Excel?"):
     st.markdown('''
 - **For Desktop Version**:
