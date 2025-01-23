@@ -68,7 +68,7 @@ with st.expander("What information should I include?"):
 - IEP Notes (if applicable)
 - Additional Comments
 
-💡 **Tip:** Need to explain your data format or abbreviations? Check the "Optional Settings" section below.''')
+💡 **Tip:** Need to explain your data format or abbreviations? Check out the "Optional Settings" section below.''')
 
 with st.expander("Wondering how to export a .csv file from Excel?"):
     st.markdown('''
