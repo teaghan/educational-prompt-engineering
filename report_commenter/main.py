@@ -8,6 +8,9 @@ sys.path.append(cur_dir)
 from drop_file import increment_file_uploader_key, extract_text_from_different_file_types, change_to_prompt_text
 from chain_engine import ReportCardCommentor
 
+#model = "gpt-4o-mini"
+model = 'models/gemini-2.0-flash-001'
+
 # Streamlit
 st.set_page_config(page_title="Report Cards", page_icon="https://raw.githubusercontent.com/teaghan/educational-prompt-engineering/main/images/rc_favicon.png", layout="wide")
 

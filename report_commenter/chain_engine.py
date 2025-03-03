@@ -4,8 +4,10 @@ from io import BytesIO
 from llama_index.core.llms import ChatMessage
 from llama_index.core.prompts import PromptTemplate
 from llama_index.llms.openai import OpenAI
+from llama_index.llms.gemini import Gemini
 
 openai_api_key = os.environ["OPENAI_API_KEY"]
+gemini_api_key = os.environ["GEMINI_API_KEY"]
 
 class ReportCardCommentor:
     """
@@ -13,8 +15,13 @@ class ReportCardCommentor:
     report card comments for students based on provided data and user instructions.
     """
     def __init__(self, model="gpt-4o-mini"):
-    
-        self.llm = OpenAI(model=model, api_key=openai_api_key)
+
+        if 'gpt' in model:
+            self.llm = OpenAI(model=model, api_key=openai_api_key)
+        elif 'gemini' in model:
+            self.llm = Gemini(model=model, api_key=gemini_api_key)
+        else:
+            raise ValueError(f"Invalid model: {model}")
 
         self.init_prompt = self.initial_prompt_template()
         self.system_prompt = None

@@ -8,3 +8,4 @@ striprtf==0.0.26
 chardet==5.2.0
 openpyxl==3.1.5
 pandas==2.2.2
+llama-index-llms-gemini==0.4.1
