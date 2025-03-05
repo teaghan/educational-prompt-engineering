@@ -241,6 +241,7 @@ if st.session_state.init_model:
                 st.session_state['comment_pipeline'] = ReportCardCommentor(model="gpt-4o-mini")
                 st.session_state.model_loads +=1
                 # Run initial prompt
+                print(instructions)
                 entire_response, comments, response = st.session_state.comment_pipeline.get_initial_comments(instructions, 
                                                                                                              comment_examples,
                                                                                                              sentence_range, 

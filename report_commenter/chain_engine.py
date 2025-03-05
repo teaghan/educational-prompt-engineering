@@ -23,81 +23,53 @@ class ReportCardCommentor:
         else:
             raise ValueError(f"Invalid model: {model}")
 
-        self.init_prompt = self.initial_prompt_template()
-        self.system_prompt = None
-        self.message_history = []
-
-    def initial_prompt_template(self) -> PromptTemplate:
-        """Generates the initial prompt template for the LLM."""
-        return PromptTemplate("""
-## Your Task
+        self.message_history = [ChatMessage(role="system", content=self.get_system_prompt())]
+    
+    def get_system_prompt(self) -> str:
+        """Generates the system prompt template for the chatbot LLM."""
+        return f"""
+## Your Role
 
 You are an experienced teacher who excels at writing report card comments.
 
-Your task is to write PERSONALIZED, THOUGHTFUL, AND UNIQUE report card comments for each student.
+## Your Task
 
-DO NOT WRITE GENERIC COMMENTS. MAKE EACH COMMENT PERSONALIZED AND UNIQUE TO THE STUDENT.
-                              
-The comments should be based on the student data and instructions provided by the user. 
+The user will provide you with student data,instructions for the report card comments, and (potentially) examples of high quality comments.
 
-## User Instructions
+Your task is to use the student data and apply the user's instructions to write PERSONALIZED, THOUGHTFUL, AND UNIQUE report card comments for each student.
 
-{instructions}
+You will NEVER WRITE GENERIC COMMENTS.
 
-EACH COMMENT SHOULD HAVE A MINIMUM OF {sentence_range[0]} AND A MAXIMUM OF {sentence_range[1]} SENTENCES.
-
-### Comment Examples
-
-{comment_examples}
-
-### Output Table Specifications
-
-{output_description}
-
-## Student Data
-
-{student_data}
-
-## Data Description
-
-{input_description}
+If the user provides examples of high quality comments, use them to guide the writing of your comments.
 
 ## Response Format
 
-Your response should start with a consideration of the instructions and data provided by the user. 
+Every response you provide, INCLUDING THE RESPONSES TO THE USER'S FEEDBACK, should start with a consideration of the instructions, data, and feedback provided by the user (if provided). 
 
-Consider your approach to writing the comments as well as the content, LENGTH, and style of the comments.
+Consider your approach to writing the comments as well as the content, number of sentences per comment, and style of the comments.
 
 Then list ALL OF THE STUDENTS that you will be writing comments for and how many comments for each student you will be writing.
 
 Following that, write "## REPORT CARD COMMENTS\n\n" and then write the comments for each student.
 
-The comments should be formatted as a markdown table with headers. For example:
+The comments should be formatted as a markdown table with column headers (defined by the user in "Output Table Specifications"). 
+
+For example:
 
 | Student Name | Comment |
 |--------------|---------|
 | John Doe     | Comment text... |
 | Jane Smith    | Comment text... |
                               
-When writing the comments, make sure they are PERSONALIZED, THOUGHTFUL, AND ALIGNED WITH THE COMMENT EXAMPLES PROVIDED.
-                              
 After providing the comments, write "---\n\n" and then ask the user for feedback on whether the comments meet the requirements or if any adjustments are needed.
-""")
-    def chat_system_prompt(self, instructions, comment_examples, sentence_range, 
+
+This formatting should be followed for every response you provide, INCLUDING THE RESPONSES TO THE USER'S FEEDBACK.
+"""
+    def initial_prompt_template(self, instructions, comment_examples, sentence_range, 
                                     output_description, student_data, 
                                     input_description) -> str:
-        """Generates the system prompt template for the chatbot LLM."""
+        """Generates the initial prompt template for the LLM."""
         return f"""
-## Your Task
-
-You are an experienced teacher who excels at writing report card comments.
-
-Your task is to write PERSONALIZED, THOUGHTFUL, AND UNIQUE report card comments for each student.
-
-DO NOT WRITE GENERIC COMMENTS. MAKE EACH COMMENT PERSONALIZED AND UNIQUE TO THE STUDENT.
-                              
-The comments should be based on the student data and instructions provided by the user. 
-
 ## User Instructions
 
 {instructions}
@@ -114,36 +86,15 @@ USE THESE EXAMPLES TO GUIDE THE WRITING OF YOUR COMMENTS:
 
 {output_description}
 
-The comments should be written in a way that is ALIGNED WITH THE COMMENT EXAMPLES (if provided).
+The comments should be written in a way that is ALIGNED WITH THE COMMENT EXAMPLES (if provided).                              
 
 ## Student Data
 
 {student_data}
 
-## Data Description
+### Data Description
 
 {input_description}
-
-## Response Format
-
-Every response you provide, INCLUDING THE RESPONSES TO THE USER'S FEEDBACK, should start with a consideration of the instructions, data, and feedback provided by the user. 
-
-Consider your approach to writing the comments as well as the content, NUMBER OF SENTENCES, and style of the comments.
-
-Then list ALL OF THE STUDENTS that you will be writing comments for and how many comments for each student you will be writing.
-
-Following that, write "## REPORT CARD COMMENTS\n\n" and then write the comments for each student.
-
-The comments should be formatted as a markdown table with headers. For example:
-
-| Student Name | Comment |
-|--------------|---------|
-| John Doe     | Comment text... |
-| Jane Smith    | Comment text... |
-                              
-After providing the comments, write "---\n\n" and then ask the user for feedback on whether the comments meet the requirements or if any adjustments are needed.
-
-This formatting should be followed for every response you provide, INCLUDING THE RESPONSES TO THE USER'S FEEDBACK.
 """
     
     def extract_comments(self, message):
@@ -159,59 +110,62 @@ This formatting should be followed for every response you provide, INCLUDING THE
             final_question = lines[-1]
         return comments_section, final_question
 
-    def get_initial_comments(self, instructions, comment_examples,sentence_range, 
-                         output_description, student_data, input_description) -> str:
+    def get_initial_comments(self, instructions, comment_examples, sentence_range, 
+                             output_description, student_data, input_description) -> str:
         """
-        Generates guided notes based on video content and student details.
+        Generates report card comments based on student data and user instructions.
 
         Args:
-            topic (str): The topic of the lesson
-            video_transcript (str): Transcript of the video content
-            learning_objective (str): Learning objective of the lesson
-            avg_age (str): Average age of students
-            student_descr (str): Description of the student group
+            instructions (str): Instructions for the report card comments
+            comment_examples (str): Examples of high quality comments
+            sentence_range (list): The range of sentences per comment
+            output_description (str): The description of the output table
+            student_data (str): The student data
+            input_description (str): The description of the student data
         Returns:
-            str: The generated guided notes
+            str: The generated report card comments
         """
         instructions = instructions if instructions else "No specific instructions provided."
         comment_examples = comment_examples if comment_examples else "No comment examples provided."
         output_description = output_description if output_description else "One column for the student name and one column for the comment."
         input_description = input_description if input_description else "The student data formatting is self-explanatory."
 
-        self.system_prompt = self.chat_system_prompt(instructions, comment_examples, sentence_range, 
-                                                output_description, student_data, 
-                                                input_description)
-        self.message_history.append(ChatMessage(role="system", content=self.system_prompt))
-
-        entire_response = self.llm.predict(
-            self.init_prompt,
-            instructions=instructions,
-            comment_examples=comment_examples,
-            sentence_range=sentence_range,
-            output_description=output_description,
-            student_data=student_data,
-            input_description=input_description
-        )
-
+        # Create the initial prompt
+        prompt = self.initial_prompt_template(instructions, 
+                                              comment_examples, 
+                                              sentence_range, 
+                                              output_description, 
+                                              student_data, 
+                                              input_description)
+        print(prompt)
+        self.message_history.append(ChatMessage(role="user", content=prompt))
+        # Generate the initial comments
+        entire_response = self.llm.chat(self.message_history).message.content
+        # Add the initial response to the message history
         self.message_history.append(ChatMessage(role="assistant", content=entire_response))
-
+        # Extract the comments and feedback request
         comments, feedback_request = self.extract_comments(entire_response)
-
+        # Return the initial response, comments, and feedback request
         return entire_response, comments, comments + "\n\n" + feedback_request
 
     def user_input(self, message):
+        """
+        Processes user input and generates a response.
 
-        if self.system_prompt is None:
-            raise ValueError("System prompt is not set. Please call get_initial_comments first.")
-
+        Args:
+            message (str): The user's input message
+        Returns:
+            str: The generated response
+        """
         # Add user prompt to history
         self.message_history.append(ChatMessage(role="user", content=message))
         # Prompt LLM with history
         entire_response = self.llm.chat(self.message_history).message.content
-
+        # Extract the comments and feedback request
         comments, feedback_request = self.extract_comments(entire_response)
-        # Add response to history
+        # Add the response to the message history
         self.message_history.append(ChatMessage(role="assistant", content=entire_response))
+        # Return the response, comments, and feedback request
         return entire_response, comments, comments + "\n\n" + feedback_request
 
     
