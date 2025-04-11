@@ -1,5 +1,6 @@
 [server]
 maxUploadSize = 25
+enableStaticServing = true
 
 [client]
 showSidebarNavigation = false
