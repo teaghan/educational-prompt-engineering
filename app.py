@@ -21,7 +21,7 @@ if st.button("Create JSON File"):
         "created_at": "2024-04-10"
     }
     
-    with open("static/sample.json", "w") as f:
+    with open("./static/sample.json", "w") as f:
         json.dump(data, f, indent=4)
     
     st.success("JSON file created at static/sample.json")
